@@ -7,7 +7,6 @@ frontend/build/
 frontend/dist/
 
 # Environment variables (cualquier .env en cualquier carpeta)
-.env*
 *.env
 
 # Logs

@@ -1,12 +1,34 @@
-# React + Vite
+# ⚛️ Frontend - Canchas Ya!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📦 Estructura de carpetas
 
-Currently, two official plugins are available:
+```bash
+src/
+├── assets/        # Imágenes, íconos, estilos
+├── styles/        # Estilos globales y utilitarios
+├── components/    # Componentes reutilizables
+├── context/       # Contexto de la aplicación
+├── hooks/         # Custom hooks
+├── pages/         # Vistas principales
+├── routes/        # Rutas
+├── services/      # Llamadas a APIs
+├── App.jsx        # Componente raíz
+└── main.jsx       # Punto de entrada
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## 🚀 Cómo correr el proyecto
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Instalar dependencias: `npm install`
+
+2. Crear archivo `.env` basado en `.env.example`
+
+3. Desplegar Frontend: `npm run dev`
+
+
+## 🔗 Conexión con backend
+
+Asegurate de que `VITE_API_URL` en `.env` apunte al backend:
+
+Para usar las variables de entorno usar `import.meta.env.VARIABLE`
+
