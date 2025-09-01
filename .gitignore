@@ -1,0 +1,29 @@
+# Node modules
+backend/node_modules/
+frontend/node_modules/
+
+# Build output
+frontend/build/
+frontend/dist/
+
+# Environment variables (cualquier .env en cualquier carpeta)
+.env*
+*.env
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage reports
+coverage/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
