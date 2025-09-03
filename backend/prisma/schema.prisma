@@ -8,22 +8,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model clubs {
-  id         Int       @id @default(autoincrement())
-  email      String?   @db.VarChar
-  password   String?   @db.VarChar
-  name       String?   @db.VarChar
-  location   String?   @db.VarChar
-  status     String?   @db.VarChar
-  created_at DateTime? @db.Timestamptz(6)
+model Club {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique @db.VarChar
+  password   String   @db.VarChar
+  name       String   @db.VarChar
+  location   String   @db.VarChar
+  status     String   @db.VarChar
+  created_at DateTime @default(now())
 }
 
-model players {
-  id           Int       @id @default(autoincrement())
-  email        String?   @db.VarChar
-  password     String?   @db.VarChar
-  first_name   String?   @db.VarChar
-  last_name    String?   @db.VarChar
-  phone_number String?   @db.VarChar
-  created_at   DateTime? @db.Date
+model Player {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique @db.VarChar
+  password     String   @db.VarChar
+  first_name   String   @db.VarChar
+  last_name    String   @db.VarChar
+  phone_number String   @db.VarChar
+  created_at   DateTime @default(now())
 }
