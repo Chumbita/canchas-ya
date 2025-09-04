@@ -1,14 +1,18 @@
-import { useState } from 'react'
-import './App.css'
+import { BrowserRouter } from "react-router-dom";
+import AppRouter from "./routes/AppRouter";
+import './styles/base/variables.css';
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <h2>Hola Mario</h2>
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </AuthProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
