@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+//ESTO ERA PARA VER QUE ONDA LO OTRO SE BORRA
 export default function VerifyCode() {
   const { state } = useLocation();
   const email = state?.email || "tu correo";
@@ -19,7 +19,7 @@ export default function VerifyCode() {
     const fullCode = code.join("");
     if (fullCode.length === 4) {
       console.log("Código ingresado:", fullCode);
-      // Aquí iría tu lógica de verificación
+      // Aquí iría la lógica de verificación
     }
   };
 

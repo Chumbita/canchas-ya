@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout";
 import Login from "./pages/login";
-import VerifyCode from "./pages/verifyCode";
+import VerifyCode from "./pages/verify";
 import "./styles/main.css";
 
 function App() {
