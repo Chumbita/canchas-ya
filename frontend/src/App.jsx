@@ -1,16 +1,19 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Welcome from "./pages/welcome";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/layout";
 import Login from "./pages/login";
+import VerifyCode from "./pages/verifyCode";
+import "./styles/main.css";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Welcome />} />
-        <Route path="/login" element={<Login />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<Login />} />
+          <Route path="/verify" element={<VerifyCode />} />
+        </Route>
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 

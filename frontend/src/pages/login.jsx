@@ -1,69 +1,65 @@
-import React from "react";
-import "../styles/login.css";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import googleIcon from "../assets/icons/google-icon.png";
 import facebookIcon from "../assets/icons/facebook-icon.png";
+import "../styles/login.css";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const form = e.target;
-    if (form.checkValidity()) {
-      const email = form.email.value;
-      console.log("Formulario válido:", { email });
-      // acá podrías redirigir o hacer un fetch
+    if (!email) {
+      setError("El correo es obligatorio");
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setError("Ingresa un correo válido");
     } else {
-      form.reportValidity(); // fuerza que el navegador muestre los mensajes nativos
+      setError("");
+      navigate("/verify", { state: { email } });
     }
   };
 
   return (
-    <div className="login">
-      <img
-        src="/src/assets/images/login-img.png"
-        alt="login"
-        className="top-img"
-      />
-
-      <h2 className="inter-font">Sacar turno nunca fue tan fácil</h2>
-      <p className="roboto-font">
+    <div className="login-box">
+      <h2 className="login-title">Sacar turno nunca fue tan fácil</h2>
+      <p className="login-sub">
         Reservá tu cancha en segundos. Sin esperas, sin complicaciones.
       </p>
 
-      <form onSubmit={handleSubmit} noValidate>
-        <p className="input-label">Ingresa tu correo electrónico</p>
+      <form onSubmit={handleSubmit}>
+        <label className="login-label">Ingresa tu correo electrónico</label>
         <input
           type="email"
-          name="email"
+          className="login-input"
           placeholder="Ej: example@gmail.com"
-          className="input"
-          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
-        <button type="submit" className="btn">
+        {error && <p className="login-error">{error}</p>}
+
+        <button type="submit" className="login-btn">
           Continuar
         </button>
       </form>
 
-      <div className="divider">
-        <hr className="divider-line" />
-        <span className="divider-text">o</span>
-        <hr className="divider-line" />
+      {/* Divisor */}
+      <div className="login-divider">
+        <hr />
+        <span>o</span>
+        <hr />
       </div>
 
-      <div className="social-buttons">
-        <button className="btn-social">
-          <img src={googleIcon} alt="Google" className="icon" />
-          Iniciar Sesión con Google
-        </button>
-        <button className="btn-social">
-          <img src={facebookIcon} alt="Facebook" className="icon" />
-          Iniciar sesión con Facebook
-        </button>
-      </div>
-
-      <p className="club">
-        ¿Sos un club? Publicá tus canchas y recibí reservas online.
-        <a href="#"> Registrar club »</a>
-      </p>
+      {/* Botones sociales */}
+      <button className="social-btn google-btn">
+        <img src={googleIcon} alt="Google" className="social-icon" />
+        Continuar con Google
+      </button>
+      <button className="social-btn facebook-btn">
+        <img src={facebookIcon} alt="Facebook" className="social-icon" />
+        Continuar con Facebook
+      </button>
     </div>
   );
 }

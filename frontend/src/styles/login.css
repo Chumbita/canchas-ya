@@ -1,135 +1,142 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto:wght@400&display=swap");
-
-.login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 20px;
-  max-width: 400px;
-  margin: 0 auto;
+/* === Caja principal === */
+.login-box {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-.top-img {
-  width: 360px;
-  max-width: 80%;
-  margin-bottom: 10px;
-}
-
-h2 {
+/* === Títulos === */
+.login-title {
   font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #111;
+}
+
+.login-sub {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* === Formulario === */
+.login-label {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.login-input {
+  width: 94%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.login-error {
+  font-size: 13px;
+  color: red;
   margin-bottom: 10px;
 }
 
-.inter-font {
-  font-family: "Inter", sans-serif;
-}
-
-.roboto-font {
-  font-family: "Roboto", sans-serif;
-}
-
-p {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 20px;
-}
-
-.input-label {
-  align-self: flex-start;
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: #0056d2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
   font-weight: bold;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #333;
-}
-
-.input {
-  width: 90%;
-  padding: 14px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 14px;
-}
-
-.btn {
-  width: 100%;
-  background: #0066ff;
-  color: white;
-  border: none;
-  padding: 14px;
-  border-radius: 10px;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
-.btn:hover {
-  background: #0052cc;
+.login-btn:hover {
+  background: #0041a8;
 }
 
-.divider {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin: 20px 0;
-}
-
-.divider-line {
-  flex-grow: 1;
-  border: none;
-  border-top: 1px solid #eee;
-  margin: 0 10px;
-}
-
-.divider-text {
-  color: #aaa;
-  font-size: 16px;
-  padding: 0 5px;
-}
-
-.btn-sec:hover {
-  background: #f5f5f5;
-}
-
-.btn-social {
+/* === Divisor === */
+.login-divider {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  margin: 15px 0;
+}
+
+.login-divider hr {
+  flex: 1;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+.login-divider span {
+  margin: 0 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* === Botones sociales === */
+.social-btn {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background: #fff;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
   margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
-.btn-social:hover {
+.social-btn:hover {
   background: #f5f5f5;
 }
 
-.btn-social .icon {
-  width: 20px;
-  height: 20px;
+.social-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
 }
 
-.small {
-  font-size: 18px;
-  margin-top: 20px;
-  line-height: 1.4;
+/* Botones específicos */
+.google-btn {
+  border: 1px solid #dadce0;
 }
 
-.club {
-  font-family: "Inter", sans-serif;
-  font-weight: bold;
-  color: #333;
+.facebook-btn {
+  border: 1px solid #dadce0;
 }
 
-.small a {
-  color: #0066ff;
-  text-decoration: none;
+/* === Responsive === */
+@media (max-width: 600px) {
+  .login-box {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .login-title {
+    font-size: 20px;
+  }
+
+  .login-sub {
+    font-size: 14px;
+  }
+
+  .login-btn,
+  .social-btn {
+    font-size: 14px;
+    padding: 12px;
+  }
 }
