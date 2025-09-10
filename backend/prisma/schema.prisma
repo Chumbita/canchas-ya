@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+//  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -8,22 +8,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Club {
-  id         Int      @id @default(autoincrement())
-  email      String   @unique @db.VarChar
-  password   String   @db.VarChar
-  name       String   @db.VarChar
-  location   String   @db.VarChar
-  status     String   @db.VarChar
-  created_at DateTime @default(now())
-}
-
 model Player {
   id           Int      @id @default(autoincrement())
-  email        String   @unique @db.VarChar
-  password     String   @db.VarChar
-  first_name   String   @db.VarChar
-  last_name    String   @db.VarChar
-  phone_number String   @db.VarChar
+  first_name   String?
+  last_name    String?
+  email        String   @unique
+  picture      String?
   created_at   DateTime @default(now())
+}
+
+model OtpCode {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  code       String
+  attempts   Int      @default(0)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
 }
