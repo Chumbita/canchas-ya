@@ -7,6 +7,8 @@ export const AuthProvider = ({ children }) => {
     user: null,
     token: null,
     role: null, // "club" | "player"
+    status: null, // "active" | "pending" | "rejected"
+    step: "idle" //| "otp" | "registered"
   });
 
   useEffect(() => {
@@ -17,17 +19,59 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (user, token, role) => {
-    setAuth({ user, token, role });
-    localStorage.setItem("auth", JSON.stringify({ user, token, role }));
+    const newAuth = { ...auth, user, token, role, step: "otp" };
+    setAuth(newAuth);
+    localStorage.setItem("auth", JSON.stringify(newAuth));
+  };
+
+  const verifyOtp = (isRegistered, clubStatus = null) => {
+    let nextStep;
+    let newStatus = null;
+
+    if (auth.role === "club") {
+      if (isRegistered) {
+        newStatus = clubStatus;
+        nextStep = "registered";
+      } else {
+        nextStep = "register";
+      }
+    }
+
+    if (auth.role === "player") {
+      if (isRegistered) {
+        newStatus = null;
+        nextStep = "registered";
+      } else {
+        newStatus = null;
+        nextStep = "register";
+      }
+    }
+
+    const newAuth = { ...auth, status: newStatus, step: nextStep };
+    setAuth(newAuth);
+    localStorage.setItem("auth", JSON.stringify(newAuth));
+    console.log(newAuth)
+  };
+
+  const registerClub = () => {
+    const newAuth = { ...auth, step: "registered", status: "pending" };
+    setAuth(newAuth);
+    localStorage.setItem("auth", JSON.stringify(newAuth));
   };
 
   const logout = () => {
-    setAuth({ user: null, token: null, role: null });
+    setAuth({
+      user: null,
+      token: null,
+      role: null,
+      status: null,
+      step: "idle",
+    });
     localStorage.removeItem("auth");
   };
 
   return (
-    <AuthContext.Provider value={{ ...auth, login, logout }}>
+    <AuthContext.Provider value={{ ...auth, login, verifyOtp, registerClub, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,0 +1,56 @@
+.contenedor {
+  padding: 20px 26px;
+}
+
+.verify-otp {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.verify-otp__fields {
+  display: flex;
+  gap: 10px;
+}
+
+.verify-otp__text{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.verify-otp__text-error {
+  margin-top: -15px;
+}
+
+.resend-otp {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+
+.verify-otp__buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+}
+
+@media (min-width: 1024px) {
+  .contenedor {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .verify-otp {
+    margin-top: -150px;
+    max-width: 340px;
+  }
+}

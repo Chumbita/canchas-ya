@@ -1,0 +1,22 @@
+.header {
+  width: 100vw;
+  height: 80px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--color-outline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 990px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 20px;
+}

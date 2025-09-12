@@ -1,0 +1,38 @@
+.content {
+  padding: 20px 26px;
+}
+
+.registration form{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.registration-header{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registration-section{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.registration-section__field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+@media (min-width: 1024px) {
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .registration {
+    max-width: 380px;
+  }
+}

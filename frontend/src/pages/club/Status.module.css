@@ -1,0 +1,24 @@
+.content {
+  padding: 20px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.club-status-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  margin-top: -150px;
+  max-width: 380px;
+}
+
+
+.club-status__icon {
+  width: 100px;
+  height: 100px;
+}

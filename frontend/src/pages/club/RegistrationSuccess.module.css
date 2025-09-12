@@ -1,0 +1,28 @@
+.content {
+  padding: 20px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.club-registration-success-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  margin-top: -150px;
+  max-width: 380px;
+}
+
+.club-registration-success__circle {
+  padding: 10px;
+  background-color: var(--color-brand-primary);
+  border-radius: 50%;
+}
+.club-registration-success__icon {
+  width: 60px;
+  height: 60px;
+}

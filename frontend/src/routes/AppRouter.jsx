@@ -1,26 +1,35 @@
-import React from "react";
-import { AuthProvider, useAuth } from "../context/AuthContext";
 import { Routes, Route, Navigate } from "react-router-dom";
+import MainLayout from "../components/layout/MainLayout";
+import HeaderOnlyLayout from "../components/layout/HeaderOnlyLayout";
+import Home from "../pages/home/Home.page";
+import ClubLogin from "../pages/auth/ClubLogin.page";
+import ClubRegister from "../pages/auth/ClubRegister.page";
+import VerifyOtp from "../pages/auth/VerifyOtp.page";
+import RegistrationSuccess from "../pages/club/RegistrationSuccess.page";
+
+//GUARDS
+import { OtpGuard } from "../guards/OtpGuard";
+import { RegisterGuard } from "../guards/RegisterGuard";
+
+
 import PrivateRoutes from "./PrivateRoutes";
-import ClubLoginPage from "../pages/Login/ClubLoginPage";
-import ClubRegisterPage from "../pages/Register/ClubRegisterPage";
-import HomePage from "../pages/home/HomePage";
+
 
 export default function AppRouter() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login/club" element={<ClubLoginPage />} />
-        <Route path="/register/club" element={<ClubRegisterPage />} />
-        <Route
-          path="/club/"
-          element={<PrivateRoutes role="club"></PrivateRoutes>}
-        />
-        <Route
-          path="/player/"
-          element={<PrivateRoutes role="player"></PrivateRoutes>}
-        />
+        <Route path="/" element={<Home />}/>
+        <Route element={<HeaderOnlyLayout />}>
+          <Route path="/club/login" element={<ClubLogin />}/>
+          <Route element={<OtpGuard />}>
+            <Route path="/club/login/verify-otp" element={<VerifyOtp />} />
+          </Route>
+          <Route element={<RegisterGuard />}>
+            <Route path="/club/create-account" element={<ClubRegister />} />
+            <Route path="/club/create-account/success" element={<RegistrationSuccess />} />
+          </Route>
+        </Route>
       </Routes>
     </div>
   );
