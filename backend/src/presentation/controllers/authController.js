@@ -1,4 +1,4 @@
-import { LoginWithGoogle } from "../../application/use_cases/loginWithGoogle.js";
+import { LoginWithGoogle } from "../../application/use_cases/loginWithPlayerGoogle.js";
 import { PlayerRepository } from "../../infraestructure/database/playerRepository.js";
 
 const playerRepository = new PlayerRepository();

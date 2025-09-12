@@ -8,7 +8,7 @@ router.get("/perfil", authenticate, (req, res) => {
   res.json({ message: `Bienvenido jugador con ID: ${req.user.id}` });
 });
 
-// Ruta solo para CLUB
+// Ruta solo para CLUB - EJEMPLO
 router.get("/club/data", authenticate, authorize("CLUB"), (req, res) => {
   res.json({ message: "Datos del club visibles solo para rol CLUB" });
 });

@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import bcrypt from "bcrypt";
 
 export class RequestOtp {
   constructor(otpRepository, emailService) {
@@ -12,9 +13,11 @@ export class RequestOtp {
     }
 
     const code = crypto.randomInt(1000, 10000).toString();
+    const saltRounds = 10;
+    const codeHash = await bcrypt.hash(code, saltRounds);
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
-    await this.otpRepository.createOrUpdate(email, code, expiresAt);
+    await this.otpRepository.createOrUpdate(email, codeHash, expiresAt);
     await this.emailService.sendMail({
       to: email,
       subject: "Tu Código OTP",
