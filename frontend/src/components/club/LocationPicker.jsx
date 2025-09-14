@@ -1,15 +1,30 @@
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api"
-import { useState } from "react"
+import { useState } from "react";
+import { MapContainer, TileLayer, Marker, useMapEvent } from "react-leaflet";
 
-export default function LocationPicker() {
-  const containerStyle = {width: "100%", heigth: "400px"};
-  const defaultCenter = {lat: -29.4131, lng: -66.8558};
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY
-  });
+export default function LocationPicker({ onLocationSelect }) {
+  const [position, setPosition] = useState(null);
+
+  function LocationMarker() {
+    useMapEvent({
+      click(e) {
+        setPosition(e.latlng);
+        onLocationSelect(e.latlng);
+      },
+    });
+    return position ? <Marker position={position}></Marker> : null;
+  }
+
   return (
-    <div>
-      
-    </div>
-  )
+    <MapContainer
+      center={[-31.4, -62.2]}
+      zoom={13}
+      style={{ height: "350px", width: "100%" }}
+    >
+      <TileLayer
+        attribution="&copy; OpenStreetMap contributors"
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <LocationMarker />
+    </MapContainer>
+  );
 }

@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useOTP } from "../../hooks/useOTP";
 import { useTimer } from "../../hooks/useTimer";
 import { useAuth } from "../../context/AuthContext";
+import { startAuthTransition, clearAuthTransition } from "../../utils/authTransitions";
 import pageStyle from "./VerifyOtp.module.css";
 import textStyle from "../../styles/base/Text.module.css";
 import inputStyle from "../../styles/base/Inputs.module.css";
@@ -58,18 +59,18 @@ export default function VerifyOtp() {
 
     try {
       const res = await verifyOTP(email, otpCode);
+
+      startAuthTransition();
       if (res.isNew) {
         setAuthOtp(false)
-        navigate("/club/create-account", { replace: true });
-        console.log("gola")
+        navigate("/club/create-account", { replace: true, state: { fromVerification: true } });
       }
       else {
         setAuthOtp(true, res.status);
-        navigate("/club/dashboard", { replace: true });
-        console.log("p")
+        navigate("/club/dashboard", { replace: true, state: { fromVerification: true } });
       }
     } catch (error) {
-      console.log(error);
+      clearAuthTransition();
     }
   };
 
@@ -86,7 +87,7 @@ export default function VerifyOtp() {
         <h2
           className={`${textStyle["text-xl"]} ${textStyle["text-primary"]} ${textStyle["text-extra-bold"]}`}
         >
-          Ingresa el código de 6 dígitos que se te envió a: {email}
+          Ingresa el código de 4 dígitos que se te envió a: {email}
         </h2>
         <div className={pageStyle["verify-otp__fields"]}>
           {otp.map((digit, index) => (

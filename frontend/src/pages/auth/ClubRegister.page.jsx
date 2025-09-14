@@ -1,17 +1,21 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { startAuthTransition, clearAuthTransition } from "../../utils/authTransitions";
+import { useAuth } from "../../context/AuthContext";
 import FileUpload from "../../components/common/FileUpload";
+import LocationPicker from "../../components/club/LocationPicker";
 import pageStyle from "./ClubRegister.module.css";
 import textStyle from "../../styles/base/Text.module.css";
 import inputStyle from "../../styles/base/Inputs.module.css";
 import btnStyle from "../../styles/base/Button.module.css";
 
 export default function ClubRegister() {
-  const email = sessionStorage.getItem("otpEmail");
+  const { user } = useAuth();
   const [legalRepDraft, setLegalRepDraft] = useState({
     fullName: "",
     dni: "",
     cuil: "",
-    email: email || "",
+    email: user?.email || "",
   });
   const [clubInfoDraft, setClubInforDraft] = useState({
     name: "",
@@ -23,6 +27,8 @@ export default function ClubRegister() {
     cuitCert: null,
     municipalAuth: null,
   });
+  const navigate = useNavigate();
+  
 
   const handleLegalRepChange = (field, value) => {
     setLegalRepDraft((prev) => ({ ...prev, [field]: value }));
@@ -37,13 +43,22 @@ export default function ClubRegister() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    startAuthTransition();
+
     const registrationDraft = {
       legalRep: legalRepDraft,
       clubInfo: clubInfoDraft,
       legalDocsDraft: legalDocsDraft,
     };
 
-    console.log(registrationDraft);
+    try {
+      navigate("/club/create-account/success");
+    } catch (error) {
+      console.error("Error during registration:", error);
+      clearAuthTransition();
+    }
+    
   };
 
   return (
@@ -80,6 +95,7 @@ export default function ClubRegister() {
                 className={inputStyle["input"]}
                 placeholder="Ej: Carlos Miguel Olivera"
                 name="fullName"
+                required
                 onChange={(e) =>
                   handleLegalRepChange(e.target.name, e.target.value)
                 }
@@ -96,6 +112,7 @@ export default function ClubRegister() {
                 className={inputStyle["input"]}
                 placeholder="Ej: 45454545"
                 name="dni"
+                required
                 onChange={(e) =>
                   handleLegalRepChange(e.target.name, e.target.value)
                 }
@@ -118,6 +135,7 @@ export default function ClubRegister() {
                 className={inputStyle["input"]}
                 placeholder="Ej: 20456045605"
                 name="cuil"
+                required
                 onChange={(e) =>
                   handleLegalRepChange(e.target.name, e.target.value)
                 }
@@ -138,9 +156,10 @@ export default function ClubRegister() {
               <input
                 type="text"
                 className={inputStyle["input"]}
-                value={email ? email : ""}
+                value={user?.email || ""}
                 disabled
                 name="email"
+                required
                 onChange={(e) =>
                   handleLegalRepChange(e.target.name, e.target.value)
                 }
@@ -170,6 +189,7 @@ export default function ClubRegister() {
                 className={inputStyle["input"]}
                 placeholder="Ej: Arena Fútbol"
                 name="name"
+                required
                 onChange={(e) =>
                   handleClubInfoChange(e.target.name, e.target.value)
                 }
@@ -181,14 +201,11 @@ export default function ClubRegister() {
               >
                 Dirección exacta
               </label>
-              <input
-                name="location"
-                className={inputStyle["input"]}
-                type="text"
-                onChange={(e) =>
-                  handleClubInfoChange(e.target.name, e.target.value)
-                }
-              />
+              <div className={pageStyle["map-container"]}>
+                <LocationPicker 
+                  onLocationSelect={(location) => setClubInforDraft((prev) => ({ ...prev, location }))}
+                />
+              </div>
             </div>
             <div className={pageStyle["registration-section__field"]}>
               <label
@@ -207,6 +224,7 @@ export default function ClubRegister() {
                 className={inputStyle["input"]}
                 placeholder="Ej: 20456045605"
                 name="cuit"
+                required
                 onChange={(e) =>
                   handleClubInfoChange(e.target.name, e.target.value)
                 }
@@ -230,6 +248,7 @@ export default function ClubRegister() {
                 className={inputStyle["input"]}
                 placeholder="Ej: 20456045605"
                 name="bussinessName"
+                required
                 onChange={(e) =>
                   handleClubInfoChange(e.target.name, e.target.value)
                 }

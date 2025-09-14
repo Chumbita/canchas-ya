@@ -1,7 +1,6 @@
 .content {
   padding: 20px 26px;
   display: flex;
-  align-items: center;
   justify-content: center;
   height: 100vh;
 }
@@ -13,12 +12,17 @@
   justify-content: center;
   gap: 20px;
   text-align: center;
-  margin-top: -150px;
   max-width: 380px;
+  min-width: 320px;
 }
-
 
 .club-status__icon {
   width: 100px;
   height: 100px;
+}
+
+@media (min-width: 640px) {
+  .club-status-layout {
+    margin-top: 100px;
+  }
 }

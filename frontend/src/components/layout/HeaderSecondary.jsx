@@ -7,7 +7,7 @@ export default function HeaderSecondary() {
     <div className={pageStyle.header}>
       <div className={pageStyle.content}>
         <h1
-          className={`${textStyle["text-primary"]} ${textStyle["text-2xl"]} ${textStyle["text-extra-bold"]}`}
+          className={`${textStyle["text-primary"]} ${textStyle["text-lg"]} ${textStyle["text-extra-bold"]}`}
         >
           Canchas Ya
         </h1>

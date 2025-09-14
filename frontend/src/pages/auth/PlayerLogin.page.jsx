@@ -1,15 +1,15 @@
-import { useState } from "react";
-import pageStyle from "./ClubLogin.module.css";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { useAuthService } from "../../hooks/useAuthService";
+import { useNavigate } from "react-router-dom";
+import pageStyle from "./PlayerLogin.module.css";
 import btnStyle from "../../styles/base/Button.module.css";
 import textStyle from "../../styles/base/Text.module.css";
 import inputStyle from "../../styles/base/Inputs.module.css";
 import googleIcon from "../../assets/icons/google-icon.svg";
-import heroImage from "../../assets/images/club-hero-image.svg";
-import { useAuthService } from "../../hooks/useAuthService";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import heroImage from "../../assets/images/player-hero-image.svg";
 
-export default function ClubLogin() {
+export default function PlayerLogin() {
   const [email, setEmail] = useState("");
   const { login } = useAuth();
   const { loading, error, requestOTP, verifyOTP } = useAuthService();
@@ -17,11 +17,10 @@ export default function ClubLogin() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       const response = await requestOTP(email);
       if (response && response.success) {
-        login({email}, null, "club");
+        login({email}, null, "player");
         navigate("/verify-otp", {
           state: { email },
           replace: true,
@@ -41,11 +40,11 @@ export default function ClubLogin() {
             src={heroImage}
             alt=""
           />
-          <h1 className={`${textStyle["text-primary"]} ${textStyle["text-2xl"]} ${textStyle["text-bold"]}`}>
-            Mostrá tu espacio, recibí turnos y gestioná sin drama
+          <h1 className={`${textStyle["text-primary"]} ${textStyle["text-2xl"]} ${textStyle["text-extra-bold"]}`}>
+            Sacar turno nunca fue tan fácil
           </h1>
-          <p className={`${textStyle["text-secondary"]} ${textStyle["text-sm"]} ${textStyle["text-regular"]} ${pageStyle["login-page__subheadline"]}`}>
-            Publicitá tus canchas y conectá con más jugadores.
+          <p className={`${textStyle["text-secondary"]} ${textStyle["text-sm"]} ${textStyle["text-ligth"]} ${pageStyle["login-page__subheadline"]}`}>
+            Reservá tu cancha en segundos. Sin esperas, sin complicaciones
           </p>
         </section>
         <section className={pageStyle["login-page__form"]}>
@@ -90,5 +89,6 @@ export default function ClubLogin() {
         </section>
       </div>
     </div>
+    
   );
 }

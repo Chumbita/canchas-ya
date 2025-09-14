@@ -3,9 +3,10 @@
   border: none;
   border-radius: var(--border-radius-small);
   cursor: pointer;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
   text-align: center;
-  padding: .8rem .875rem;
+  padding: 10px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,7 +26,6 @@
 .btn-primary {
   background-color: var(--color-brand-primary);
   color: var(--color-text-inverse);
-  font-weight: var(--font-weight-semibold);
 }
 .btn-primary:hover {
   background-color: #0056DB;

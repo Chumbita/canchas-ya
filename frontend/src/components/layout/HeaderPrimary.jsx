@@ -10,19 +10,20 @@ export default function HeaderPrimary() {
     <div className={pageStyle.header}>
       <div className={pageStyle.content}>
         <h1
-          className={`${textStyle["text-primary"]} ${textStyle["text-2xl"]} ${textStyle["text-extra-bold"]}`}
+          className={`${textStyle["text-primary"]} ${textStyle["text-lg"]} ${textStyle["text-extra-bold"]}`}
         >
-          Canchas Ya
+          CanchasYa
         </h1>
         <div className={pageStyle["header-buttons"]}>
           <button
             className={`${btnStyle["btn"]} ${btnStyle["btn-circle"]}`}
-            onClick={() => navigate("/login/club")}
+            onClick={() => navigate("club/login")}
           >
             Gestionar club
           </button>
           <button
             className={`${btnStyle["btn"]} ${btnStyle["btn-circle"]} ${btnStyle["btn-primary"]}`}
+            onClick={() => navigate("player/login")}
           >
             Iniciar sesion
           </button>

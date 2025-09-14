@@ -1,11 +1,16 @@
 .contenedor {
   padding: 20px 26px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
 }
 
 .verify-otp {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  max-width: 360px;
+  min-width: 360px;
 }
 
 .verify-otp__fields {
@@ -13,7 +18,7 @@
   gap: 10px;
 }
 
-.verify-otp__text{
+.verify-otp__text {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -27,7 +32,7 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 10px
+  gap: 10px;
 }
 
 .verify-otp__buttons {
@@ -41,16 +46,8 @@
   height: 25px;
 }
 
-@media (min-width: 1024px) {
-  .contenedor {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
+@media (min-width: 640px) {
   .verify-otp {
-    margin-top: -150px;
-    max-width: 340px;
+    margin-top: 100px;
   }
 }

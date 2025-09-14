@@ -1,9 +1,7 @@
 .content {
   padding: 20px 26px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
 }
 
 .club-registration-success-layout {
@@ -13,7 +11,6 @@
   justify-content: center;
   gap: 20px;
   text-align: center;
-  margin-top: -150px;
   max-width: 380px;
 }
 
@@ -25,4 +22,10 @@
 .club-registration-success__icon {
   width: 60px;
   height: 60px;
+}
+
+@media (min-width: 640px) {
+  .club-registration-success-layout {
+    margin-top: 100px;
+  }
 }
