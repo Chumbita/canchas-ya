@@ -1,11 +1,22 @@
 generator client {
   provider = "prisma-client-js"
 //  output   = "../src/generated/prisma"
+  //output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Club {
+  id         Int      @id @default(autoincrement())
+  googleId   String   @unique
+  name       String   @db.VarChar
+  email      String   @unique
+  location   String?  @db.VarChar
+  status     String   @default("pending")
+  created_at DateTime @default(now())
 }
 
 model Player {
@@ -25,3 +36,4 @@ model OtpCode {
   expiresAt  DateTime
   createdAt  DateTime @default(now())
 }
+
