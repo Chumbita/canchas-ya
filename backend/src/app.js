@@ -5,7 +5,6 @@ import authPlayerRoutes from "./presentation/routes/authPlayerRoutes.js";
 import protectedRoutes from "./presentation/routes/protectedRoutes.js";
 import authEmailRoutes from "./presentation/routes/authEmailRoutes.js";
 import authClubRoutes from "./presentation/routes/authClubRoutes.js";
-import protectedRoutes from "./presentation/routes/protectedRoutes.js";
 
 dotenv.config();
 

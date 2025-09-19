@@ -5,7 +5,10 @@ import { useLocation } from "react-router-dom";
 import { useOTP } from "../../hooks/useOTP";
 import { useTimer } from "../../hooks/useTimer";
 import { useAuth } from "../../context/AuthContext";
-import { startAuthTransition, clearAuthTransition } from "../../utils/authTransitions";
+import {
+  startAuthTransition,
+  clearAuthTransition,
+} from "../../utils/authTransitions";
 import pageStyle from "./VerifyOtp.module.css";
 import textStyle from "../../styles/base/Text.module.css";
 import inputStyle from "../../styles/base/Inputs.module.css";
@@ -32,7 +35,7 @@ export default function VerifyOtp() {
   } = useOTP();
   const { loading, error, setError, requestOTP, verifyOTP } = useAuthService();
   const { time: resendTimer, reset: resetResendTimer } = useTimer(60);
-  const { verifyOtp: setAuthOtp } = useAuth();
+  const { role, verifyOtp: setAuthOtp } = useAuth();
   const [attempts, setAttempts] = useState(0);
   const email = location.state?.email || sessionStorage.getItem("otpEmail");
 
@@ -58,16 +61,25 @@ export default function VerifyOtp() {
     if (!isValid) return;
 
     try {
-      const res = await verifyOTP(email, otpCode);
+      const response = await verifyOTP(email, otpCode, role);
 
       startAuthTransition();
-      if (res.isNew) {
-        setAuthOtp(false)
-        navigate("/club/create-account", { replace: true, state: { fromVerification: true } });
-      }
-      else {
-        setAuthOtp(true, res.status);
-        navigate("/club/dashboard", { replace: true, state: { fromVerification: true } });
+      if (response && response.success) {
+        const res = response.data;
+
+        if (res.isNew) {
+          setAuthOtp(false);
+          navigate("/club/create-account", {
+            replace: true,
+            state: { fromVerification: true },
+          });
+        } else {
+          setAuthOtp(true, res.status);
+          navigate("/club/dashboard", {
+            replace: true,
+            state: { fromVerification: true },
+          });
+        }
       }
     } catch (error) {
       clearAuthTransition();

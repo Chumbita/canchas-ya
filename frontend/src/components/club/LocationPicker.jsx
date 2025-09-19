@@ -16,7 +16,7 @@ export default function LocationPicker({ onLocationSelect }) {
 
   return (
     <MapContainer
-      center={[-31.4, -62.2]}
+      center={[-29.412794975144536, -66.85592800288613]}
       zoom={13}
       style={{ height: "350px", width: "100%" }}
     >
