@@ -16,7 +16,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: -8rem;
+  margin-bottom: 0;
 }
 
 .heroOverlay {
@@ -82,10 +82,17 @@
   box-shadow: 0 6px 16px rgba(0, 86, 189, 0.4);
 }
 
-/* Features Section */
+.floatingBlock {
+  position: relative;
+  margin-top: -6rem;
+  z-index: 10;
+  background-color: transparent;
+  padding: 0 0 4rem 0;
+}
+
 .featuresSection {
-  padding: 4rem 0;
-  background-color: var(--color-surface-bg);
+  padding: 2rem 0;
+  background-color: transparent;
   position: relative;
   z-index: 1;
 }
@@ -98,15 +105,15 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .featureCard {
-  background-color: var(--color-surface-primary);
+  background-color: #fff;
   padding: 2.5rem 2rem;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
 
@@ -140,14 +147,12 @@
 
 /* Search Section */
 .searchSection {
-  position: absolute;
-  bottom: 4rem; /* la ubica cerca de abajo de la imagen */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5; /* asegurás que quede encima */
+  position: relative;
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
   padding: 0 1rem;
+  z-index: 1;
 }
 
 .searchContainer {
