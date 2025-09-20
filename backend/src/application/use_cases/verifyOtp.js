@@ -2,12 +2,13 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 export class VerifyOtp {
-  constructor(otpRepository, playerRepository) {
+  constructor(otpRepository, playerRepository, clubRepository) {
     this.otpRepository = otpRepository;
     this.playerRepository = playerRepository;
+    this.clubRepository = clubRepository;
   }
 
-  async execute(email, code) {
+  async execute(email, code, role) {
     const otp = await this.otpRepository.findByEmail(email);
 
     if (!otp.code) throw new Error("Código no encontrado");
@@ -22,19 +23,34 @@ export class VerifyOtp {
       throw new Error("Código inválido");
     }
 
-    let player = await this.playerRepository.findByEmail(email);
-    if (!player) {
-      player = await this.playerRepository.create({
-        email,
-      });
+    let isNew = false;
+    let user;
+
+    if (role === "player") {
+      user = await this.playerRepository.findByEmail(email);
+      if (!user) {
+        isNew = true;
+        user = await this.playerRepository.create({
+          email,
+        });
+      }
+    }
+    if (role === "club") {
+      user = await this.clubRepository.findByEmail(email);
+      if (!user) {
+        isNew = true;
+        user = await this.clubRepository.create({
+          email,
+        });
+      }
     }
 
     const token = jwt.sign(
-      { id: player.id, role: "PLAYER" },
+      { id: user.id, role: role },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
 
-    return { player, token };
+    return { user, isNew, token };
   }
 }

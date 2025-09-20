@@ -3,12 +3,12 @@ import nodemailer from "nodemailer";
 export class EmailService {
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST,
-      port: process.env.MAIL_PORT,
-      secure: process.env.MAIL_PORT == 465,
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      secure: process.env.EMAIL_PORT == 465,
       auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
   }
@@ -16,7 +16,7 @@ export class EmailService {
   async sendMail({ to, subject, text, html }) {
     try {
       const info = await this.transporter.sendMail({
-        from: process.env.MAIL_FROM,
+        from: process.env.EMAIL_FROM,
         to,
         subject,
         text,

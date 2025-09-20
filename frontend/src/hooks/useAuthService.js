@@ -5,7 +5,7 @@ export const useAuthService = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const requestOTP = async (email) => {
+  const requestOtpApi = async (email) => {
     setLoading(true);
     setError(null);
     try {
@@ -23,7 +23,7 @@ export const useAuthService = () => {
     }
   };
 
-  const verifyOTP = async (email, otp) => {
+  const verifyOtpApi = async (email, otp, role) => {
     setLoading(true);
     setError(null);
     try {
@@ -32,7 +32,7 @@ export const useAuthService = () => {
         throw new Error("El código debe tener 4 dígitos");
       if (!/^\d+$/.test(otp))
         throw new Error("El código solo debe contener números");
-      const response = await authService.verifyOTP(email, otp);
+      const response = await authService.verifyOTP(email, otp, role);
       sessionStorage.setItem("authToken", response.token);
       sessionStorage.removeItem("otpEmail");
       sessionStorage.removeItem("otpTime");
@@ -48,7 +48,7 @@ export const useAuthService = () => {
     loading,
     error,
     setError,
-    requestOTP,
-    verifyOTP,
+    requestOtpApi,
+    verifyOtpApi,
   };
 };

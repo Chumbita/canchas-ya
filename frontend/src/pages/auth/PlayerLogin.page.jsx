@@ -8,17 +8,18 @@ import textStyle from "../../styles/base/Text.module.css";
 import inputStyle from "../../styles/base/Inputs.module.css";
 import googleIcon from "../../assets/icons/google-icon.svg";
 import heroImage from "../../assets/images/player-hero-image.svg";
+import ProgressivePrimaryBtn from "../../components/common/ProgressivePrimaryBtn";
 
 export default function PlayerLogin() {
   const [email, setEmail] = useState("");
   const { login } = useAuth();
-  const { loading, error, requestOTP, verifyOTP } = useAuthService();
+  const { loading, error, requestOtpApi } = useAuthService();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await requestOTP(email);
+      const response = await requestOtpApi(email);
       if (response && response.success) {
         login({email}, null, "player");
         navigate("/verify-otp", {
@@ -63,12 +64,7 @@ export default function PlayerLogin() {
                 required
               />
             </div>
-            <button
-              type="submit"
-              className={`${btnStyle["btn"]} ${btnStyle["btn-primary"]}`}
-            >
-              Continuar
-            </button>
+            <ProgressivePrimaryBtn label="Continuar" loading={loading} />
             <div className={pageStyle["login-page__divider"]}>
               <div className={pageStyle["login-page__divider-line"]}></div>
               <span className={pageStyle["login-page__divider-text"]}>o</span>

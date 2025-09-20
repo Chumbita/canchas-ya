@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { startAuthTransition, clearAuthTransition } from "../../utils/authTransitions";
+import {
+  startAuthTransition,
+  clearAuthTransition,
+} from "../../utils/authTransitions";
 import { useAuth } from "../../context/AuthContext";
+import { useUserRegistration } from "../../hooks/useRegistration";
 import FileUpload from "../../components/common/FileUpload";
 import LocationPicker from "../../components/club/LocationPicker";
 import pageStyle from "./ClubRegister.module.css";
 import textStyle from "../../styles/base/Text.module.css";
 import inputStyle from "../../styles/base/Inputs.module.css";
 import btnStyle from "../../styles/base/Button.module.css";
+import ProgressivePrimaryBtn from "../../components/common/ProgressivePrimaryBtn";
 
 export default function ClubRegister() {
   const { user } = useAuth();
+  const { registerClubApi, loading, error } = useUserRegistration();
   const [legalRepDraft, setLegalRepDraft] = useState({
     fullName: "",
     dni: "",
@@ -28,7 +34,6 @@ export default function ClubRegister() {
     municipalAuth: null,
   });
   const navigate = useNavigate();
-  
 
   const handleLegalRepChange = (field, value) => {
     setLegalRepDraft((prev) => ({ ...prev, [field]: value }));
@@ -41,24 +46,23 @@ export default function ClubRegister() {
     setLegalDocsDraft((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     startAuthTransition();
 
     const registrationDraft = {
       legalRep: legalRepDraft,
       clubInfo: clubInfoDraft,
-      legalDocsDraft: legalDocsDraft,
+      legalDocs: legalDocsDraft,
     };
 
     try {
+      await registerClubApi(registrationDraft);
       navigate("/club/create-account/success");
     } catch (error) {
       console.error("Error during registration:", error);
       clearAuthTransition();
     }
-    
   };
 
   return (
@@ -202,8 +206,10 @@ export default function ClubRegister() {
                 Dirección exacta
               </label>
               <div className={pageStyle["map-container"]}>
-                <LocationPicker 
-                  onLocationSelect={(location) => setClubInforDraft((prev) => ({ ...prev, location }))}
+                <LocationPicker
+                  onLocationSelect={(location) =>
+                    setClubInforDraft((prev) => ({ ...prev, location }))
+                  }
                 />
               </div>
             </div>
@@ -293,9 +299,7 @@ export default function ClubRegister() {
               />
             </div>
           </section>
-          <button className={`${btnStyle["btn"]} ${btnStyle["btn-primary"]}`}>
-            Enviar
-          </button>
+          <ProgressivePrimaryBtn label="Enviar" loading={loading} />
         </form>
       </div>
     </div>

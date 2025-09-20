@@ -1,11 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import { useAuthService } from "../../hooks/useAuthService";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import { useOTP } from "../../hooks/useOTP";
-import { useTimer } from "../../hooks/useTimer";
-import { useAuth } from "../../context/AuthContext";
-import { startAuthTransition, clearAuthTransition } from "../../utils/authTransitions";
+import { useEffect, useState } from "react";
+import { useVerifyOtp } from "../../hooks/useVerifyOtp";
 import pageStyle from "./VerifyOtp.module.css";
 import textStyle from "../../styles/base/Text.module.css";
 import inputStyle from "../../styles/base/Inputs.module.css";
@@ -19,67 +13,21 @@ const formatTime = (seconds) => {
 };
 
 export default function VerifyOtp() {
-  const navigate = useNavigate();
-  const location = useLocation();
   const {
     otp,
-    setOtp,
     otpCode,
     isValid,
+    loading,
+    error,
+    resendTimer,
+    inputsRef,
     handleChange,
     handleKeyDown,
-    inputsRef,
-  } = useOTP();
-  const { loading, error, setError, requestOTP, verifyOTP } = useAuthService();
-  const { time: resendTimer, reset: resetResendTimer } = useTimer(60);
-  const { verifyOtp: setAuthOtp } = useAuth();
-  const [attempts, setAttempts] = useState(0);
-  const email = location.state?.email || sessionStorage.getItem("otpEmail");
-
-  // Protección de la ruta
-  useEffect(() => {
-    const storedTime = sessionStorage.getItem("otpRequestTime");
-    if (
-      !email ||
-      (storedTime && Date.now() - parseInt(storedTime) > 5 * 60 * 1000)
-    ) {
-      sessionStorage.removeItem("otpEmail");
-      sessionStorage.removeItem("otpRequestTime");
-      navigate("/login/club", { replace: true });
-      navigate("/login/club", { replace: true });
-      return;
-    }
-  }, [email, navigate]);
-
-  const clearError = () => setError(null);
-
-  // Verificar OTP
-  const handleVerify = async () => {
-    if (!isValid) return;
-
-    try {
-      const res = await verifyOTP(email, otpCode);
-
-      startAuthTransition();
-      if (res.isNew) {
-        setAuthOtp(false)
-        navigate("/club/create-account", { replace: true, state: { fromVerification: true } });
-      }
-      else {
-        setAuthOtp(true, res.status);
-        navigate("/club/dashboard", { replace: true, state: { fromVerification: true } });
-      }
-    } catch (error) {
-      clearAuthTransition();
-    }
-  };
-
-  const handleResend = async () => {
-    try {
-      await requestOTP(email);
-      resetResendTimer(60);
-    } catch {}
-  };
+    handleVerifyOtp,
+    handleResendOtp,
+    clearError,
+    email,
+  } = useVerifyOtp();
 
   return (
     <div className={pageStyle["contenedor"]}>
@@ -110,7 +58,7 @@ export default function VerifyOtp() {
           ))}
         </div>
         <div className={pageStyle["verify-otp__text"]}>
-          {error && attempts < 3 && (
+          {error && (
             <p
               className={`${pageStyle["verify-otp__text-error"]} ${textStyle["text-error"]} ${textStyle["text-xs"]} ${textStyle["text-regular"]}`}
             >
@@ -128,7 +76,7 @@ export default function VerifyOtp() {
         <div className={pageStyle["resend-otp"]}>
           <button
             className={`${btnStyle["btn"]} ${btnStyle["btn-circle"]} ${btnStyle["btn-black"]}`}
-            onClick={handleResend}
+            onClick={handleResendOtp}
             disabled={resendTimer > 0 || loading}
           >
             Reenviar
@@ -148,7 +96,7 @@ export default function VerifyOtp() {
           </button>
           <button
             className={`${btnStyle["btn"]} ${btnStyle["btn-circle"]} ${btnStyle["btn-primary"]}`}
-            onClick={() => handleVerify()}
+            onClick={() => handleVerifyOtp()}
             disabled={!isValid || loading}
           >
             Continuar
