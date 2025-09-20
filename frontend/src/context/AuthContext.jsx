@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
     user: null,
     token: null,
     role: null, // "club" | "player"
-    status: null, // "active" | "pending" | "rejected"
+    clubStatus: null, // "active" | "pending" | "rejected"
     step: "idle" //| "otp" | "registered"
   });
 

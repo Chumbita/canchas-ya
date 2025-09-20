@@ -8,6 +8,7 @@ import VerifyOtp from "../pages/auth/VerifyOtp.page";
 import RegistrationSuccess from "../pages/club/RegistrationSuccess.page";
 
 import PlayerLogin from "../pages/auth/PlayerLogin.page";
+import PlayerRegister from "../pages/auth/PlayerRegister.jsx";
 
 //GUARDS
 import { OtpGuard } from "../guards/OtpGuard";
@@ -31,6 +32,7 @@ export default function AppRouter() {
           <Route element={<RegisterGuard />}>
             <Route path="/club/create-account" element={<ClubRegister />} />
             <Route path="/club/create-account/success" element={<RegistrationSuccess />} />
+            <Route path="/player/create-account" element={<PlayerRegister />} />
           </Route>
           <Route path="/player/login" element={<PlayerLogin />} />
         </Route>

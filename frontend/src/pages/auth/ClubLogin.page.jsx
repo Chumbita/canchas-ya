@@ -8,18 +8,19 @@ import heroImage from "../../assets/images/club-hero-image.svg";
 import { useAuthService } from "../../hooks/useAuthService";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import ProgressivePrimaryBtn from "../../components/common/ProgressivePrimaryBtn";
 
 export default function ClubLogin() {
   const [email, setEmail] = useState("");
   const { login } = useAuth();
-  const { loading, error, requestOTP, verifyOTP } = useAuthService();
+  const { loading, error, requestOtpApi } = useAuthService();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await requestOTP(email);
+      const response = await requestOtpApi(email);
       if (response && response.success) {
         login({email}, null, "club");
         navigate("/verify-otp", {
@@ -64,12 +65,7 @@ export default function ClubLogin() {
                 required
               />
             </div>
-            <button
-              type="submit"
-              className={`${btnStyle["btn"]} ${btnStyle["btn-primary"]}`}
-            >
-              Continuar
-            </button>
+            <ProgressivePrimaryBtn label="Continuar" loading={loading} />
             <div className={pageStyle["login-page__divider"]}>
               <div className={pageStyle["login-page__divider-line"]}></div>
               <span className={pageStyle["login-page__divider-text"]}>o</span>

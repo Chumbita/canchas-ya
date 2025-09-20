@@ -5,7 +5,7 @@ export const useAuthService = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const requestOTP = async (email) => {
+  const requestOtpApi = async (email) => {
     setLoading(true);
     setError(null);
     try {
@@ -23,7 +23,7 @@ export const useAuthService = () => {
     }
   };
 
-  const verifyOTP = async (email, otp, role) => {
+  const verifyOtpApi = async (email, otp, role) => {
     setLoading(true);
     setError(null);
     try {
@@ -48,7 +48,7 @@ export const useAuthService = () => {
     loading,
     error,
     setError,
-    requestOTP,
-    verifyOTP,
+    requestOtpApi,
+    verifyOtpApi,
   };
 };

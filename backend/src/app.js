@@ -14,7 +14,7 @@ app.use(cors());
 
 app.use("/api/auth/email", authEmailRoutes);
 app.use("/api/auth/player", authPlayerRoutes);
-app.use("/api/auth", authClubRoutes);
+app.use("/api/auth/club", authClubRoutes);
 app.use("/api/protected", protectedRoutes);
 app.use("/uploads", express.static("uploads"));
 
