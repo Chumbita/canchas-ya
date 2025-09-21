@@ -9,6 +9,11 @@ export class PlayerRepository {
     return new Player(player);
   }
 
+  async updateProfile(email, data) {
+    const player = await prisma.player.update({ where: { email }, data });
+    return player;
+  }
+
   async findByEmail(email) {
     const player = await prisma.player.findUnique({ where: { email } });
     return player ? new Player(player) : null;
