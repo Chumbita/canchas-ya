@@ -1,0 +1,281 @@
+/* Home Container */
+.homeContainer {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.heroSection {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  background-image: url("../../assets/images/hero-basketball-court.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 0;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.heroContent {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+  z-index: 2;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-light);
+  line-height: 1.4;
+  margin-bottom: 2.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.heroButton {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+  box-shadow: 0 4px 12px rgba(0, 86, 189, 0.3);
+  transition: all 0.3s ease;
+}
+
+.heroButton:hover {
+  background-color: #0047a3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 86, 189, 0.4);
+}
+
+.floatingBlock {
+  position: relative;
+  margin-top: -6rem;
+  z-index: 10;
+  background-color: transparent;
+  padding: 0 0 4rem 0;
+}
+
+.featuresSection {
+  padding: 2rem 0;
+  background-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.featuresContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.featureCard {
+  background-color: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.featureIcon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-brand-bg);
+  border-radius: 50%;
+}
+
+.featureTitle {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 1rem;
+  color: var(--color-brand-primary);
+}
+
+.featureDescription {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Search Section */
+.searchSection {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  z-index: 1;
+}
+
+.searchContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.searchTitle {
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.searchForm {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.searchField {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchFieldIcon {
+  position: absolute;
+  left: 1rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchSelect {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23858585' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.searchSelect:focus {
+  border-color: var(--color-brand-primary);
+  box-shadow: 0 0 0 2px rgba(0, 86, 189, 0.1);
+}
+
+.searchButton {
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  height: fit-content;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+  box-shadow: 0 2px 8px rgba(0, 86, 189, 0.2);
+  transition: all 0.3s ease;
+}
+
+.searchButton:hover {
+  background-color: #0047a3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 86, 189, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.25rem;
+  }
+
+  .heroContent {
+    padding: 0 1rem;
+  }
+
+  .featuresContainer {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  .searchForm {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .searchContainer {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroSection {
+    height: 60vh;
+    min-height: 400px;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.125rem;
+  }
+
+  .featureCard {
+    padding: 2rem 1.5rem;
+  }
+
+  .searchTitle {
+    font-size: 1.75rem;
+  }
+}
