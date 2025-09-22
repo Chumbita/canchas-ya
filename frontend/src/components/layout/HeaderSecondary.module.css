@@ -1,0 +1,16 @@
+.header {
+  width: 100vw;
+  height: 64px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--color-outline);
+  display: flex;
+  align-items: center;
+  padding-left: 26px;
+}
+
+@media (min-width: 1024px) {
+  .header {
+    height: 64px;
+    padding-left: 86px;
+  }
+}

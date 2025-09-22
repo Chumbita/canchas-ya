@@ -1,0 +1,45 @@
+.content {
+  padding: 20px 26px;
+  display: flex;
+  justify-content: center;
+}
+
+.registration {
+  display: flex;
+  flex-direction: column;
+  max-width: 380px;
+  min-width: 320px;
+}
+
+.registration form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.registration-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registration-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.registration-section__field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.map-container {
+  .map-wrapper {
+    height: 350px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+}

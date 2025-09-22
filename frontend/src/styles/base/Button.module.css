@@ -1,0 +1,57 @@
+/* Base button */
+.btn {
+  border: none;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+  padding: 12px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: unset;
+}
+
+.btn:hover{
+  background-color: #f2f2f2;
+}
+
+/* Circle button */
+.btn-circle {
+  border-radius: 150px;
+}
+
+/* Button Styles */
+.btn-primary {
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+.btn-primary:hover {
+  background-color: #0056DB;
+}
+.btn-primary:disabled {
+  background-color: #94C5FF;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: #FFFFFF;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-outline);
+}
+.btn-secondary:hover {
+  background-color: #f2f2f2;
+}
+
+.btn-black {
+  background-color: #272727;
+  color: #FFFFFF;
+}
+.btn-black:hover {
+  background-color: #333333;
+}
+.btn-black:disabled {
+  background-color: #BDBDBD;
+  cursor: not-allowed;
+}
