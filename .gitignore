@@ -26,8 +26,3 @@ Thumbs.db
 # Editor files
 .vscode/
 .idea/
-
-#Archivos de prisma
-/backend/prisma/migrations/
-/backend/src/generated/prisma/
-
