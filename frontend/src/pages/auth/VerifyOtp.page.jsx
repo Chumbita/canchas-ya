@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useVerifyOtp } from "../../hooks/useVerifyOtp";
+import { useNavigate } from "react-router-dom";
 import pageStyle from "./VerifyOtp.module.css";
 import textStyle from "../../styles/base/Text.module.css";
 import inputStyle from "../../styles/base/Inputs.module.css";
@@ -13,6 +14,7 @@ const formatTime = (seconds) => {
 };
 
 export default function VerifyOtp() {
+  const navigate = useNavigate();
   const {
     otp,
     otpCode,
