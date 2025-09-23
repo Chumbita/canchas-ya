@@ -8,7 +8,7 @@ import VerifyOtp from "../pages/auth/VerifyOtp.page";
 import RegistrationSuccess from "../pages/club/RegistrationSuccess.page";
 
 import PlayerLogin from "../pages/auth/PlayerLogin.page";
-import PlayerRegister from "../pages/auth/PlayerRegister.jsx";
+import PlayerRegister from "../pages/auth/PlayerRegister.page.jsx";
 
 //GUARDS
 import { OtpGuard } from "../guards/OtpGuard";
