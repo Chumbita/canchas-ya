@@ -30,7 +30,9 @@ export default function Home() {
               fue tan fácil
             </h1>
             <p className={`${TextStyles.textSecondary} ${styles.heroSubtitle}`}>
-              Reservá tu cancha en segundos, y sin complicaciones
+              Reservá tu cancha en segundos, y 
+              <br />
+              sin complicaciones
             </p>
             <button
               className={`${ButtonStyles.btn} ${ButtonStyles.btnPrimary} ${styles.heroButton}`}

@@ -137,19 +137,14 @@ export default function PlayerRegister() {
               className={`${textStyle["text-primary"]} ${textStyle["text-sm"]} ${textStyle["text-semibold"]}`}
             >
               Foto de perfil
+              <span
+                className={`${textStyle["text-secondary"]} ${textStyle["text-ligth"]}`}
+              >
+                {" "}
+                (opcional)
+              </span>
             </p>
             <div className={pageStyle["registration-section__field"]}>
-              <label
-                className={`${textStyle["text-primary"]} ${textStyle["text-xs"]} ${textStyle["text-medium"]}`}
-              >
-                Foto de perfil
-                <span
-                  className={`${textStyle["text-secondary"]} ${textStyle["text-ligth"]}`}
-                >
-                  {" "}
-                  (opcional)
-                </span>
-              </label>
               <FileUpload 
                 name={"profilePhoto"} 
                 onChange={handleProfilePhotoChange} 
