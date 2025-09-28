@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("auth", JSON.stringify(newAuth));
   };
 
-  const verifyOtp = (isRegistered, clubStatus = null) => {
+  const verifyOtp = ( user, isRegistered, clubStatus = null) => {
     let nextStep;
     let newStatus = null;
 
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
-    const newAuth = { ...auth, status: newStatus, step: nextStep };
+    const newAuth = { ...auth, user: user, status: newStatus, step: nextStep };
     setAuth(newAuth);
     localStorage.setItem("auth", JSON.stringify(newAuth));
     console.log(newAuth)

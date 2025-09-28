@@ -17,13 +17,13 @@ export default function HeaderPrimary() {
         <div className={pageStyle["header-buttons"]}>
           <button
             className={`${btnStyle["btn"]} ${btnStyle["btn-circle"]}`}
-            onClick={() => navigate("club/login")}
+            onClick={() => navigate("/club/login")}
           >
             Gestionar club
           </button>
           <button
             className={`${btnStyle["btn"]} ${btnStyle["btn-circle"]} ${btnStyle["btn-primary"]}`}
-            onClick={() => navigate("player/login")}
+            onClick={() => navigate("/player/login")}
           >
             Iniciar sesion
           </button>

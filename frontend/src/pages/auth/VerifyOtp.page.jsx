@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useVerifyOtp } from "../../hooks/useVerifyOtp";
+import { useOtpService } from "../../hooks/useOtpService";
 import { useNavigate } from "react-router-dom";
+import { useOtpInput } from "../../hooks/useOtpInput";
+import { useTimer } from "../../hooks/useTimer";
 import pageStyle from "./VerifyOtp.module.css";
 import textStyle from "../../styles/base/Text.module.css";
 import inputStyle from "../../styles/base/Inputs.module.css";
@@ -14,22 +16,12 @@ const formatTime = (seconds) => {
 };
 
 export default function VerifyOtp() {
+  const email = location.state?.email || sessionStorage.getItem("otpEmail");
   const navigate = useNavigate();
-  const {
-    otp,
-    otpCode,
-    isValid,
-    loading,
-    error,
-    resendTimer,
-    inputsRef,
-    handleChange,
-    handleKeyDown,
-    handleVerifyOtp,
-    handleResendOtp,
-    clearError,
-    email,
-  } = useVerifyOtp();
+  const { otp, otpCode, isValid, handleChange, handleKeyDown, inputsRef } =
+    useOtpInput(4);
+  const { time: resendTimer, reset: resetResendTimer } = useTimer(60);
+  const { loading, error, handleVerifyOtp, handleResendOtp, clearError } = useOtpService();
 
   return (
     <div className={pageStyle["contenedor"]}>
@@ -78,7 +70,7 @@ export default function VerifyOtp() {
         <div className={pageStyle["resend-otp"]}>
           <button
             className={`${btnStyle["btn"]} ${btnStyle["btn-circle"]} ${btnStyle["btn-black"]}`}
-            onClick={handleResendOtp}
+            onClick={() => handleResendOtp(resetResendTimer)}
             disabled={resendTimer > 0 || loading}
           >
             Reenviar
@@ -98,7 +90,7 @@ export default function VerifyOtp() {
           </button>
           <button
             className={`${btnStyle["btn"]} ${btnStyle["btn-circle"]} ${btnStyle["btn-primary"]}`}
-            onClick={() => handleVerifyOtp()}
+            onClick={() => handleVerifyOtp(isValid, otpCode)}
             disabled={!isValid || loading}
           >
             Continuar

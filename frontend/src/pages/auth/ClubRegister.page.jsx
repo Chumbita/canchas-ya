@@ -27,7 +27,7 @@ export default function ClubRegister() {
     name: "",
     location: "",
     cuit: "",
-    bussinessName: "",
+    businessName: "",
   });
   const [legalDocsDraft, setLegalDocsDraft] = useState({
     cuitCert: null,
@@ -253,7 +253,7 @@ export default function ClubRegister() {
                 type="text"
                 className={inputStyle["input"]}
                 placeholder="Ej: 20456045605"
-                name="bussinessName"
+                name="businessName"
                 required
                 onChange={(e) =>
                   handleClubInfoChange(e.target.name, e.target.value)
