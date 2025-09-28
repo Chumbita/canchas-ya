@@ -10,7 +10,7 @@ import Dashboard from "../pages/club/Dashboard.page";
 import Status from "../pages/club/Status.page.jsx";
 
 import PlayerLogin from "../pages/auth/PlayerLogin.page";
-import PlayerRegister from "../pages/auth/PlayerRegister.jsx";
+import PlayerRegister from "../pages/auth/PlayerRegister.page.jsx";
 
 //GUARDS
 import { OtpGuard } from "../guards/OtpGuard";

@@ -12,9 +12,9 @@ import CheckIcon from "../../assets/icons/check-24-7.svg";
 
 export default function Home() {
   const scrollToSearch = () => {
-    const searchSection = document.getElementById('search-section');
+    const searchSection = document.getElementById("search-section");
     if (searchSection) {
-      searchSection.scrollIntoView({ behavior: 'smooth' });
+      searchSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -25,10 +25,14 @@ export default function Home() {
         <div className={styles.heroOverlay}>
           <div className={styles.heroContent}>
             <h1 className={`${TextStyles.textPrimary} ${styles.heroTitle}`}>
-              Sacar turno nunca fue tan fácil
+              Sacar turno nunca
+              <br />
+              fue tan fácil
             </h1>
             <p className={`${TextStyles.textSecondary} ${styles.heroSubtitle}`}>
-              Reservá tu cancha en segundos, y sin complicaciones
+              Reservá tu cancha en segundos, y 
+              <br />
+              sin complicaciones
             </p>
             <button
               className={`${ButtonStyles.btn} ${ButtonStyles.btnPrimary} ${styles.heroButton}`}
@@ -54,7 +58,9 @@ export default function Home() {
                   height="24"
                 />
               </div>
-              <h3 className={`${TextStyles.textPrimary} ${styles.featureTitle}`}>
+              <h3
+                className={`${TextStyles.textPrimary} ${styles.featureTitle}`}
+              >
                 Reservá en segundos
               </h3>
               <p
@@ -73,7 +79,9 @@ export default function Home() {
                   height="24"
                 />
               </div>
-              <h3 className={`${TextStyles.textPrimary} ${styles.featureTitle}`}>
+              <h3
+                className={`${TextStyles.textPrimary} ${styles.featureTitle}`}
+              >
                 Pagá como quieras
               </h3>
               <p
@@ -87,7 +95,9 @@ export default function Home() {
               <div className={styles.featureIcon}>
                 <img src={CheckIcon} alt="Check icon" width="24" height="24" />
               </div>
-              <h3 className={`${TextStyles.textPrimary} ${styles.featureTitle}`}>
+              <h3
+                className={`${TextStyles.textPrimary} ${styles.featureTitle}`}
+              >
                 Turnos 24/7
               </h3>
               <p
@@ -115,7 +125,9 @@ export default function Home() {
                     height="20"
                   />
                 </div>
-                <select className={`${InputStyles.input} ${styles.searchSelect}`}>
+                <select
+                  className={`${InputStyles.input} ${styles.searchSelect}`}
+                >
                   <option value="">Deporte</option>
                   <option value="futbol">Fútbol</option>
                   <option value="basket">Básquet</option>
@@ -133,7 +145,9 @@ export default function Home() {
                     height="20"
                   />
                 </div>
-                <select className={`${InputStyles.input} ${styles.searchSelect}`}>
+                <select
+                  className={`${InputStyles.input} ${styles.searchSelect}`}
+                >
                   <option value="">Hoy 09/08</option>
                   <option value="tomorrow">Mañana 10/08</option>
                   <option value="day-after">Pasado mañana 11/08</option>
@@ -142,9 +156,16 @@ export default function Home() {
 
               <div className={styles.searchField}>
                 <div className={styles.searchFieldIcon}>
-                  <img src={ClockIcon} alt="Clock icon" width="20" height="20" />
+                  <img
+                    src={ClockIcon}
+                    alt="Clock icon"
+                    width="20"
+                    height="20"
+                  />
                 </div>
-                <select className={`${InputStyles.input} ${styles.searchSelect}`}>
+                <select
+                  className={`${InputStyles.input} ${styles.searchSelect}`}
+                >
                   <option value="">18:00 hs</option>
                   <option value="19:00">19:00 hs</option>
                   <option value="20:00">20:00 hs</option>
