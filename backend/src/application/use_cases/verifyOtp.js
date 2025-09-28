@@ -24,6 +24,7 @@ export class VerifyOtp {
     }
 
     let isNew = false;
+    let mustCompleteProfile = false;
     let user;
 
     if (role === "player") {
@@ -33,6 +34,8 @@ export class VerifyOtp {
         user = await this.playerRepository.create({
           email,
         });
+      } else if (!user.first_name || !user.last_name) {
+        mustCompleteProfile = true;
       }
     }
     if (role === "club") {
@@ -51,6 +54,11 @@ export class VerifyOtp {
       { expiresIn: "24h" }
     );
 
-    return { user, isNew, token };
+    return {
+      user,
+      isNew,
+      token,
+      mustCompleteProfile,
+    };
   }
 }

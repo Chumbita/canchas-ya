@@ -4,6 +4,7 @@ import {
   startAuthTransition,
   clearAuthTransition,
 } from "../../utils/authTransitions";
+import { useAuth } from "../../context/AuthContext";
 import { useUserRegistration } from "../../hooks/useRegistration";
 import pageStyle from "./ClubRegister.module.css";
 import textStyle from "../../styles/base/Text.module.css";
@@ -13,6 +14,7 @@ import ProgressivePrimaryBtn from "../../components/common/ProgressivePrimaryBtn
 import AvatarIcon from "../../assets/icons/avatar.png";
 
 export default function PlayerRegister() {
+  const { user, token } = useAuth();
   const { registerPlayerApi, loading, error } = useUserRegistration();
   const [playerDraft, setPlayerDraft] = useState({
     firstName: "",
@@ -29,12 +31,16 @@ export default function PlayerRegister() {
     startAuthTransition();
 
     const registrationDraft = {
-      player: playerDraft,
+      player: {
+        email: user.email,
+        firstName: playerDraft.firstName,
+        lastName: playerDraft.lastName,
+      }
     };
 
     try {
-      await registerPlayerApi(registrationDraft);
-      navigate("/player/create-account/success");
+      await registerPlayerApi(registrationDraft, token);
+      navigate("/");
     } catch (error) {
       console.error("Error during registration:", error);
       clearAuthTransition();

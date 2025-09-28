@@ -5,7 +5,28 @@ export const useUserRegistration = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const registerPlayerApi = async (playerData) => {};
+  const registerPlayerApi = async (playerData) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { email, firstName, lastName } = playerData.player;
+
+      const payload = {
+        email,
+        firstName,
+        lastName,
+      };
+
+      const response = await registrationService.playerRegister(payload);
+      return response;
+    } catch (error) {
+      setError(error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const registerClubApi = async (clubData) => {
     setLoading(true);
@@ -20,7 +41,10 @@ export const useUserRegistration = () => {
       })
     );
     payload.append("legalDocs[cuitCert]", clubData.legalDocs.cuitCert);
-    payload.append("legalDocs[municipalAuth]", clubData.legalDocs.municipalAuth);
+    payload.append(
+      "legalDocs[municipalAuth]",
+      clubData.legalDocs.municipalAuth
+    );
 
     try {
       const response = await registrationService.clubRegister(payload);
@@ -38,5 +62,5 @@ export const useUserRegistration = () => {
     registerClubApi,
     loading,
     error,
-  }
+  };
 };

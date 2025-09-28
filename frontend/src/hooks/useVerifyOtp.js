@@ -4,16 +4,16 @@ import { useAuth } from "../context/AuthContext";
 import { useAuthService } from "../hooks/useAuthService";
 import { useOTP } from "../hooks/useOTP";
 import { useTimer } from "../hooks/useTimer";
-import { startAuthTransition, clearAuthTransition } from "../utils/authTransitions";
+import {
+  startAuthTransition,
+  clearAuthTransition,
+} from "../utils/authTransitions";
 
 export const useVerifyOtp = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { 
-    role, 
-    verifyOtp, 
-  } = useAuth();
+  const { role, verifyOtp } = useAuth();
 
   const {
     otp,
@@ -25,18 +25,10 @@ export const useVerifyOtp = () => {
     inputsRef,
   } = useOTP();
 
-  const { 
-    loading, 
-    error, 
-    setError, 
-    requestOtpApi, 
-    verifyOtpApi 
-  } = useAuthService();
+  const { loading, error, setError, requestOtpApi, verifyOtpApi } =
+    useAuthService();
 
-  const { 
-    time: resendTimer, 
-    reset: resetResendTimer 
-  } = useTimer(60);
+  const { time: resendTimer, reset: resetResendTimer } = useTimer(60);
 
   const [attempts, setAttempts] = useState(0);
   const email = location.state?.email || sessionStorage.getItem("otpEmail");
@@ -54,10 +46,14 @@ export const useVerifyOtp = () => {
         const res = response.data;
         if (role === "player") {
           verifyOtp(res.isNew ? false : true, res.status);
-          navigate(res.isNew ? "/player/create-account" : "/", {
-            replace: true,
-          });
+          navigate(
+            res.isNew || res.mustCompleteProfile
+              ? "/player/create-account"
+              : "/",
+            { replace: true }
+          );
         }
+
         if (role === "club") {
           verifyOtp(res.isNew ? false : true, res.status);
           navigate(res.isNew ? "/club/create-account" : "/club/dashboard", {
@@ -69,7 +65,7 @@ export const useVerifyOtp = () => {
       clearAuthTransition();
     }
   };
-  
+
   const handleResendOtp = async () => {
     try {
       await requestOtpApi(email);
