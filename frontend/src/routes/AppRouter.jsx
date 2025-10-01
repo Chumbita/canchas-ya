@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
 import HeaderOnlyLayout from "../components/layout/HeaderOnlyLayout";
 import Home from "../pages/home/Home.page";
+import HomeTest from "../pages/home/HomeTest.page.jsx";
 import ClubLogin from "../pages/auth/ClubLogin.page";
 import ClubRegister from "../pages/auth/ClubRegister.page";
 import VerifyOtp from "../pages/auth/VerifyOtp.page";
@@ -24,7 +25,7 @@ export default function AppRouter() {
     <div>
       <Routes>
         <Route element={<MainLayout />}> 
-          <Route path="/" element={<Home />}/>
+          <Route path="/" element={<HomeTest />}/>
           <Route path="/club/status" element={<Status />} />
           <Route element={<PrivateClubGuard requiredStatus={"active"}/>} >
             <Route path="/club/dashboard/*" element={<Dashboard />} />

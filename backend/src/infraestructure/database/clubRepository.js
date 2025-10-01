@@ -8,11 +8,7 @@ export class ClubRepository {
     });
     return new Club(club);
   }
-
-  /* async findByGoogleId(googleId) {
-    const club = await prisma.club.findUnique({ where: { googleId } });
-    return club ? new Club(club) : null;
-  } */
+  
   async findByEmail(email) {
     const club = await prisma.club.findUnique({ where: { email } });
     return club ? new Club(club) : null;

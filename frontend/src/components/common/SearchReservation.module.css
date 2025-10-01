@@ -1,0 +1,72 @@
+.container {
+  width: 100%;
+  background-color: #FFFFFF;
+  padding: 26px;
+  border-radius: var(--border-radius-large);
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.18);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form__field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: .1px solid var(--color-outline);
+  padding: 4px 0px;
+}
+
+.form__field:last-of-type {
+  border-bottom: none;
+}
+
+.form__field:hover {
+  background-color: var(--color-surface-bg);
+}
+
+.form__control {
+  display: flex;
+  flex-direction: column ;
+  width: 100%;
+}
+
+.form__select {
+  border: none;
+  background-color: unset;
+  padding: 10px 0px;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+}
+
+.form__select:invalid {
+  color: var(--color-text-secondary);; 
+}
+.form__select:valid {
+  color: var(--color-text-primary);; 
+}
+
+
+.form__input-date {
+  padding: 10px 0px;
+  border: none;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+}
+
+.form__select:focus,
+.form__input-date:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+i>img {
+  width: 24px;
+  height: 24px;
+}
+
+
