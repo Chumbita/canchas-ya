@@ -20,6 +20,7 @@ export const useOtpService = () => {
     useAuthService();
 
   const { time: resendTimer, reset: resetResendTimer } = useTimer(60);
+  const { time: resendTimer, reset: resetResendTimer } = useTimer(60);
 
   const [attempts, setAttempts] = useState(0);
   
@@ -52,10 +53,14 @@ export const useOtpService = () => {
         const res = response.data;
         if (role === "player") {
           verifyOtp(res.isNew ? false : true, res.status);
-          navigate(res.isNew ? "/player/create-account" : "/", {
-            replace: true,
-          });
+          navigate(
+            res.isNew || res.mustCompleteProfile
+              ? "/player/create-account"
+              : "/",
+            { replace: true }
+          );
         }
+
         if (role === "club") {
           verifyOtp( res.user, res.isNew ? false : true, res.user.status);
           navigate(res.isNew ? "/club/create-account" : "/club/dashboard", {

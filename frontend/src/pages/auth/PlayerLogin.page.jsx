@@ -21,7 +21,7 @@ export default function PlayerLogin() {
     try {
       const response = await requestOtpApi(email);
       if (response && response.success) {
-        login({email}, null, "player");
+        login({ email }, null, "player");
         navigate("/verify-otp", {
           state: { email },
           replace: true,
@@ -41,17 +41,24 @@ export default function PlayerLogin() {
             src={heroImage}
             alt=""
           />
-          <h1 className={`${textStyle["text-primary"]} ${textStyle["text-2xl"]} ${textStyle["text-extra-bold"]}`}>
+          <h1
+            className={`${textStyle["text-primary"]} ${textStyle["text-2xl"]} ${textStyle["text-extra-bold"]}`}
+          >
             Sacar turno nunca fue tan fácil
           </h1>
-          <p className={`${textStyle["text-secondary"]} ${textStyle["text-sm"]} ${textStyle["text-ligth"]} ${pageStyle["login-page__subheadline"]}`}>
+          <p
+            className={`${textStyle["text-secondary"]} ${textStyle["text-sm"]} ${textStyle["text-ligth"]} ${pageStyle["login-page__subheadline"]}`}
+          >
             Reservá tu cancha en segundos. Sin esperas, sin complicaciones
           </p>
         </section>
         <section className={pageStyle["login-page__form"]}>
           <form className={pageStyle["login-form"]} onSubmit={handleLogin}>
             <div className={pageStyle["login-form__fields"]}>
-              <label htmlFor="email" className={`${textStyle["text-primary"]} ${textStyle["text-sm"]} ${textStyle["text-medium"]}`}>
+              <label
+                htmlFor="email"
+                className={`${textStyle["text-primary"]} ${textStyle["text-sm"]} ${textStyle["text-medium"]}`}
+              >
                 Ingresa tu correo electrónico
               </label>
               <input
@@ -85,6 +92,5 @@ export default function PlayerLogin() {
         </section>
       </div>
     </div>
-    
   );
 }
