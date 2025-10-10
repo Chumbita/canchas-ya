@@ -10,29 +10,191 @@ datasource db {
 }
 
 model Club {
-  id         Int      @id @default(autoincrement())
-  googleId   String?   @unique
-  name       String?   @db.VarChar
-  email      String   @unique
-  location   String?  @db.VarChar
-  status     String   @default("pending")
-  created_at DateTime @default(now())
+  id                  Int                  @id @default(autoincrement())
+  googleId            String?              @unique
+  name                String?              @db.VarChar
+  email               String               @unique
+  location            String?              @db.VarChar
+  status              String               @default("pending")
+  created_at          DateTime             @default(now())
+
+  paymentMethods      ClubPaymentMethod[]
+  configurations      ClubConfiguration?
+  photos              Photo[]
+  schedules           ClubSchedule[]
+  sportsByCLub        SportsByClub[]
+  reservationsRestrictions ReservationRestrictions[]
+  ratings             Rating[]
 }
+
+
+
 
 model Player {
-  id           Int      @id @default(autoincrement())
-  first_name   String?
-  last_name    String?
-  email        String   @unique
-  picture      String?
-  created_at   DateTime @default(now())
+  id                  Int                   @id @default(autoincrement())
+  first_name          String?
+  last_name           String?
+  email               String                @unique
+  picture             String?
+  created_at          DateTime              @default(now())
+
+  reservations        Reservation[]
+  ratings             Rating[]    
 }
 
+
+
+
 model OtpCode {
-  id         Int      @id @default(autoincrement())
-  email      String   @unique
-  code       String
-  attempts   Int      @default(0)
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
+  id                  Int                   @id @default(autoincrement())
+  email               String                @unique
+  code                String
+  attempts            Int                   @default(0)
+  expiresAt           DateTime
+  createdAt           DateTime              @default(now())
+}
+
+
+
+
+model Reservation {
+  id                  Int                   @id @default(autoincrement())
+  playerId           Int
+  courtId            Int
+  createdAt          DateTime              @default(now())
+  reservedDate       DateTime
+  startTime          DateTime
+  endTime            DateTime
+  status              String                @db.VarChar(255)
+
+  player              Player                @relation(fields: [playerId], references: [id])
+  court               Court                 @relation(fields: [courtId], references: [id])
+  ratings             Rating[]
+}
+
+
+
+
+model Rating {
+  id                  Int                   @id @default(autoincrement())
+  playerId           Int
+  clubId             Int
+  reservationId      Int
+  courtRating        Int
+  bathroomRating     Int
+  serviceRating      Int
+  lightingRating     Int
+  securityRating     Int
+  ratingDate         DateTime              @default(now())    
+
+  player              Player                @relation(fields: [playerId], references: [id])
+  club                Club                  @relation(fields: [clubId], references: [id])
+  reservation         Reservation           @relation(fields: [reservationId], references: [id])
+}
+
+
+
+
+model Court {
+  id                  Int                   @id @default(autoincrement())
+  idSportClub         Int
+  courtNumber         Int
+  pricePerHour        Float
+  isAvailable         Boolean               @default(true)
+
+  sportsByClub        SportsByClub          @relation(fields: [idSportClub], references: [id])
+  reservations        Reservation[]    
+  reservationRestrictions ReservationRestrictions[]    
+}
+
+
+
+
+model ReservationRestrictions {
+  id                  Int                   @id @default(autoincrement())
+  clubId             Int
+  courtId            Int
+  startDate          DateTime
+  endDate            DateTime
+  startTime          DateTime
+  endTime            DateTime
+
+
+  club                Club                  @relation(fields: [clubId], references: [id])
+  court               Court                 @relation(fields: [courtId], references: [id])
+}
+
+
+
+
+model SportsByClub {
+  id                  Int                    @id @default(autoincrement())
+  clubId             Int
+  sportId            Int
+  isActive           Boolean                @default(true)
+
+  club                Club                   @relation(fields: [clubId], references: [id])
+  sport               Sport                  @relation(fields: [sportId], references: [id])
+  courts              Court[]
+
+  @@unique([clubId, sportId])
+}
+
+
+
+
+model ClubPaymentMethod {
+  id                 Int                    @id @default(autoincrement())
+  clubId             Int
+  accountNumber      String?                @db.VarChar(255)
+  cbuCvu             String?                @db.VarChar(255)
+  bankEntity         String?                @db.VarChar(255)
+  isActive           Boolean
+
+  club                Club                   @relation(fields: [clubId], references: [id])
+}
+
+
+
+
+model ClubConfiguration {
+  id                         Int              @id @default(autoincrement())
+  clubId                    Int              @unique
+
+  club                       Club             @relation(fields: [clubId], references: [id])
+}
+
+
+
+
+model Photo {
+  id                        Int               @id @default(autoincrement())
+  clubId                   Int
+  url                       String            @db.VarChar(255)
+  createdAt                DateTime          @default(now())
+
+  club                      Club              @relation(fields: [clubId], references: [id])
+}
+
+
+
+
+model ClubSchedule {
+  id                        Int               @id @default(autoincrement())
+  clubId                   Int
+  dayOfWeek               Int
+  openTime                 String
+  closeTime                String
+
+  club                      Club              @relation(fields: [clubId], references: [id])
+}
+
+
+
+
+model Sport {
+  id                        Int               @id @default(autoincrement())
+  name                      String            @unique
+
+  sportsByClub              SportsByClub[]
 }
