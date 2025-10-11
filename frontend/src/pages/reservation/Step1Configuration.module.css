@@ -1,0 +1,273 @@
+.configurationPage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
+.mainContent {
+  flex: 1;
+  background: white;
+  padding: 2rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.breadcrumbs {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbItem {
+  font-size: 0.9rem;
+}
+
+.breadcrumbSeparator {
+  margin: 0 0.5rem;
+  color: #666;
+}
+
+.titleSection {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.mainTitle {
+  font-size: 2.5rem;
+  color: #1a1a1a;
+  margin: 0 0 1rem 0;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+.contentLayout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+}
+
+.configurationColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  color: #1a1a1a;
+  margin: 0 0 1.5rem 0;
+}
+
+.dateGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.dateButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 80px;
+}
+
+.dateButton:hover:not(.unavailable) {
+  border-color: #007bff;
+  background: #f8f9fa;
+}
+
+.dateButton.selected {
+  border-color: #007bff;
+  background: #e3f2fd;
+  color: #007bff;
+}
+
+.dateButton.unavailable {
+  background: #f8f9fa;
+  color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.dateNumber {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.dateDay {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.durationSelector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+}
+
+.durationButton {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.durationButton:hover {
+  border-color: #007bff;
+  background: #f8f9fa;
+}
+
+.durationValue {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  min-width: 60px;
+  text-align: center;
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.75rem;
+}
+
+.optionButton {
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.optionButton:hover {
+  border-color: #007bff;
+  background: #f8f9fa;
+}
+
+.optionButton.selected {
+  border-color: #007bff;
+  background: #e3f2fd;
+  color: #007bff;
+}
+
+.timeSlots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.timeSlotButton {
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.timeSlotButton:hover {
+  border-color: #007bff;
+  background: #f8f9fa;
+}
+
+.timeSlotButton.selected {
+  border-color: #007bff;
+  background: #e3f2fd;
+  color: #007bff;
+}
+
+.summaryColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .contentLayout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .summaryColumn {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 1rem 0;
+  }
+  
+  .container {
+    padding: 0 0.5rem;
+  }
+  
+  .mainTitle {
+    font-size: 2rem;
+  }
+  
+  .dateGrid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  
+  .dateButton {
+    min-height: 60px;
+    padding: 0.75rem 0.25rem;
+  }
+  
+  .optionsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .dateGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .optionsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

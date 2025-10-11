@@ -1,0 +1,143 @@
+.paymentPage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
+.mainContent {
+  flex: 1;
+  background: white;
+  padding: 2rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.breadcrumbs {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbItem {
+  font-size: 0.9rem;
+}
+
+.breadcrumbSeparator {
+  margin: 0 0.5rem;
+  color: #666;
+}
+
+.titleSection {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.mainTitle {
+  font-size: 2.5rem;
+  color: #1a1a1a;
+  margin: 0 0 1rem 0;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+.contentLayout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+}
+
+.paymentColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  color: #1a1a1a;
+  margin: 0 0 1.5rem 0;
+}
+
+.paymentMethods {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+}
+
+.emptyText {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+.policyContent {
+  padding: 1rem 0;
+}
+
+.policyText {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.policyText strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.summaryColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .contentLayout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .summaryColumn {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 1rem 0;
+  }
+  
+  .container {
+    padding: 0 0.5rem;
+  }
+  
+  .mainTitle {
+    font-size: 2rem;
+  }
+  
+  .section {
+    padding: 1rem;
+  }
+}

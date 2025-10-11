@@ -1,0 +1,126 @@
+.summaryContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: sticky;
+  top: 2rem;
+}
+
+.reservationCard,
+.priceCard {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  color: #1a1a1a;
+  margin: 0 0 1rem 0;
+}
+
+.reservationDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.detailIcon {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+.detailContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detailLabel {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.detailValue {
+  font-size: 1rem;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.priceDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.priceItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.priceLabel {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.priceValue {
+  font-size: 1rem;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.totalItem {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.totalLabel {
+  font-size: 1rem;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.totalValue {
+  font-size: 1.2rem;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.continueButton {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.continueButton:hover:not(.disabled) {
+  background: #0056b3;
+}
+
+.continueButton.disabled {
+  background: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1024px) {
+  .summaryContainer {
+    position: static;
+  }
+}

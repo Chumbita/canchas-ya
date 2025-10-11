@@ -2,6 +2,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
 import HeaderOnlyLayout from "../components/layout/HeaderOnlyLayout";
 import Home from "../pages/home/Home.page";
+import SearchResults from "../pages/search/SearchResults.page";
+import CourtDetail from "../pages/court/CourtDetail.page";
+import Step1Configuration from "../pages/reservation/Step1Configuration.page";
+import Step2Payment from "../pages/reservation/Step2Payment.page";
+import Step3Confirmation from "../pages/reservation/Step3Confirmation.page";
 import ClubLogin from "../pages/auth/ClubLogin.page";
 import ClubRegister from "../pages/auth/ClubRegister.page";
 import VerifyOtp from "../pages/auth/VerifyOtp.page";
@@ -23,6 +28,11 @@ export default function AppRouter() {
       <Routes>
         <Route element={<MainLayout />}> 
           <Route path="/" element={<Home />}/>
+          <Route path="/search" element={<SearchResults />}/>
+          <Route path="/court/:id" element={<CourtDetail />}/>
+          <Route path="/reservation/:courtId/configuration" element={<Step1Configuration />}/>
+          <Route path="/reservation/:courtId/payment" element={<Step2Payment />}/>
+          <Route path="/reservation/:courtId/confirmation" element={<Step3Confirmation />}/>
         </Route>
         <Route element={<HeaderOnlyLayout />}>
           <Route path="/club/login" element={<ClubLogin />}/>
