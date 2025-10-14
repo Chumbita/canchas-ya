@@ -1,7 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const registrationService = {
-  playerRegister: async (playerData, token) => {
+export const playerService = {
+  register: async (playerData, token) => {
     const response = await fetch(`${API_URL}/auth/player/complete-profile`, {
       method: "POST",
       headers: {
@@ -18,17 +18,20 @@ export const registrationService = {
     return await response.json();
   },
 
-  clubRegister: async (clubData) => {
-    const response = await fetch(`${API_URL}/auth/club/register`, {
+  loginWithGoogle: async (accessToken) => {
+    const response = await fetch(`${API_URL}/auth/player/google`, {
       method: "POST",
-      body: clubData,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ accessToken }),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || "Error al registrar el club");
+      const res = await response.json();
+      console.log(res.error);
+      throw new Error("Error al iniciar sesión con Google");
     }
-
     return await response.json();
   },
 };

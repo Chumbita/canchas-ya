@@ -1,0 +1,20 @@
+/* Control principal del input */
+
+.datepicker-button {
+  display: block;
+  width: 100%;
+  border: none;
+  border-radius: var(--border-radius-small);
+  height: 46px;
+  text-align: center;
+  font-size: 16px;
+  background-color: #F3F3F3 !important;
+  cursor: pointer;
+}
+
+/* Fecha seleccionada */
+.react-datepicker__day--selected {
+  background-color: var(#0056BD);
+  color: white;
+  border-radius: 50%;
+}

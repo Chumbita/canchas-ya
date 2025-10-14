@@ -1,5 +1,6 @@
 import { transporter } from "../../infraestructure/mailer.js";
 import fs from "fs/promises";
+import { completeRegistrationFormService } from "../../application/use_cases/ClubService.js";
 
 export const formRegisterController = async (req, res) => {
   console.log("req.files:", req.files);
@@ -70,7 +71,14 @@ export const formRegisterController = async (req, res) => {
       await fs.unlink(a.path).catch(() => {});
     }
 
-    return res.status(200).json({ message: "Registro enviado correctamente" });
+    // Se actualiza el club con nombre y location en la bd
+    const updatedClub = await completeRegistrationFormService(
+      legalRep.email,
+      clubInfo.name,
+      clubInfo.location
+    );
+
+    return res.status(200).json({ user: updatedClub, message: "Registro enviado correctamente" });
   } catch (err) {
     console.error("registerClubController error", err);
     return res

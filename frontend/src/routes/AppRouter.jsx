@@ -1,8 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
 import HeaderOnlyLayout from "../components/layout/HeaderOnlyLayout";
-import Home from "../pages/home/Home.page";
-import HomeTest from "../pages/home/HomeTest.page.jsx";
+import Home from "../pages/home/Home.page.jsx";
 import ClubLogin from "../pages/auth/ClubLogin.page";
 import ClubRegister from "../pages/auth/ClubRegister.page";
 import VerifyOtp from "../pages/auth/VerifyOtp.page";
@@ -18,20 +17,22 @@ import { OtpGuard } from "../guards/OtpGuard";
 import { RegisterGuard } from "../guards/RegisterGuard";
 import { PrivateClubGuard } from "../guards/PrivateClubGuard";
 import { PrivatePlayerGuard } from "../guards/PrivatePlayerGuard";
-
+import { RequiredCompleteProfileGuard } from "../guards/RequiredCompleteProfileGuard";
 
 export default function AppRouter() {
   return (
     <div>
       <Routes>
-        <Route element={<MainLayout />}> 
-          <Route path="/" element={<HomeTest />}/>
-          <Route path="/club/status" element={<Status />} />
-          <Route element={<PrivateClubGuard requiredStatus={"active"}/>} >
-            <Route path="/club/dashboard/*" element={<Dashboard />} />
-          </Route>
-          <Route element={<PrivatePlayerGuard />} >
-            {/* <Route path="/player/dashboard/*" element={<Dashboard />} />  */}
+        <Route element={<RequiredCompleteProfileGuard />} >
+          <Route element={<MainLayout />}> 
+            <Route path="/" element={<Home />}/>
+            <Route path="/club/status" element={<Status />} />
+            <Route element={<PrivateClubGuard requiredStatus={"active"}/>} >
+              <Route path="/club/dashboard/*" element={<Dashboard />} />
+            </Route>
+            <Route element={<PrivatePlayerGuard />} >
+              {/* <Route path="/player/dashboard/*" element={<Dashboard />} />  */}
+            </Route>
           </Route>
         </Route>
         <Route element={<HeaderOnlyLayout />}>

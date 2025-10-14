@@ -18,13 +18,19 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  const setUserContext = (newUser) => {
+    const newAuth = { ...auth, user: newUser };
+    setAuth(newAuth);
+    localStorage.setItem("auth", JSON.stringify(newAuth));
+  };
+
   const login = (user, token, role) => {
     const newAuth = { ...auth, user, token, role, step: "otp" };
     setAuth(newAuth);
     localStorage.setItem("auth", JSON.stringify(newAuth));
   };
 
-  const verifyOtp = ( user, isRegistered, clubStatus = null) => {
+  const verifyOtp = ( user, token, isRegistered, clubStatus = null) => {
     let nextStep;
     let newStatus = null;
 
@@ -71,7 +77,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ ...auth, login, verifyOtp, registerClub, logout }}>
+    <AuthContext.Provider value={{ ...auth, setUser: setUserContext, login, verifyOtp, registerClub, logout }}>
       {children}
     </AuthContext.Provider>
   );

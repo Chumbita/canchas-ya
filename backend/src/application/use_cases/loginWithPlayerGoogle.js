@@ -7,14 +7,25 @@ export class LoginWithGoogle {
   constructor(playerRepository) {
     this.playerRepository = playerRepository;
   }
-  async execute(idToken) {
-    // verifica token de google
+  async execute(accessToken) {
+    // Obtiene los datos del usuario desde la API de Google
+    const response = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al validar token de Google");
+    }
+
+    /* // verifica token de google
     const ticket = await client.verifyIdToken({
       idToken,
       audience: process.env.GOOGLE_CLIENT_ID,
-    });
+    }); */
 
-    const payload = ticket.getPayload();
+    const payload = await response.json();
 
     // extraemos solos los campos que queremos
     const email = payload.email;
@@ -36,11 +47,6 @@ export class LoginWithGoogle {
       isNewPlayer = true; // prueaba
     }
 
-    // solamente de prueba
-    const message = isNewPlayer
-      ? "¡Bienvenido a CANCHASYA! Tu cuenta fue creada exitosamente."
-      : "¡Hola de nuevo! Iniciaste sesión correctamente.";
-
     const token = jwt.sign(
       {
         id: player.id,
@@ -50,6 +56,6 @@ export class LoginWithGoogle {
       { expiresIn: "24h" }
     );
 
-    return { player, token, isNewPlayer, message };
+    return { player, token, isNewPlayer };
   }
 }

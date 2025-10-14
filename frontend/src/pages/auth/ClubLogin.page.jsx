@@ -50,22 +50,6 @@ export default function ClubLogin() {
               />
             </div>
             <ProgressivePrimaryBtn label="Continuar" loading={loading} />
-            <div className={pageStyle["login-page__divider"]}>
-              <div className={pageStyle["login-page__divider-line"]}></div>
-              <span className={pageStyle["login-page__divider-text"]}>o</span>
-              <div className={pageStyle["login-page__divider-line"]}></div>
-            </div>
-            <button
-              type="button"
-              className={`${btnStyle["btn"]} ${btnStyle["btn-secondary"]} ${pageStyle["login-form__google-button"]}`}
-            >
-              <img
-                src={googleIcon}
-                alt="Google"
-                className={pageStyle["login-form__google-icon"]}
-              />
-              Continuar con Google
-            </button>
           </form>
         </section>
       </div>

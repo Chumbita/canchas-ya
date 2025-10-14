@@ -5,7 +5,7 @@ import {
   clearAuthTransition,
 } from "../../utils/authTransitions";
 import { useAuth } from "../../context/AuthContext";
-import { useUserRegistration } from "../../hooks/useRegistration";
+import { useClubService } from "../../hooks/useClubService";
 import FileUpload from "../../components/common/FileUpload";
 import LocationPicker from "../../components/club/LocationPicker";
 import pageStyle from "./ClubRegister.module.css";
@@ -15,8 +15,9 @@ import btnStyle from "../../styles/base/Button.module.css";
 import ProgressivePrimaryBtn from "../../components/common/ProgressivePrimaryBtn";
 
 export default function ClubRegister() {
-  const { user } = useAuth();
-  const { registerClubApi, loading, error } = useUserRegistration();
+  const { user, setUser } = useAuth();
+  const { loading, registerClubApi } = useClubService();
+  
   const [legalRepDraft, setLegalRepDraft] = useState({
     fullName: "",
     dni: "",
@@ -46,6 +47,26 @@ export default function ClubRegister() {
     setLegalDocsDraft((prev) => ({ ...prev, [field]: value }));
   };
 
+  // Validación que todos los campos estén completos
+  const isFormComplete = () => {
+    const allLegalRepFilled = Object.values(legalRepDraft).every(
+      (value) => value && value.trim() !== ""
+    );
+
+    const allClubInfoFilled = Object.entries(clubInfoDraft).every(
+      ([key, value]) => {
+        if (key === "location") return value && Object.keys(value).length > 0; // si location es un objeto (lat, lng)
+        return value && value.trim() !== "";
+      }
+    );
+
+    const allDocsUploaded = Object.values(legalDocsDraft).every(
+      (file) => file !== null
+    );
+
+    return allLegalRepFilled && allClubInfoFilled && allDocsUploaded;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     startAuthTransition();
@@ -57,8 +78,11 @@ export default function ClubRegister() {
     };
 
     try {
-      await registerClubApi(registrationDraft);
-      navigate("/club/create-account/success");
+      const res = await registerClubApi(registrationDraft);
+      if (res) {
+        navigate("/club/create-account/success");
+        setUser(res.user);
+      }
     } catch (error) {
       console.error("Error during registration:", error);
       clearAuthTransition();
@@ -92,7 +116,8 @@ export default function ClubRegister() {
               <label
                 className={`${textStyle["text-primary"]} ${textStyle["text-xs"]} ${textStyle["text-medium"]}`}
               >
-                Nombre y apellido completo
+                Nombre y apellido completo{" "}
+                <span className={textStyle["text-error"]}>*</span>
               </label>
               <input
                 type="text"
@@ -109,7 +134,7 @@ export default function ClubRegister() {
               <label
                 className={`${textStyle["text-primary"]} ${textStyle["text-xs"]} ${textStyle["text-medium"]}`}
               >
-                DNI
+                DNI <span className={textStyle["text-error"]}>*</span>
               </label>
               <input
                 type="text"
@@ -133,6 +158,7 @@ export default function ClubRegister() {
                   {" "}
                   (para validar con la página de ANSES o AFIP)
                 </span>
+                <span className={textStyle["text-error"]}> *</span>
               </label>
               <input
                 type="text"
@@ -156,6 +182,7 @@ export default function ClubRegister() {
                   {" "}
                   (para iniciar sesión)
                 </span>
+                <span className={textStyle["text-error"]}> *</span>
               </label>
               <input
                 type="text"
@@ -187,6 +214,7 @@ export default function ClubRegister() {
                   {" "}
                   (tal como figura en registros municipales o legales)
                 </span>
+                <span className={textStyle["text-error"]}> *</span>
               </label>
               <input
                 type="text"
@@ -203,8 +231,10 @@ export default function ClubRegister() {
               <label
                 className={`${textStyle["text-primary"]} ${textStyle["text-xs"]} ${textStyle["text-medium"]}`}
               >
-                Dirección exacta
+                Dirección exacta del club{" "}
+                <span className={textStyle["text-error"]}>*</span>
               </label>
+
               <div className={pageStyle["map-container"]}>
                 <LocationPicker
                   onLocationSelect={(location) =>
@@ -224,6 +254,7 @@ export default function ClubRegister() {
                   {" "}
                   (verificable en AFIP con la razón social)
                 </span>
+                <span className={textStyle["text-error"]}> *</span>
               </label>
               <input
                 type="text"
@@ -248,6 +279,7 @@ export default function ClubRegister() {
                   (si está inscripto como persona jurídica, asociación civil o
                   sociedad)
                 </span>
+                <span className={textStyle["text-error"]}> *</span>
               </label>
               <input
                 type="text"
@@ -278,6 +310,7 @@ export default function ClubRegister() {
                   {" "}
                   (emitida por AFIP)
                 </span>
+                <span className={textStyle["text-error"]}> *</span>
               </label>
               <FileUpload name={"cuitCert"} onChange={handleLegalDocsChange} />
             </div>
@@ -292,6 +325,7 @@ export default function ClubRegister() {
                   {" "}
                   (emitida por el municipio de La Rioja)
                 </span>
+                <span className={textStyle["text-error"]}> *</span>
               </label>
               <FileUpload
                 name={"municipalAuth"}
@@ -299,7 +333,7 @@ export default function ClubRegister() {
               />
             </div>
           </section>
-          <ProgressivePrimaryBtn label="Enviar" loading={loading} />
+          <ProgressivePrimaryBtn label="Enviar" loading={loading} disabled={!isFormComplete()} />
         </form>
       </div>
     </div>

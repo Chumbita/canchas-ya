@@ -1,32 +1,9 @@
 import { useState } from "react";
-import { registrationService } from "../services/registrationService";
+import { clubService } from "../services/clubService";
 
-export const useUserRegistration = () => {
+export const useClubService = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const registerPlayerApi = async (playerData) => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const { email, firstName, lastName } = playerData.player;
-
-      const payload = {
-        email,
-        firstName,
-        lastName,
-      };
-
-      const response = await registrationService.playerRegister(payload);
-      return response;
-    } catch (error) {
-      setError(error);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const registerClubApi = async (clubData) => {
     setLoading(true);
@@ -47,7 +24,7 @@ export const useUserRegistration = () => {
     );
 
     try {
-      const response = await registrationService.clubRegister(payload);
+      const response = await clubService.register(payload);
       return response;
     } catch (error) {
       setError(error);
@@ -58,9 +35,8 @@ export const useUserRegistration = () => {
   };
 
   return {
-    registerPlayerApi,
-    registerClubApi,
     loading,
     error,
+    registerClubApi,
   };
 };

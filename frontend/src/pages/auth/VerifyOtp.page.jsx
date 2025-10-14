@@ -84,7 +84,7 @@ export default function VerifyOtp() {
         <div className={pageStyle["verify-otp__buttons"]}>
           <button
             className={`${btnStyle["btn"]} ${btnStyle["btn-circle"]} ${btnStyle["btn-primary"]}`}
-            onClick={() => navigate("/login/club")}
+            onClick={() => navigate("/")}
           >
             <img src={arrowLeft} className={pageStyle["icon"]} />
           </button>

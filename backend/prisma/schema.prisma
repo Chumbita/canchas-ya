@@ -1,7 +1,7 @@
 generator client {
   provider = "prisma-client-js"
-//  output   = "../src/generated/prisma"
-//  output   = "../src/generated/prisma"
+  //  output   = "../src/generated/prisma"
+  //  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -11,27 +11,27 @@ datasource db {
 
 model Club {
   id         Int      @id @default(autoincrement())
-  name       String?   @db.VarChar
+  name       String?  @db.VarChar
   email      String   @unique
-  location   String?  @db.VarChar
+  location   Json?
   status     String   @default("pending")
   created_at DateTime @default(now())
 }
 
 model Player {
-  id           Int      @id @default(autoincrement())
-  first_name   String?
-  last_name    String?
-  email        String   @unique
-  picture      String?
-  created_at   DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  first_name String?
+  last_name  String?
+  email      String   @unique
+  picture    String?
+  created_at DateTime @default(now())
 }
 
 model OtpCode {
-  id         Int      @id @default(autoincrement())
-  email      String   @unique
-  code       String
-  attempts   Int      @default(0)
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  code      String
+  attempts  Int      @default(0)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 }

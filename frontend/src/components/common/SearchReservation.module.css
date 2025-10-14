@@ -3,29 +3,26 @@
   background-color: #FFFFFF;
   padding: 26px;
   border-radius: var(--border-radius-large);
-  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12)
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 25px;
 }
 
 .form__field {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
-  border-bottom: .1px solid var(--color-outline);
-  padding: 4px 0px;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
 }
 
 .form__field:last-of-type {
   border-bottom: none;
-}
-
-.form__field:hover {
-  background-color: var(--color-surface-bg);
 }
 
 .form__control {
@@ -35,6 +32,7 @@
 }
 
 .form__select {
+  cursor: pointer;
   border: none;
   background-color: unset;
   padding: 10px 0px;
@@ -51,6 +49,7 @@
 
 
 .form__input-date {
+  cursor: pointer;
   padding: 10px 0px;
   border: none;
   font-size: var(--font-size-base);
@@ -67,6 +66,21 @@
 i>img {
   width: 24px;
   height: 24px;
+}
+
+@media (min-width: 768px) {
+  
+  .container {
+    padding: 0.8rem;
+  }
+  .form {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .form__field {
+    border: none;
+  }
 }
 
 

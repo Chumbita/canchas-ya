@@ -1,9 +1,9 @@
 import { useState } from "react";
 import styles from "./ProgressivePrimaryBtn.module.css";
 
-export default function ProgressivePrimaryBtn({ label = "Continuar", loading }) {
+export default function ProgressivePrimaryBtn({ label = "Continuar", loading, disabled }) {
   return (
-    <button type="submit" className={styles["progress-btn"]} disabled={loading}>
+    <button type="submit" className={styles["progress-btn"]} disabled={loading || disabled}>
       <span className={styles["btn-text"]}>
         {label}
       </span>

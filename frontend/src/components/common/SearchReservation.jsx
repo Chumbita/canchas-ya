@@ -1,56 +1,56 @@
-import React from 'react'
-import styles from "./SearchReservation.module.css"
-import sportIcon from "../../assets/icons/sport-icon.png"
-import calendarIcon from "../../assets/icons/calendar-icon.png"
-import timeIcon from "../../assets/icons/time-icon.png"
-import btnStyle from "../../styles/base/Button.module.css"
+import React, { useState } from "react";
+import SelectSport from "./SelectSport";
+import SelectTime from "./SelectTime";
+import SelectDate from "./SelectDate";
+import styles from "./SearchReservation.module.css";
+import btnStyle from "../../styles/base/Button.module.css";
+import voleyballIcon from "../../assets/icons/volleyball-icon.svg";
+import calendarIcon from "../../assets/icons/calendar-icon.svg";
+import clockIcon from "../../assets/icons/clock2-icon.svg";
 
 export default function SearchReservation() {
+  const [sport, setSport] = useState("");
+  const [date, setDate] = useState(null);
+  const [time, setTime] = useState("");
+
+  // Validación que todos los campos estén completos
+  const isFormValid = sport && date && time;
+  
   return (
     <div className={styles["container"]}>
       <form className={styles["form"]}>
         <section className={styles["form__field"]}>
-          <i className={styles["form__icon"]}><img src={sportIcon}/></i>
+          <i className={styles["form__icon"]}>
+            <img width="48" height="48" src={voleyballIcon} alt="voleyball" />
+          </i>
           <div className={styles["form__control"]}>
-            <select className={styles["form__select"]} name="sport">
-              <option value="" disabled selected hidden>¿Qué querés jugar?</option>
-              <option value="futbol-5">Fútbol 5</option>
-              <option value="futbol-6">Fútbol 6</option>
-              <option value="futbol-8">Fútbol 8</option>
-              <option value="fultbol-11">Fútbol 11</option>
-              <option value="tenis">Tenis</option>
-              <option value="padel">Padel</option>
-              <option value="basquet-3">Básquet 3x3</option>
-              <option value="basquet-5">Básquet 5x5</option>
-            </select>
+            <SelectSport value={sport} onChange={(value) => setSport(value)}/>
           </div>
         </section>
         <section className={styles["form__field"]}>
-          <i className={styles["form__icon"]}><img src={calendarIcon}/></i>
+          <i className={styles["form__icon"]}>
+            <img src={calendarIcon} alt="calendario" />
+          </i>
           <div className={styles["form__control"]}>
-            {/* <label className={styles["form__label"]}>Día</label> */}
-            <input type="date" placeholder='¿Cuándo?' className={styles["form__input-date"]} defaultValue={new Date().toISOString().split('T')[0]}/>
+            <SelectDate value={date} onChange={(value) => setDate(value)}/>
           </div>
         </section>
         <section className={styles["form__field"]}>
-          <i className={styles["form__icon"]}><img src={timeIcon}/></i>
+          <i className={styles["form__icon"]}>
+            <img src={clockIcon} alt="reloj" />
+          </i>
           <div className={styles["form__control"]}>
-            {/* <label className={styles["form__label"]}>Día</label> */}
-            <select className={styles["form__select"]} name="sport">
-              <option value="" disabled selected hidden>¿A qué hora?</option>
-              <option value="17">17:00</option>
-              <option value="18">18:00</option>
-              <option value="19">19:00</option>
-              <option value="20">20:00</option>
-              <option value="21">21:00</option>
-              <option value="22">22:00</option>
-              <option value="23">23:00</option>
-              <option value="00">00:00</option>
-            </select>
+            <SelectTime value={time} onChange={(value) => setTime(value)}/>
           </div>
         </section>
-        <button type='submit' className={`${btnStyle["btn"]} ${btnStyle["btn-primary"]}`}>Buscar</button>
+        <button
+          type="submit"
+          className={`${btnStyle["btn"]} ${btnStyle["btn-primary"]}`}
+          disabled={!isFormValid}
+        >
+          Buscar
+        </button>
       </form>
     </div>
-  )
+  );
 }

@@ -1,0 +1,17 @@
+.rs__control {
+  border-radius: var(--border-radius-small) !important;
+  padding: 5px 0;
+  border: none !important;
+  cursor: pointer !important;
+  background-color: #F3F3F3 !important;
+}
+
+.rs__placeholder {
+  color: #A3A3A2;    /* gris suave para placeholder */
+  font-size: 16px;
+}
+
+.rs__control--is-focused {
+  border: none !important;
+  box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.06);
+}
