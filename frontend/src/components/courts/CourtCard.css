@@ -1,0 +1,87 @@
+.court-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.court-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.court-status.available {
+  color: #40A040;
+  font-weight: bold;
+}
+
+.court-status.unavailable {
+  color: #D7433B;
+  font-weight: bold;
+}
+
+.court-info {
+  font-size: 14px;
+  color: #555;
+}
+
+.court-row{
+  display: flex;
+  margin-top: 12px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+ /*  flex-wrap: wrap; probar para responsive */
+}
+
+.court-actions {
+  display: flex;
+  justify-content: right;
+  gap: 15px;
+
+}
+
+.edit-btn{
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.2s;
+  color: #0056BD;
+}
+.delete-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.2s;
+  color: #D7433B;
+}
+
+.edit-btn:hover {
+  color: blue;
+}
+.delete-btn:hover {
+  color: red;
+}
+
+.my-swal-popup {
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.my-confirm-btn,
+.my-cancel-btn {
+  padding: 0.6em 1.2em;
+  font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+  .my-swal-popup {
+    font-size: 0.9rem;
+  }
+}

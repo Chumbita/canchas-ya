@@ -1,7 +1,6 @@
 generator client {
   provider = "prisma-client-js"
 //  output   = "../src/generated/prisma"
-//  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -10,13 +9,25 @@ datasource db {
 }
 
 model Club {
+  id         Int            @id @default(autoincrement())
+  googleId   String?        @unique
+  name       String?        @db.VarChar
+  email      String         @unique
+  location   String?        @db.VarChar
+  status     String         @default("pending")
+  created_at DateTime       @default(now())
+  sportClubs SportClub[]    // relación inversa a SportClub
+  schedules  ClubSchedule[] // relación inversa a ClubSchedule
+}
+
+model ClubSchedule {
   id         Int      @id @default(autoincrement())
-  googleId   String?   @unique
-  name       String?   @db.VarChar
-  email      String   @unique
-  location   String?  @db.VarChar
-  status     String   @default("pending")
-  created_at DateTime @default(now())
+  clubId     Int
+  dayOfWeek  Int    // vamos a usar 0 = Domingo, 1 = Lunes, etc
+  openTime   String
+  closeTime  String
+
+  club       Club     @relation(fields: [clubId], references: [id])
 }
 
 model Player {
@@ -35,4 +46,35 @@ model OtpCode {
   attempts   Int      @default(0)
   expiresAt  DateTime
   createdAt  DateTime @default(now())
+}
+
+model Sport {
+  id        Int               @id @default(autoincrement())
+  name      String            @unique
+  clubs     SportClub[]
+}
+
+model SportClub {
+  id        Int        @id @default(autoincrement())
+  clubId    Int
+  sportId   Int
+  isActive  Boolean    @default(true)
+
+  club      Club       @relation(fields: [clubId], references: [id])
+  sport     Sport      @relation(fields: [sportId], references: [id])
+  courts    Court[]
+
+  @@unique([clubId, sportId]) 
+}
+
+model Court {
+  id              Int       @id @default(autoincrement())
+  idSportClub     Int
+  courtNumber     Int
+  pricePerHour    Float
+  isAvailable     Boolean   @default(true)
+
+  sportClub   SportClub     @relation(fields: [idSportClub], references: [id])
+  @@unique([idSportClub, courtNumber])
+  // reservations Reservation[] <- descomentar cuando se agregue la tabla
 }
