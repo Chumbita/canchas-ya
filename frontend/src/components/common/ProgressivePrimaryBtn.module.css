@@ -10,6 +10,7 @@
   overflow: hidden;
   transition: background 0.3s ease;
   font-weight: var(--font-weight-medium);
+  text-align: center;
 }
 
 .progress-btn:disabled {

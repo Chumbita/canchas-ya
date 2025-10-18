@@ -1,36 +1,20 @@
 import { useState } from "react";
+import { useOtpService } from "../../hooks/useOtpService";
 import pageStyle from "./ClubLogin.module.css";
 import btnStyle from "../../styles/base/Button.module.css";
 import textStyle from "../../styles/base/Text.module.css";
 import inputStyle from "../../styles/base/Inputs.module.css";
 import googleIcon from "../../assets/icons/google-icon.svg";
 import heroImage from "../../assets/images/club-hero-image.svg";
-import { useAuthService } from "../../hooks/useAuthService";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 import ProgressivePrimaryBtn from "../../components/common/ProgressivePrimaryBtn";
 
 export default function ClubLogin() {
   const [email, setEmail] = useState("");
-  const { login } = useAuth();
-  const { loading, error, requestOtpApi } = useAuthService();
-  const navigate = useNavigate();
+  const { loading, error, handleRequestOtp } = useOtpService();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await requestOtpApi(email);
-      if (response && response.success) {
-        login({email}, null, "club");
-        navigate("/verify-otp", {
-          state: { email },
-          replace: true,
-        });
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+    handleRequestOtp(email);
   };
 
   return (
@@ -66,22 +50,6 @@ export default function ClubLogin() {
               />
             </div>
             <ProgressivePrimaryBtn label="Continuar" loading={loading} />
-            <div className={pageStyle["login-page__divider"]}>
-              <div className={pageStyle["login-page__divider-line"]}></div>
-              <span className={pageStyle["login-page__divider-text"]}>o</span>
-              <div className={pageStyle["login-page__divider-line"]}></div>
-            </div>
-            <button
-              type="button"
-              className={`${btnStyle["btn"]} ${btnStyle["btn-secondary"]} ${pageStyle["login-form__google-button"]}`}
-            >
-              <img
-                src={googleIcon}
-                alt="Google"
-                className={pageStyle["login-form__google-icon"]}
-              />
-              Continuar con Google
-            </button>
           </form>
         </section>
       </div>

@@ -120,15 +120,31 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.ClubScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  location: 'location',
+  status: 'status',
+  created_at: 'created_at'
+};
+
 exports.Prisma.PlayerScalarFieldEnum = {
   id: 'id',
-  googleId: 'googleId',
   first_name: 'first_name',
   last_name: 'last_name',
   email: 'email',
   picture: 'picture',
-  role: 'role',
   created_at: 'created_at'
+};
+
+exports.Prisma.OtpCodeScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  code: 'code',
+  attempts: 'attempts',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -145,13 +161,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.Role = exports.$Enums.Role = {
-  JUGADOR: 'JUGADOR',
-  CLUB: 'CLUB'
-};
+
 
 exports.Prisma.ModelName = {
-  Player: 'Player'
+  Club: 'Club',
+  Player: 'Player',
+  OtpCode: 'OtpCode'
 };
 
 /**

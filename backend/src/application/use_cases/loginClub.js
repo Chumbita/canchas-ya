@@ -17,17 +17,15 @@ export class LoginClub {
 
         //2
         const payload = ticket.getPayload();
-        const googleId = payload.sub;
         const email = payload.email;
         const name = payload.name || '';
 
         //3
-        let club = await this.clubRepository.findByGoogleId(googleId);
+        let club = await this.clubRepository.findByEmail(email);
 
         //4
         if (!club) {
             club = await this.clubRepository.create({
-                googleId,
                 name,
                 email,
             });
