@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./Step2Payment.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
 import QuickSearchBar from "../../components/common/QuickSearchBar";
 import ProgressSteps from "../../components/reservation/ProgressSteps";
 import ReservationSummary from "../../components/reservation/ReservationSummary";
+import { reservationService } from "../../services/reservationService";
 
 export default function Step2Payment() {
   const { courtId } = useParams();
@@ -12,17 +13,20 @@ export default function Step2Payment() {
   
   // Estados para el pago
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const [reservationData, setReservationData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   
-  // Datos de la reserva (en un caso real vendrían del estado global o props)
-  const reservationData = {
-    courtName: "Club del Sur",
-    sport: "Fútbol 5x5",
-    date: "16 Septiembre",
-    time: "18:00 pm - 20:00 pm",
-    duration: 2,
-    pricePerHour: 16000,
-    totalPrice: 32000
-  };
+  // Cargar datos de la reserva desde localStorage
+  useEffect(() => {
+    const savedData = localStorage.getItem('reservationData');
+    if (savedData) {
+      setReservationData(JSON.parse(savedData));
+    } else {
+      // Si no hay datos, redirigir al paso anterior
+      navigate(`/reservation/${courtId}/configuration`);
+    }
+  }, [courtId, navigate]);
 
   const handleSearch = (searchData) => {
     const params = new URLSearchParams();
@@ -33,9 +37,30 @@ export default function Step2Payment() {
     navigate(`/search?${params.toString()}`);
   };
 
-  const handleContinue = () => {
-    if (selectedPaymentMethod) {
-      navigate(`/reservation/${courtId}/confirmation`);
+  const handleContinue = async () => {
+    if (selectedPaymentMethod && reservationData) {
+      setLoading(true);
+      setError(null);
+      
+      try {
+        // Crear preferencia de pago en Mercado Pago
+        const response = await reservationService.createPaymentPreference(
+          reservationData.reservationId,
+          'Jugador' // TODO: Obtener nombre del usuario autenticado
+        );
+        
+        if (response.success) {
+          // Redirigir a Mercado Pago
+          window.location.href = response.data.initPoint;
+        } else {
+          setError('No se pudo crear la preferencia de pago. Intente nuevamente.');
+        }
+      } catch (error) {
+        console.error('Error creating payment preference:', error);
+        setError('Error al procesar el pago. Intente nuevamente.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -50,15 +75,15 @@ export default function Step2Payment() {
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Inicio
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Resultados
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Club del Sur
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textPrimary} ${TextStyles.textMedium} ${styles.breadcrumbItem}`}>
               Reservar
             </span>
@@ -87,13 +112,59 @@ export default function Step2Payment() {
                   Elegir método de pago
                 </h3>
                 <div className={styles.paymentMethods}>
-                  {/* Por ahora está vacío como se ve en la imagen */}
-                  <div className={styles.emptyState}>
-                    <p className={`${TextStyles.textSecondary} ${styles.emptyText}`}>
-                      Métodos de pago disponibles próximamente
+                  {reservationData && (
+                    <>
+                      {/* Pago Completo */}
+                      <div 
+                        className={`${styles.paymentMethod} ${selectedPaymentMethod === 'full' ? styles.selected : ''}`}
+                        onClick={() => setSelectedPaymentMethod('full')}
+                      >
+                        <div className={styles.paymentMethodHeader}>
+                          <h4 className={`${TextStyles.textPrimary} ${TextStyles.textMedium}`}>
+                            Pago Completo
+                          </h4>
+                          <span className={`${TextStyles.textPrimary} ${TextStyles.textBold} ${styles.price}`}>
+                            ${reservationData.totalAmount?.toLocaleString()} ARS
+                          </span>
+                        </div>
+                        <p className={`${TextStyles.textSecondary} ${styles.description}`}>
+                          Pagá el monto total ahora y asegurá tu reserva
+                        </p>
+                      </div>
+
+                      {/* Pago con Seña */}
+                      <div 
+                        className={`${styles.paymentMethod} ${selectedPaymentMethod === 'deposit' ? styles.selected : ''}`}
+                        onClick={() => setSelectedPaymentMethod('deposit')}
+                      >
+                        <div className={styles.paymentMethodHeader}>
+                          <h4 className={`${TextStyles.textPrimary} ${TextStyles.textMedium}`}>
+                            Pago con Seña
+                          </h4>
+                          <span className={`${TextStyles.textPrimary} ${TextStyles.textBold} ${styles.price}`}>
+                            ${reservationData.depositAmount?.toLocaleString()} ARS
+                          </span>
+                        </div>
+                        <p className={`${TextStyles.textSecondary} ${styles.description}`}>
+                          Pagá el 30% ahora y el resto al llegar al club
+                        </p>
+                        <div className={styles.depositInfo}>
+                          <p className={`${TextStyles.textSecondary} ${styles.depositText}`}>
+                            Resto a pagar: ${(reservationData.totalAmount - reservationData.depositAmount)?.toLocaleString()} ARS
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+                
+                {error && (
+                  <div className={styles.errorMessage}>
+                    <p className={`${TextStyles.textSecondary} ${styles.errorText}`}>
+                      {error}
                     </p>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Cancellation Policy */}
@@ -115,15 +186,16 @@ export default function Step2Payment() {
             {/* Right Column - Summary */}
             <div className={styles.summaryColumn}>
               <ReservationSummary 
-                courtName={reservationData.courtName}
-                sport={reservationData.sport}
-                date={reservationData.date}
-                time={reservationData.time}
-                duration={reservationData.duration}
-                pricePerHour={reservationData.pricePerHour}
-                totalPrice={reservationData.totalPrice}
+                courtName={reservationData?.courtName || "Club del Sur"}
+                sport={reservationData?.sport || "Fútbol"}
+                date={reservationData?.date || "Seleccionar fecha"}
+                time={reservationData?.time || "Seleccionar horario"}
+                duration={reservationData?.duration || 1}
+                pricePerHour={reservationData?.pricePerHour || 16000}
+                totalPrice={reservationData?.totalAmount || 16000}
                 onContinue={handleContinue}
-                canContinue={selectedPaymentMethod !== null}
+                canContinue={selectedPaymentMethod !== null && !loading}
+                loading={loading}
               />
             </div>
           </div>

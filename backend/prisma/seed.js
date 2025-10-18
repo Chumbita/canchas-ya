@@ -71,11 +71,15 @@ async function main() {
   try {
     const arena = await prisma.club.upsert({
       where: { email: 'arena@example.com' },
-      update: {},
+      update: {
+        name: 'Arena Fútbol',
+        location: '22 de Julio, F5302 La Rioja, Argentina',
+        status: 'approved',
+      },
       create: {
         name: 'Arena Fútbol',
         email: 'arena@example.com',
-        location: 'Buenos Aires, Argentina',
+        location: '22 de Julio, F5302 La Rioja, Argentina',
         status: 'approved',
       },
     });
@@ -87,11 +91,15 @@ async function main() {
   try {
     const carlos = await prisma.club.upsert({
       where: { email: 'carlos@example.com' },
-      update: {},
+      update: {
+        name: 'Carlos Fútbol',
+        location: 'David Gatica 1056, La Rioja, Argentina',
+        status: 'approved',
+      },
       create: {
         name: 'Carlos Fútbol',
         email: 'carlos@example.com',
-        location: 'Córdoba, Argentina',
+        location: 'David Gatica 1056, La Rioja, Argentina',
         status: 'approved',
       },
     });
@@ -103,11 +111,15 @@ async function main() {
   try {
     const osunlar = await prisma.club.upsert({
       where: { email: 'osunlar@example.com' },
-      update: {},
+      update: {
+        name: 'OSUNLaR',
+        location: 'Calle Los Tilos, Los Platanos esq, F5300 La Rioja, Argentina',
+        status: 'approved',
+      },
       create: {
         name: 'OSUNLaR',
         email: 'osunlar@example.com',
-        location: 'La Plata, Argentina',
+        location: 'Calle Los Tilos, Los Platanos esq, F5300 La Rioja, Argentina',
         status: 'approved',
       },
     });
@@ -119,11 +131,15 @@ async function main() {
   try {
     const leclub = await prisma.club.upsert({
       where: { email: 'leclub@example.com' },
-      update: {},
+      update: {
+        name: 'Le Club',
+        location: 'Vélez Sársfield 1126, F5300 La Rioja, Argentina',
+        status: 'approved',
+      },
       create: {
         name: 'Le Club',
         email: 'leclub@example.com',
-        location: 'Rosario, Argentina',
+        location: 'Vélez Sársfield 1126, F5300 La Rioja, Argentina',
         status: 'approved',
       },
     });
@@ -135,11 +151,15 @@ async function main() {
   try {
     const juan = await prisma.club.upsert({
       where: { email: 'juan@example.com' },
-      update: {},
+      update: {
+        name: 'Juan Canchas',
+        location: 'Av. Vernet Gdor 1881, F1881 La Rioja, Argentina',
+        status: 'approved',
+      },
       create: {
         name: 'Juan Canchas',
         email: 'juan@example.com',
-        location: 'Mendoza, Argentina',
+        location: 'Av. Vernet Gdor 1881, F1881 La Rioja, Argentina',
         status: 'approved',
       },
     });
@@ -151,48 +171,96 @@ async function main() {
   try {
     const campo = await prisma.club.upsert({
       where: { email: 'campo@example.com' },
-      update: {},
+      update: {
+        name: 'Club del Sur',
+        location: 'Av. Mártires de la Dictadura 0, B1704DIB La Rioja, Argentina',
+        status: 'approved',
+      },
       create: {
-        name: 'Campo Deportivo',
+        name: 'Club del Sur',
         email: 'campo@example.com',
-        location: 'Tucumán, Argentina',
+        location: 'Av. Mártires de la Dictadura 0, B1704DIB La Rioja, Argentina',
         status: 'approved',
       },
     });
     clubs.push(campo);
   } catch (error) {
-    console.log('Campo Deportivo error:', error.message);
+    console.log('Club del Sur error:', error.message);
   }
 
   try {
     const norte = await prisma.club.upsert({
       where: { email: 'norte@example.com' },
-      update: {},
+      update: {
+        name: 'Chelcos FC',
+        location: '2455 Apostol Andrés, La Rioja, Argentina',
+        status: 'approved',
+      },
       create: {
-        name: 'Canchas del Norte',
+        name: 'Chelcos FC',
         email: 'norte@example.com',
-        location: 'Salta, Argentina',
+        location: '2455 Apostol Andrés, La Rioja, Argentina',
         status: 'approved',
       },
     });
     clubs.push(norte);
   } catch (error) {
-    console.log('Canchas del Norte error:', error.message);
+    console.log('Chelcos FC error:', error.message);
   }
 
   console.log('✅ Clubs created');
 
-  // Crear fotos para los clubs
+  // Crear fotos para los clubs con imágenes específicas por deportesd
+  const clubSportImages = {
+    'Arena Fútbol': [
+      'https://images.unsplash.com/photo-1626248801379-51a0748a5f96?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170', // Fútbol (imagen principal)
+      'https://images.unsplash.com/photo-1519861531473-9200262188bf?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1171', // Básquet
+      'https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170'  // Voleibol
+    ],
+    'Carlos Fútbol': [
+      'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&h=600&fit=crop', // Fútbol (imagen principal)
+      'https://images.unsplash.com/photo-1594623274890-6b45ce7cf44a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170'  // Básquet
+    ],
+    'OSUNLaR': [
+      'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&h=600&fit=crop', // Fútbol (imagen principal)
+      'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop'  // Tenis
+    ],
+    'Le Club': [
+      'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&h=600&fit=crop', // Fútbol (imagen principal)
+      'https://images.unsplash.com/photo-1543633550-f431af584afd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170', // Básquet
+      'https://images.unsplash.com/photo-1731939762362-90e98b56b3d9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1171'  // Voleibol
+    ],
+    'Juan Canchas': [
+      'https://images.unsplash.com/photo-1589487391730-58f20eb2c308?w=800&h=600&fit=crop', // Fútbol (imagen principal)
+      'https://images.unsplash.com/photo-1737476990369-9cf356085909?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170'  // Paddle
+    ],
+    'Club del Sur': [
+      'https://images.unsplash.com/photo-1624880357913-a8539238245b?w=800&h=600&fit=crop', // Fútbol (imagen principal)
+      'https://images.unsplash.com/photo-1540712260984-d701320a8909?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1331'  // Básquet
+    ],
+    'Chelcos FC': [
+      'https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=800&h=600&fit=crop', // Fútbol (imagen principal)
+      'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170', // Tenis
+      'https://images.unsplash.com/photo-1486286701208-1d58e9338013?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170'  // Paddle
+    ]
+  };
+
+  // Eliminar fotos existentes y crear nuevas
+  await prisma.photo.deleteMany({});
+  
   const photos = [];
   for (const club of clubs) {
-    photos.push(
-      prisma.photo.create({
-        data: {
-          clubId: club.id,
-          url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=600&fit=crop',
-        },
-      })
-    );
+    const clubImages = clubSportImages[club.name] || [];
+    for (const imageUrl of clubImages) {
+      photos.push(
+        prisma.photo.create({
+          data: {
+            clubId: club.id,
+            url: imageUrl,
+          },
+        })
+      );
+    }
   }
   await Promise.all(photos);
 
@@ -201,17 +269,24 @@ async function main() {
   // Crear horarios para los clubs (todos abren de 17:00 a 00:00)
   const schedules = [];
   for (const club of clubs) {
-    for (let day = 0; day < 7; day++) {
-      schedules.push(
-        prisma.clubSchedule.create({
-          data: {
-            clubId: club.id,
-            dayOfWeek: day,
-            openTime: '17:00',
-            closeTime: '00:00',
-          },
-        })
-      );
+    // Verificar si ya existen horarios para este club
+    const existingSchedule = await prisma.clubSchedule.findFirst({
+      where: { clubId: club.id }
+    });
+    
+    if (!existingSchedule) {
+      for (let day = 0; day < 7; day++) {
+        schedules.push(
+          prisma.clubSchedule.create({
+            data: {
+              clubId: club.id,
+              dayOfWeek: day,
+              openTime: '17:00',
+              closeTime: '00:00',
+            },
+          })
+        );
+      }
     }
   }
   await Promise.all(schedules);
@@ -228,8 +303,8 @@ async function main() {
       ['OSUNLaR', ['Fútbol', 'Tenis']],
       ['Le Club', ['Fútbol', 'Básquet', 'Voleibol']],
       ['Juan Canchas', ['Fútbol', 'Paddle']],
-      ['Campo Deportivo', ['Fútbol', 'Básquet']],
-      ['Canchas del Norte', ['Fútbol', 'Tenis', 'Paddle']],
+      ['Club del Sur', ['Fútbol', 'Básquet']],
+      ['Chelcos FC', ['Fútbol', 'Tenis', 'Paddle']],
     ];
 
     const clubSportData = clubSports.find(cs => cs[0] === club.name);
@@ -237,15 +312,25 @@ async function main() {
       for (const sportName of clubSportData[1]) {
         const sport = sports.find(s => s.name === sportName);
         if (sport) {
-          sportsByClub.push(
-            prisma.sportsByClub.create({
-              data: {
-                clubId: club.id,
-                sportId: sport.id,
-                isActive: true,
-              },
-            })
-          );
+          // Verificar si ya existe esta relación
+          const existingRelation = await prisma.sportsByClub.findFirst({
+            where: {
+              clubId: club.id,
+              sportId: sport.id,
+            }
+          });
+          
+          if (!existingRelation) {
+            sportsByClub.push(
+              prisma.sportsByClub.create({
+                data: {
+                  clubId: club.id,
+                  sportId: sport.id,
+                  isActive: true,
+                },
+              })
+            );
+          }
         }
       }
     }
@@ -254,27 +339,27 @@ async function main() {
 
   console.log('✅ Sports by Club created');
 
-  // Crear canchas para cada club
+  // Eliminar todas las canchas existentes y crear solo una por club
+  await prisma.court.deleteMany({});
+  
   const courts = [];
   for (const club of clubs) {
-    const courtCount = Math.floor(Math.random() * 3) + 2; // 2-4 canchas por club
-    for (let i = 1; i <= courtCount; i++) {
-      const sportsByClubData = await prisma.sportsByClub.findFirst({
-        where: { clubId: club.id },
-      });
+    // Solo una cancha por club para evitar duplicados
+    const sportsByClubData = await prisma.sportsByClub.findFirst({
+      where: { clubId: club.id },
+    });
 
-      if (sportsByClubData) {
-        courts.push(
-          prisma.court.create({
-            data: {
-              idSportClub: sportsByClubData.id,
-              courtNumber: i,
-              pricePerHour: Math.floor(Math.random() * 20000) + 10000, // $10,000 - $30,000
-              isAvailable: true,
-            },
-          })
-        );
-      }
+    if (sportsByClubData) {
+      courts.push(
+        prisma.court.create({
+          data: {
+            idSportClub: sportsByClubData.id,
+            courtNumber: 1,
+            pricePerHour: Math.floor(Math.random() * 20000) + 10000, // $10,000 - $30,000
+            isAvailable: true,
+          },
+        })
+      );
     }
   }
   await Promise.all(courts);
@@ -283,24 +368,30 @@ async function main() {
 
   // Crear algunos jugadores de prueba
   const players = await Promise.all([
-    prisma.player.create({
-      data: {
+    prisma.player.upsert({
+      where: { email: 'juan.perez@example.com' },
+      update: {},
+      create: {
         first_name: 'Juan',
         last_name: 'Pérez',
         email: 'juan.perez@example.com',
         picture: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
       },
     }),
-    prisma.player.create({
-      data: {
+    prisma.player.upsert({
+      where: { email: 'maria.gonzalez@example.com' },
+      update: {},
+      create: {
         first_name: 'María',
         last_name: 'González',
         email: 'maria.gonzalez@example.com',
         picture: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
       },
     }),
-    prisma.player.create({
-      data: {
+    prisma.player.upsert({
+      where: { email: 'carlos.lopez@example.com' },
+      update: {},
+      create: {
         first_name: 'Carlos',
         last_name: 'López',
         email: 'carlos.lopez@example.com',

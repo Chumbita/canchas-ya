@@ -50,12 +50,61 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .courtImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Carousel Styles */
+.carouselButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  z-index: 2;
+}
+
+.carouselButton:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.carouselIndicators {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.indicator.active {
+  background: white;
 }
 
 .detailsColumn {
@@ -170,6 +219,11 @@
 
 .sportIcon {
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
 }
 
 .sportName {
@@ -233,6 +287,11 @@
 
 .serviceIcon {
   font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
 }
 
 .serviceName {
@@ -302,26 +361,44 @@
 }
 
 .mapContainer {
-  width: 100%;
-  height: 300px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.mapPlaceholder {
-  width: 100%;
-  height: 100%;
-  background: #f8f9fa;
+.mapAddress {
   display: flex;
   align-items: center;
-  justify-content: center;
-  border: 2px dashed #e0e0e0;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+}
+
+.mapIcon {
+  font-size: 1.2rem;
 }
 
 .mapText {
-  font-size: 1rem;
-  color: #666;
+  font-size: 0.9rem;
+  color: #495057;
+  font-weight: 500;
+  flex: 1;
+}
+
+.mapLink {
+  font-size: 0.85rem;
+  color: #007bff;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.mapLink:hover {
+  background-color: #e3f2fd;
+  text-decoration: underline;
 }
 
 .loadingContainer {

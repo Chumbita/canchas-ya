@@ -2,6 +2,12 @@ import React from "react";
 import styles from "./ReservationSummary.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
 
+// Importar iconos locales
+import ClubIcon from "../../assets/icons/club-icon.svg";
+import DeporteIcon from "../../assets/icons/deporte-icon.svg";
+import FechaIcon from "../../assets/icons/fecha-icon.svg";
+import HorarioIcon from "../../assets/icons/horario-icon.svg";
+
 export default function ReservationSummary({ 
   courtName, 
   sport, 
@@ -11,7 +17,8 @@ export default function ReservationSummary({
   pricePerHour, 
   totalPrice, 
   onContinue, 
-  canContinue 
+  canContinue,
+  loading = false
 }) {
   return (
     <div className={styles.summaryContainer}>
@@ -22,28 +29,36 @@ export default function ReservationSummary({
         </h3>
         <div className={styles.reservationDetails}>
           <div className={styles.detailItem}>
-            <span className={styles.detailIcon}>🏠</span>
+            <span className={styles.detailIcon}>
+              <img src={ClubIcon} alt="Club" width="20" height="20" style={{ objectFit: 'contain' }} />
+            </span>
             <div className={styles.detailContent}>
               <span className={styles.detailLabel}>Club deportivo:</span>
               <span className={styles.detailValue}>{courtName}</span>
             </div>
           </div>
           <div className={styles.detailItem}>
-            <span className={styles.detailIcon}>🏆</span>
+            <span className={styles.detailIcon}>
+              <img src={DeporteIcon} alt="Deporte" width="20" height="20" style={{ objectFit: 'contain' }} />
+            </span>
             <div className={styles.detailContent}>
               <span className={styles.detailLabel}>Deporte:</span>
               <span className={styles.detailValue}>{sport}</span>
             </div>
           </div>
           <div className={styles.detailItem}>
-            <span className={styles.detailIcon}>📅</span>
+            <span className={styles.detailIcon}>
+              <img src={FechaIcon} alt="Fecha" width="20" height="20" style={{ objectFit: 'contain' }} />
+            </span>
             <div className={styles.detailContent}>
               <span className={styles.detailLabel}>Fecha:</span>
               <span className={styles.detailValue}>{date}</span>
             </div>
           </div>
           <div className={styles.detailItem}>
-            <span className={styles.detailIcon}>🕐</span>
+            <span className={styles.detailIcon}>
+              <img src={HorarioIcon} alt="Hora" width="20" height="20" style={{ objectFit: 'contain' }} />
+            </span>
             <div className={styles.detailContent}>
               <span className={styles.detailLabel}>Hora:</span>
               <span className={styles.detailValue}>{time}</span>
@@ -83,7 +98,7 @@ export default function ReservationSummary({
         onClick={onContinue}
         disabled={!canContinue}
       >
-        Continuar
+        {loading ? 'Procesando...' : 'Continuar'}
       </button>
     </div>
   );

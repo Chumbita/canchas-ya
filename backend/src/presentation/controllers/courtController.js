@@ -138,7 +138,11 @@ export const getCourtById = async (req, res) => {
     const club = court.sportsByClub.club;
     const sports = club.sportsByCLub.map(sbc => ({
       name: sbc.sport.name,
-      icon: sbc.sport.name === 'Fútbol' ? '⚽' : sbc.sport.name === 'Básquet' ? '🏀' : '🏓',
+      icon: sbc.sport.name === 'Fútbol' ? '⚽' : 
+            sbc.sport.name === 'Básquet' ? '🏀' : 
+            sbc.sport.name === 'Tenis' ? '🎾' : 
+            sbc.sport.name === 'Paddle' ? '🏓' : 
+            sbc.sport.name === 'Voleibol' ? '🏐' : '⚽',
       active: false
     }));
     
@@ -162,6 +166,7 @@ export const getCourtById = async (req, res) => {
       sports: sports,
       price: court.pricePerHour,
       image: club.photos.length > 0 ? club.photos[0].url : 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=600&fit=crop',
+      images: club.photos.map(photo => photo.url),
       services: [
         { name: "Baños", icon: "🚻" },
         { name: "Vestuarios", icon: "👕" },
@@ -180,7 +185,7 @@ export const getCourtById = async (req, res) => {
       },
       location: {
         address: club.location,
-        coordinates: { lat: -34.6037, lng: -58.3816 }
+        coordinates: { lat: -29.4131, lng: -66.8563 }
       },
       description: `${club.name} es un complejo deportivo de primer nivel con canchas de fútbol de césped sintético de última generación. Contamos con iluminación LED de alta eficiencia, vestuarios modernos y todas las comodidades para que disfrutes de tu deporte favorito.`
     };

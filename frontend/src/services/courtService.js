@@ -15,7 +15,13 @@ export const courtService = {
         queryParams.append('ratings', filters.ratings.join(','));
       }
 
-      const response = await fetch(`${API_BASE_URL}/courts?${queryParams.toString()}`);
+      const timestamp = new Date().getTime();
+      const response = await fetch(`${API_BASE_URL}/courts?${queryParams.toString()}&t=${timestamp}`, {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -32,7 +38,13 @@ export const courtService = {
   // Obtener una cancha específica por ID
   async getCourtById(id) {
     try {
-      const response = await fetch(`${API_BASE_URL}/courts/${id}`);
+      const timestamp = new Date().getTime();
+      const response = await fetch(`${API_BASE_URL}/courts/${id}?t=${timestamp}`, {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

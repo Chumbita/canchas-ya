@@ -4,6 +4,48 @@ import styles from "./CourtDetail.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
 import QuickSearchBar from "../../components/common/QuickSearchBar";
 import { courtService } from "../../services/courtService";
+import { generateMapEmbedUrl, generateMapUrl } from "../../config/maps";
+
+// Importar iconos
+import SoccerBallIcon from "../../assets/icons/soccer-ball.svg";
+import PaddleIcon from "../../assets/icons/paddle-icon.png";
+import BasketballIcon from "../../assets/icons/basketball-icon.png";
+import VolleyballIcon from "../../assets/icons/volleyball-icon.svg";
+import TenisIcon from "../../assets/icons/tenis-icon.png";
+import BanosIcon from "../../assets/icons/baños-icon.png";
+import VestuariosIcon from "../../assets/icons/vestuarios-icon.png";
+import DuchasIcon from "../../assets/icons/duchas-icon.png";
+import WifiIcon from "../../assets/icons/wifi-icon.png";
+import AsadoresIcon from "../../assets/icons/asadores-icon.png";
+import KioscoIcon from "../../assets/icons/kiosco-icon.png";
+import TorneosIcon from "../../assets/icons/torneos-icon.png";
+import FavoritosIcon from "../../assets/icons/favoritos-icon.svg";
+
+// Helper functions para mapear iconos
+const getSportIcon = (iconName) => {
+  const iconMap = {
+    '⚽': <img src={SoccerBallIcon} alt="Fútbol" width="24" height="24" style={{ objectFit: 'contain' }} />,
+    '🏓': <img src={PaddleIcon} alt="Pádel" width="24" height="24" style={{ objectFit: 'contain' }} />,
+    '🏀': <img src={BasketballIcon} alt="Básquet" width="24" height="24" style={{ objectFit: 'contain' }} />,
+    '🏐': <img src={VolleyballIcon} alt="Voleibol" width="24" height="24" style={{ objectFit: 'contain' }} />,
+    '🎾': <img src={TenisIcon} alt="Tenis" width="24" height="24" style={{ objectFit: 'contain' }} />
+  };
+  
+  return iconMap[iconName] || <img src={SoccerBallIcon} alt="Deporte" width="24" height="24" style={{ objectFit: 'contain' }} />;
+};
+
+const getServiceIcon = (iconName) => {
+  const iconMap = {
+    '🚻': <img src={BanosIcon} alt="Baños" width="28" height="28" style={{ objectFit: 'contain' }} />,
+    '👕': <img src={VestuariosIcon} alt="Vestuarios" width="28" height="28" style={{ objectFit: 'contain' }} />,
+    '🚿': <img src={DuchasIcon} alt="Duchas" width="28" height="28" style={{ objectFit: 'contain' }} />,
+    '📶': <img src={WifiIcon} alt="Wi-Fi" width="28" height="28" style={{ objectFit: 'contain' }} />,
+    '🔥': <img src={AsadoresIcon} alt="Asadores" width="28" height="28" style={{ objectFit: 'contain' }} />,
+    '🏪': <img src={KioscoIcon} alt="Kiosco" width="28" height="28" style={{ objectFit: 'contain' }} />,
+    '🏆': <img src={TorneosIcon} alt="Torneos" width="28" height="28" style={{ objectFit: 'contain' }} />
+  };
+  return iconMap[iconName] || <img src={KioscoIcon} alt="Servicio" width="28" height="28" style={{ objectFit: 'contain' }} />;
+};
 
 // Mock data para detalles de cancha
 const mockCourtDetails = {
@@ -13,20 +55,20 @@ const mockCourtDetails = {
   reviewCount: 125,
   price: 16000,
   image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=600&fit=crop",
-  sports: [
-    { name: "Fútbol", icon: "⚽", active: false },
-    { name: "Pádel", icon: "🏓", active: false },
-    { name: "Básquet", icon: "🏀", active: false }
-  ],
-  services: [
-    { name: "Baños", icon: "🚻" },
-    { name: "Vestuarios", icon: "👕" },
-    { name: "Duchas", icon: "🚿" },
-    { name: "Wi-Fi", icon: "📶" },
-    { name: "Asadores", icon: "🔥" },
-    { name: "Kiosco", icon: "🏪" },
-    { name: "Torneos", icon: "🏆" }
-  ],
+      sports: [
+        { name: "Fútbol", icon: "⚽", active: false },
+        { name: "Pádel", icon: "🏓", active: false },
+        { name: "Básquet", icon: "🏀", active: false }
+      ],
+      services: [
+        { name: "Baños", icon: "🚻" },
+        { name: "Vestuarios", icon: "👕" },
+        { name: "Duchas", icon: "🚿" },
+        { name: "Wi-Fi", icon: "📶" },
+        { name: "Asadores", icon: "🔥" },
+        { name: "Kiosco", icon: "🏪" },
+        { name: "Torneos", icon: "🏆" }
+      ],
   ratings: {
     courts: 4.5,
     bathrooms: 4.0,
@@ -35,8 +77,8 @@ const mockCourtDetails = {
     lighting: 4.0
   },
   location: {
-    address: "Av. del Sur 1234, Buenos Aires",
-    coordinates: { lat: -34.6037, lng: -58.3816 }
+    address: "22 de Julio, F5302 La Rioja, Argentina",
+    coordinates: { lat: -29.4131, lng: -66.8563 }
   },
   description: "Club del Sur es un complejo deportivo de primer nivel con canchas de fútbol de césped sintético de última generación. Contamos con iluminación LED de alta eficiencia, vestuarios modernos y todas las comodidades para que disfrutes de tu deporte favorito."
 };
@@ -47,21 +89,28 @@ export default function CourtDetail() {
   const [court, setCourt] = useState(mockCourtDetails);
   const [loading, setLoading] = useState(true);
   const [selectedSport, setSelectedSport] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     const loadCourtDetails = async () => {
       try {
         setLoading(true);
         const response = await courtService.getCourtById(id);
-        if (response.success) {
+        if (response.success && response.data) {
           setCourt(response.data);
+          // Cargar imágenes del carrusel basadas en los deportes del club
+          setImages(response.data.images || [response.data.image]);
         } else {
           // Fallback a datos mock
+          console.log('Using mock data as fallback for court details');
           setCourt(mockCourtDetails);
+          setImages([mockCourtDetails.image]);
         }
       } catch (error) {
         console.error('Error loading court details:', error);
         setCourt(mockCourtDetails);
+        setImages([mockCourtDetails.image]);
       } finally {
         setLoading(false);
       }
@@ -85,6 +134,14 @@ export default function CourtDetail() {
 
   const handleBackToResults = () => {
     navigate('/search');
+  };
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
   if (loading) {
@@ -111,11 +168,11 @@ export default function CourtDetail() {
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Inicio
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Resultados
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textPrimary} ${TextStyles.textMedium} ${styles.breadcrumbItem}`}>
               {court.name}
             </span>
@@ -123,10 +180,41 @@ export default function CourtDetail() {
 
           {/* Main Content */}
           <div className={styles.contentLayout}>
-            {/* Left Column - Image */}
+            {/* Left Column - Image Carousel */}
             <div className={styles.imageColumn}>
               <div className={styles.imageContainer}>
-                <img src={court.image} alt={court.name} className={styles.courtImage} />
+                <img 
+                  src={images[currentImageIndex]} 
+                  alt={court.name} 
+                  className={styles.courtImage} 
+                />
+                {images.length > 1 && (
+                  <>
+                    <button 
+                      className={styles.carouselButton} 
+                      onClick={prevImage}
+                      style={{ left: '10px' }}
+                    >
+                      ‹
+                    </button>
+                    <button 
+                      className={styles.carouselButton} 
+                      onClick={nextImage}
+                      style={{ right: '10px' }}
+                    >
+                      ›
+                    </button>
+                    <div className={styles.carouselIndicators}>
+                      {images.map((_, index) => (
+                        <button
+                          key={index}
+                          className={`${styles.indicator} ${index === currentImageIndex ? styles.active : ''}`}
+                          onClick={() => setCurrentImageIndex(index)}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
@@ -138,7 +226,7 @@ export default function CourtDetail() {
                     {court.name}
                   </h1>
                   <button className={styles.favoriteButton}>
-                    ❤️
+                    <img src={FavoritosIcon} alt="Favoritos" width="20" height="20" style={{ objectFit: 'contain' }} />
                   </button>
                 </div>
                 <div className={styles.rating}>
@@ -167,7 +255,7 @@ export default function CourtDetail() {
                       className={`${styles.sportButton} ${selectedSport === sport.name ? styles.active : ''}`}
                       onClick={() => setSelectedSport(sport.name)}
                     >
-                      <span className={styles.sportIcon}>{sport.icon}</span>
+                      <span className={styles.sportIcon}>{getSportIcon(sport.icon)}</span>
                       <span className={styles.sportName}>{sport.name}</span>
                     </button>
                   ))}
@@ -199,7 +287,7 @@ export default function CourtDetail() {
             <div className={styles.servicesList}>
               {court.services.map((service, index) => (
                 <div key={index} className={styles.serviceItem}>
-                  <span className={styles.serviceIcon}>{service.icon}</span>
+                  <span className={styles.serviceIcon}>{getServiceIcon(service.icon)}</span>
                   <span className={styles.serviceName}>{service.name}</span>
                 </div>
               ))}
@@ -273,11 +361,30 @@ export default function CourtDetail() {
 
             <div className={styles.mapColumn}>
               <h3 className={`${TextStyles.textPrimary} ${TextStyles.textMedium} ${styles.sectionTitle}`}>
-                Mapa
+                Ubicación
               </h3>
               <div className={styles.mapContainer}>
-                <div className={styles.mapPlaceholder}>
-                  <span className={styles.mapText}>📍 {court.location.address}</span>
+                <iframe
+                  src={generateMapEmbedUrl(court.location.address)}
+                  width="100%"
+                  height="300"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={`Mapa de ${court.name}`}
+                ></iframe>
+                <div className={styles.mapAddress}>
+                  <span className={styles.mapIcon}>📍</span>
+                  <span className={styles.mapText}>{court.location.address}</span>
+                  <a 
+                    href={generateMapUrl(court.location.address)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.mapLink}
+                  >
+                    Ver en Google Maps
+                  </a>
                 </div>
               </div>
             </div>

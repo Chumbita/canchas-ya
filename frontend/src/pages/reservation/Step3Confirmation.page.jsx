@@ -34,15 +34,15 @@ export default function Step3Confirmation() {
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Inicio
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Resultados
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Club del Sur
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textPrimary} ${TextStyles.textMedium} ${styles.breadcrumbItem}`}>
               Reservar
             </span>

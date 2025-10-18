@@ -5,6 +5,7 @@ import TextStyles from "../../styles/base/Text.module.css";
 import QuickSearchBar from "../../components/common/QuickSearchBar";
 import ProgressSteps from "../../components/reservation/ProgressSteps";
 import ReservationSummary from "../../components/reservation/ReservationSummary";
+import { reservationService } from "../../services/reservationService";
 
 export default function Step1Configuration() {
   const { courtId } = useParams();
@@ -67,9 +68,50 @@ export default function Step1Configuration() {
     navigate(`/search?${params.toString()}`);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (selectedDate && selectedCourtSize && selectedCourtNumber && selectedTimeSlot) {
-      navigate(`/reservation/${courtId}/payment`);
+      try {
+        // Calcular fechas y horarios
+        const startTime = new Date(selectedDate.date);
+        const [startHour] = selectedTimeSlot.split(' - ')[0].split(':');
+        startTime.setHours(parseInt(startHour), 0, 0, 0);
+        
+        const endTime = new Date(startTime);
+        endTime.setHours(startTime.getHours() + selectedDuration);
+        
+        // Datos de la reserva
+        const reservationData = {
+          playerId: 1, // TODO: Obtener del contexto de autenticación
+          courtId: parseInt(courtId),
+          reservedDate: selectedDate.date.toISOString(),
+          startTime: startTime.toISOString(),
+          endTime: endTime.toISOString(),
+          totalAmount: getTotalPrice(),
+          depositAmount: getTotalPrice() * 0.3, // 30% de seña
+          paymentMethod: 'full', // TODO: Permitir selección
+          playerEmail: 'player@example.com', // TODO: Obtener del contexto
+          playerPhone: '+5491234567890' // TODO: Obtener del contexto
+        };
+
+        // Bloquear la reserva temporalmente
+        const response = await reservationService.blockReservation(reservationData);
+        
+        if (response.success) {
+          // Guardar datos en localStorage para el siguiente paso
+          localStorage.setItem('reservationData', JSON.stringify({
+            ...reservationData,
+            reservationId: response.data.reservationId,
+            blockedUntil: response.data.blockedUntil
+          }));
+          
+          navigate(`/reservation/${courtId}/payment`);
+        } else {
+          alert('No se pudo bloquear la reserva. Intente nuevamente.');
+        }
+      } catch (error) {
+        console.error('Error blocking reservation:', error);
+        alert('Error al procesar la reserva. Intente nuevamente.');
+      }
     }
   };
 
@@ -100,15 +142,15 @@ export default function Step1Configuration() {
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Inicio
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Resultados
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Club del Sur
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textPrimary} ${TextStyles.textMedium} ${styles.breadcrumbItem}`}>
               Reservar
             </span>

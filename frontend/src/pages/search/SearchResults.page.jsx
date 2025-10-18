@@ -61,7 +61,7 @@ const mockCourts = [
   },
   {
     id: 6,
-    name: "Campo Deportivo",
+    name: "Club del Sur",
     rating: 4.6,
     sports: ["Fútbol", "Básquet"],
     timeRange: "17:00pm - 00:00am",
@@ -71,7 +71,7 @@ const mockCourts = [
   },
   {
     id: 7,
-    name: "Canchas del Norte",
+    name: "Chelcos FC",
     rating: 4.4,
     sports: ["Fútbol", "Tenis", "Paddle"],
     timeRange: "17:00pm - 00:00am",
@@ -109,11 +109,12 @@ export default function SearchResults() {
         };
 
         const response = await courtService.getCourts(apiFilters);
-        if (response.success) {
+        if (response.success && response.data && response.data.length > 0) {
           setCourts(response.data);
           setFilteredCourts(response.data);
         } else {
           // Fallback a datos mock si la API falla
+          console.log('Using mock data as fallback');
           setCourts(mockCourts);
           setFilteredCourts(mockCourts);
         }
@@ -202,7 +203,7 @@ export default function SearchResults() {
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
               Inicio
             </span>
-            <span className={styles.breadcrumbSeparator}> > </span>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
             <span className={`${TextStyles.textPrimary} ${TextStyles.textMedium} ${styles.breadcrumbItem}`}>
               Resultado
             </span>

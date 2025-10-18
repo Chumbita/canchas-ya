@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
+import ButtonStyles from "../../styles/base/Button.module.css";
 import ClockFeatureIcon from "../../assets/icons/clock-feature.svg";
 import CreditCardIcon from "../../assets/icons/credit-card.svg";
 import CheckIcon from "../../assets/icons/check-24-7.svg";
@@ -17,15 +18,7 @@ export default function Home() {
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const searchData = {
-      sport: formData.get('sport'),
-      date: formData.get('date'),
-      time: formData.get('time')
-    };
-    
+  const handleSearch = (searchData) => {
     // Navegar a la página de resultados con los parámetros de búsqueda
     const params = new URLSearchParams();
     if (searchData.sport) params.set('sport', searchData.sport);

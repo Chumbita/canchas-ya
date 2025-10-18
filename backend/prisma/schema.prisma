@@ -66,6 +66,20 @@ model Reservation {
   startTime          DateTime
   endTime            DateTime
   status              String                @db.VarChar(255)
+  
+  // Campos para el sistema de pagos
+  totalAmount        Float?
+  depositAmount      Float?
+  paymentMethod      String?               @db.VarChar(50) // "full" o "deposit"
+  paymentStatus      String                @default("pending") // "pending", "paid", "failed", "cancelled"
+  mercadoPagoId      String?               @unique @db.VarChar(255)
+  blockedUntil       DateTime?             // Para el bloqueo temporal de 10 minutos
+  paymentAttempts    Int                   @default(0)
+  receiptUrl         String?               @db.VarChar(500)
+  
+  // Campos para notificaciones
+  playerEmail        String?               @db.VarChar(255)
+  playerPhone        String?               @db.VarChar(20)
 
   player              Player                @relation(fields: [playerId], references: [id])
   court               Court                 @relation(fields: [courtId], references: [id])

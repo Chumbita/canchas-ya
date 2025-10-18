@@ -7,6 +7,8 @@ import CourtDetail from "../pages/court/CourtDetail.page";
 import Step1Configuration from "../pages/reservation/Step1Configuration.page";
 import Step2Payment from "../pages/reservation/Step2Payment.page";
 import Step3Confirmation from "../pages/reservation/Step3Confirmation.page";
+import PaymentSuccess from "../pages/reservation/PaymentSuccess.page";
+import PaymentFailure from "../pages/reservation/PaymentFailure.page";
 import ClubLogin from "../pages/auth/ClubLogin.page";
 import ClubRegister from "../pages/auth/ClubRegister.page";
 import VerifyOtp from "../pages/auth/VerifyOtp.page";
@@ -33,6 +35,8 @@ export default function AppRouter() {
           <Route path="/reservation/:courtId/configuration" element={<Step1Configuration />}/>
           <Route path="/reservation/:courtId/payment" element={<Step2Payment />}/>
           <Route path="/reservation/:courtId/confirmation" element={<Step3Confirmation />}/>
+          <Route path="/reservation/success" element={<PaymentSuccess />}/>
+          <Route path="/reservation/payment-failure" element={<PaymentFailure />}/>
         </Route>
         <Route element={<HeaderOnlyLayout />}>
           <Route path="/club/login" element={<ClubLogin />}/>
