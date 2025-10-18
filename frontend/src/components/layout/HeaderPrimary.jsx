@@ -44,9 +44,7 @@ export default function HeaderPrimary() {
     logout();
     navigate("/");
   };
-
-  console.log(user);
-
+  
   return (
     <div className={pageStyle.header}>
       <div className={pageStyle.content}>
@@ -55,16 +53,23 @@ export default function HeaderPrimary() {
         >
           CanchasYa
         </h1>
-
         {/* Si el usuario ya está logueado, mostrar avatar y menú */}
         {user ? (
           <div className={pageStyle["header-user"]}>
             <div className={pageStyle["user-icon__circle"]}>
-              <p>
-                {role === "player"
-                  ? user?.first_name?.charAt(0) || "?"
-                  : user?.name?.charAt(0) || "?"}
-              </p>
+              {role === "player" && user && user.picture ? (
+                <img
+                  src={user.picture}
+                  alt="User Avatar"
+                  className={pageStyle["user-avatar"]}
+                />
+              ) : (
+                <p>
+                  {role === "player"
+                    ? user?.first_name?.charAt(0) || "?"
+                    : user?.name?.charAt(0) || "?"}
+                </p>
+              )}
             </div>
             <span
               className={`${textStyle["text-sm"]} ${textStyle["text-primary"]} ${textStyle["text-medium"]}`}

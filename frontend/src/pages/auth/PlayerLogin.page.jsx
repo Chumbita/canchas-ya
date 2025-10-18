@@ -44,7 +44,6 @@ export default function PlayerLogin() {
         if (response) {
           login(response.player, response.token, "player");
           navigate("/", { replace: true }); // Aplicar lógica para determinar si la redirección es a "/" o devolver al usuario en el proceso de reserva.
-          console.log("Google login successful: ", response);
         }
       } catch (error) {
         console.error("Error during Google login:", error);
