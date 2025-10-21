@@ -3,9 +3,12 @@ import btnStyle from "../../styles/base/Button.module.css";
 import textStyle from "../../styles/base/Text.module.css";
 import underReviewIcon from "../../assets/icons/under-review-icon.svg"
 import rejectedIcon from "../../assets/icons/rejected-icon.svg"
+import { useAuth } from "../../context/AuthContext";
 
-export default function Status({ status }) {
-  status = "rejected"
+export default function Status() {
+  const { user } = useAuth();
+  const status = user?.status;
+
   const requestUnderReview = {
     icon: underReviewIcon,
     title: "Tu solicitud está en proceso",

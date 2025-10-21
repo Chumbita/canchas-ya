@@ -14,27 +14,20 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
+ * Model Club
+ * 
+ */
+export type Club = $Result.DefaultSelection<Prisma.$ClubPayload>
+/**
  * Model Player
  * 
  */
 export type Player = $Result.DefaultSelection<Prisma.$PlayerPayload>
-
 /**
- * Enums
+ * Model OtpCode
+ * 
  */
-export namespace $Enums {
-  export const Role: {
-  JUGADOR: 'JUGADOR',
-  CLUB: 'CLUB'
-};
-
-export type Role = (typeof Role)[keyof typeof Role]
-
-}
-
-export type Role = $Enums.Role
-
-export const Role: typeof $Enums.Role
+export type OtpCode = $Result.DefaultSelection<Prisma.$OtpCodePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -43,8 +36,8 @@ export const Role: typeof $Enums.Role
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Players
- * const players = await prisma.player.findMany()
+ * // Fetch zero or more Clubs
+ * const clubs = await prisma.club.findMany()
  * ```
  *
  *
@@ -64,8 +57,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Players
-   * const players = await prisma.player.findMany()
+   * // Fetch zero or more Clubs
+   * const clubs = await prisma.club.findMany()
    * ```
    *
    *
@@ -155,6 +148,16 @@ export class PrismaClient<
   }>>
 
       /**
+   * `prisma.club`: Exposes CRUD operations for the **Club** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Clubs
+    * const clubs = await prisma.club.findMany()
+    * ```
+    */
+  get club(): Prisma.ClubDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.player`: Exposes CRUD operations for the **Player** model.
     * Example usage:
     * ```ts
@@ -163,6 +166,16 @@ export class PrismaClient<
     * ```
     */
   get player(): Prisma.PlayerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.otpCode`: Exposes CRUD operations for the **OtpCode** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OtpCodes
+    * const otpCodes = await prisma.otpCode.findMany()
+    * ```
+    */
+  get otpCode(): Prisma.OtpCodeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -603,7 +616,9 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    Player: 'Player'
+    Club: 'Club',
+    Player: 'Player',
+    OtpCode: 'OtpCode'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -622,10 +637,84 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "player"
+      modelProps: "club" | "player" | "otpCode"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      Club: {
+        payload: Prisma.$ClubPayload<ExtArgs>
+        fields: Prisma.ClubFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ClubFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClubPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ClubFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClubPayload>
+          }
+          findFirst: {
+            args: Prisma.ClubFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClubPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ClubFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClubPayload>
+          }
+          findMany: {
+            args: Prisma.ClubFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClubPayload>[]
+          }
+          create: {
+            args: Prisma.ClubCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClubPayload>
+          }
+          createMany: {
+            args: Prisma.ClubCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ClubCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClubPayload>[]
+          }
+          delete: {
+            args: Prisma.ClubDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClubPayload>
+          }
+          update: {
+            args: Prisma.ClubUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClubPayload>
+          }
+          deleteMany: {
+            args: Prisma.ClubDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ClubUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ClubUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClubPayload>[]
+          }
+          upsert: {
+            args: Prisma.ClubUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClubPayload>
+          }
+          aggregate: {
+            args: Prisma.ClubAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateClub>
+          }
+          groupBy: {
+            args: Prisma.ClubGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ClubGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ClubCountArgs<ExtArgs>
+            result: $Utils.Optional<ClubCountAggregateOutputType> | number
+          }
+        }
+      }
       Player: {
         payload: Prisma.$PlayerPayload<ExtArgs>
         fields: Prisma.PlayerFieldRefs
@@ -697,6 +786,80 @@ export namespace Prisma {
           count: {
             args: Prisma.PlayerCountArgs<ExtArgs>
             result: $Utils.Optional<PlayerCountAggregateOutputType> | number
+          }
+        }
+      }
+      OtpCode: {
+        payload: Prisma.$OtpCodePayload<ExtArgs>
+        fields: Prisma.OtpCodeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OtpCodeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OtpCodePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OtpCodeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OtpCodePayload>
+          }
+          findFirst: {
+            args: Prisma.OtpCodeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OtpCodePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OtpCodeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OtpCodePayload>
+          }
+          findMany: {
+            args: Prisma.OtpCodeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OtpCodePayload>[]
+          }
+          create: {
+            args: Prisma.OtpCodeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OtpCodePayload>
+          }
+          createMany: {
+            args: Prisma.OtpCodeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OtpCodeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OtpCodePayload>[]
+          }
+          delete: {
+            args: Prisma.OtpCodeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OtpCodePayload>
+          }
+          update: {
+            args: Prisma.OtpCodeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OtpCodePayload>
+          }
+          deleteMany: {
+            args: Prisma.OtpCodeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OtpCodeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OtpCodeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OtpCodePayload>[]
+          }
+          upsert: {
+            args: Prisma.OtpCodeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OtpCodePayload>
+          }
+          aggregate: {
+            args: Prisma.OtpCodeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOtpCode>
+          }
+          groupBy: {
+            args: Prisma.OtpCodeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OtpCodeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OtpCodeCountArgs<ExtArgs>
+            result: $Utils.Optional<OtpCodeCountAggregateOutputType> | number
           }
         }
       }
@@ -792,7 +955,9 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
+    club?: ClubOmit
     player?: PlayerOmit
+    otpCode?: OtpCodeOmit
   }
 
   /* Types for Logging */
@@ -874,6 +1039,1048 @@ export namespace Prisma {
    */
 
   /**
+   * Model Club
+   */
+
+  export type AggregateClub = {
+    _count: ClubCountAggregateOutputType | null
+    _avg: ClubAvgAggregateOutputType | null
+    _sum: ClubSumAggregateOutputType | null
+    _min: ClubMinAggregateOutputType | null
+    _max: ClubMaxAggregateOutputType | null
+  }
+
+  export type ClubAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ClubSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ClubMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    email: string | null
+    location: string | null
+    status: string | null
+    created_at: Date | null
+  }
+
+  export type ClubMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    email: string | null
+    location: string | null
+    status: string | null
+    created_at: Date | null
+  }
+
+  export type ClubCountAggregateOutputType = {
+    id: number
+    name: number
+    email: number
+    location: number
+    status: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type ClubAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type ClubSumAggregateInputType = {
+    id?: true
+  }
+
+  export type ClubMinAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    location?: true
+    status?: true
+    created_at?: true
+  }
+
+  export type ClubMaxAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    location?: true
+    status?: true
+    created_at?: true
+  }
+
+  export type ClubCountAggregateInputType = {
+    id?: true
+    name?: true
+    email?: true
+    location?: true
+    status?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type ClubAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Club to aggregate.
+     */
+    where?: ClubWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Clubs to fetch.
+     */
+    orderBy?: ClubOrderByWithRelationInput | ClubOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ClubWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Clubs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Clubs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Clubs
+    **/
+    _count?: true | ClubCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ClubAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ClubSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ClubMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ClubMaxAggregateInputType
+  }
+
+  export type GetClubAggregateType<T extends ClubAggregateArgs> = {
+        [P in keyof T & keyof AggregateClub]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateClub[P]>
+      : GetScalarType<T[P], AggregateClub[P]>
+  }
+
+
+
+
+  export type ClubGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClubWhereInput
+    orderBy?: ClubOrderByWithAggregationInput | ClubOrderByWithAggregationInput[]
+    by: ClubScalarFieldEnum[] | ClubScalarFieldEnum
+    having?: ClubScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ClubCountAggregateInputType | true
+    _avg?: ClubAvgAggregateInputType
+    _sum?: ClubSumAggregateInputType
+    _min?: ClubMinAggregateInputType
+    _max?: ClubMaxAggregateInputType
+  }
+
+  export type ClubGroupByOutputType = {
+    id: number
+    name: string | null
+    email: string
+    location: string | null
+    status: string
+    created_at: Date
+    _count: ClubCountAggregateOutputType | null
+    _avg: ClubAvgAggregateOutputType | null
+    _sum: ClubSumAggregateOutputType | null
+    _min: ClubMinAggregateOutputType | null
+    _max: ClubMaxAggregateOutputType | null
+  }
+
+  type GetClubGroupByPayload<T extends ClubGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ClubGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ClubGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ClubGroupByOutputType[P]>
+            : GetScalarType<T[P], ClubGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ClubSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    location?: boolean
+    status?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["club"]>
+
+  export type ClubSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    location?: boolean
+    status?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["club"]>
+
+  export type ClubSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    location?: boolean
+    status?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["club"]>
+
+  export type ClubSelectScalar = {
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    location?: boolean
+    status?: boolean
+    created_at?: boolean
+  }
+
+  export type ClubOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "location" | "status" | "created_at", ExtArgs["result"]["club"]>
+
+  export type $ClubPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Club"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string | null
+      email: string
+      location: string | null
+      status: string
+      created_at: Date
+    }, ExtArgs["result"]["club"]>
+    composites: {}
+  }
+
+  type ClubGetPayload<S extends boolean | null | undefined | ClubDefaultArgs> = $Result.GetResult<Prisma.$ClubPayload, S>
+
+  type ClubCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ClubFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ClubCountAggregateInputType | true
+    }
+
+  export interface ClubDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Club'], meta: { name: 'Club' } }
+    /**
+     * Find zero or one Club that matches the filter.
+     * @param {ClubFindUniqueArgs} args - Arguments to find a Club
+     * @example
+     * // Get one Club
+     * const club = await prisma.club.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ClubFindUniqueArgs>(args: SelectSubset<T, ClubFindUniqueArgs<ExtArgs>>): Prisma__ClubClient<$Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Club that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ClubFindUniqueOrThrowArgs} args - Arguments to find a Club
+     * @example
+     * // Get one Club
+     * const club = await prisma.club.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ClubFindUniqueOrThrowArgs>(args: SelectSubset<T, ClubFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ClubClient<$Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Club that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClubFindFirstArgs} args - Arguments to find a Club
+     * @example
+     * // Get one Club
+     * const club = await prisma.club.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ClubFindFirstArgs>(args?: SelectSubset<T, ClubFindFirstArgs<ExtArgs>>): Prisma__ClubClient<$Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Club that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClubFindFirstOrThrowArgs} args - Arguments to find a Club
+     * @example
+     * // Get one Club
+     * const club = await prisma.club.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ClubFindFirstOrThrowArgs>(args?: SelectSubset<T, ClubFindFirstOrThrowArgs<ExtArgs>>): Prisma__ClubClient<$Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Clubs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClubFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Clubs
+     * const clubs = await prisma.club.findMany()
+     * 
+     * // Get first 10 Clubs
+     * const clubs = await prisma.club.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const clubWithIdOnly = await prisma.club.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ClubFindManyArgs>(args?: SelectSubset<T, ClubFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Club.
+     * @param {ClubCreateArgs} args - Arguments to create a Club.
+     * @example
+     * // Create one Club
+     * const Club = await prisma.club.create({
+     *   data: {
+     *     // ... data to create a Club
+     *   }
+     * })
+     * 
+     */
+    create<T extends ClubCreateArgs>(args: SelectSubset<T, ClubCreateArgs<ExtArgs>>): Prisma__ClubClient<$Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Clubs.
+     * @param {ClubCreateManyArgs} args - Arguments to create many Clubs.
+     * @example
+     * // Create many Clubs
+     * const club = await prisma.club.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ClubCreateManyArgs>(args?: SelectSubset<T, ClubCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Clubs and returns the data saved in the database.
+     * @param {ClubCreateManyAndReturnArgs} args - Arguments to create many Clubs.
+     * @example
+     * // Create many Clubs
+     * const club = await prisma.club.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Clubs and only return the `id`
+     * const clubWithIdOnly = await prisma.club.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ClubCreateManyAndReturnArgs>(args?: SelectSubset<T, ClubCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Club.
+     * @param {ClubDeleteArgs} args - Arguments to delete one Club.
+     * @example
+     * // Delete one Club
+     * const Club = await prisma.club.delete({
+     *   where: {
+     *     // ... filter to delete one Club
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ClubDeleteArgs>(args: SelectSubset<T, ClubDeleteArgs<ExtArgs>>): Prisma__ClubClient<$Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Club.
+     * @param {ClubUpdateArgs} args - Arguments to update one Club.
+     * @example
+     * // Update one Club
+     * const club = await prisma.club.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ClubUpdateArgs>(args: SelectSubset<T, ClubUpdateArgs<ExtArgs>>): Prisma__ClubClient<$Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Clubs.
+     * @param {ClubDeleteManyArgs} args - Arguments to filter Clubs to delete.
+     * @example
+     * // Delete a few Clubs
+     * const { count } = await prisma.club.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ClubDeleteManyArgs>(args?: SelectSubset<T, ClubDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Clubs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClubUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Clubs
+     * const club = await prisma.club.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ClubUpdateManyArgs>(args: SelectSubset<T, ClubUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Clubs and returns the data updated in the database.
+     * @param {ClubUpdateManyAndReturnArgs} args - Arguments to update many Clubs.
+     * @example
+     * // Update many Clubs
+     * const club = await prisma.club.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Clubs and only return the `id`
+     * const clubWithIdOnly = await prisma.club.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ClubUpdateManyAndReturnArgs>(args: SelectSubset<T, ClubUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Club.
+     * @param {ClubUpsertArgs} args - Arguments to update or create a Club.
+     * @example
+     * // Update or create a Club
+     * const club = await prisma.club.upsert({
+     *   create: {
+     *     // ... data to create a Club
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Club we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ClubUpsertArgs>(args: SelectSubset<T, ClubUpsertArgs<ExtArgs>>): Prisma__ClubClient<$Result.GetResult<Prisma.$ClubPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Clubs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClubCountArgs} args - Arguments to filter Clubs to count.
+     * @example
+     * // Count the number of Clubs
+     * const count = await prisma.club.count({
+     *   where: {
+     *     // ... the filter for the Clubs we want to count
+     *   }
+     * })
+    **/
+    count<T extends ClubCountArgs>(
+      args?: Subset<T, ClubCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ClubCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Club.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClubAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ClubAggregateArgs>(args: Subset<T, ClubAggregateArgs>): Prisma.PrismaPromise<GetClubAggregateType<T>>
+
+    /**
+     * Group by Club.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClubGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ClubGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ClubGroupByArgs['orderBy'] }
+        : { orderBy?: ClubGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ClubGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetClubGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Club model
+   */
+  readonly fields: ClubFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Club.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ClubClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Club model
+   */
+  interface ClubFieldRefs {
+    readonly id: FieldRef<"Club", 'Int'>
+    readonly name: FieldRef<"Club", 'String'>
+    readonly email: FieldRef<"Club", 'String'>
+    readonly location: FieldRef<"Club", 'String'>
+    readonly status: FieldRef<"Club", 'String'>
+    readonly created_at: FieldRef<"Club", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Club findUnique
+   */
+  export type ClubFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+    /**
+     * Filter, which Club to fetch.
+     */
+    where: ClubWhereUniqueInput
+  }
+
+  /**
+   * Club findUniqueOrThrow
+   */
+  export type ClubFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+    /**
+     * Filter, which Club to fetch.
+     */
+    where: ClubWhereUniqueInput
+  }
+
+  /**
+   * Club findFirst
+   */
+  export type ClubFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+    /**
+     * Filter, which Club to fetch.
+     */
+    where?: ClubWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Clubs to fetch.
+     */
+    orderBy?: ClubOrderByWithRelationInput | ClubOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Clubs.
+     */
+    cursor?: ClubWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Clubs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Clubs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Clubs.
+     */
+    distinct?: ClubScalarFieldEnum | ClubScalarFieldEnum[]
+  }
+
+  /**
+   * Club findFirstOrThrow
+   */
+  export type ClubFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+    /**
+     * Filter, which Club to fetch.
+     */
+    where?: ClubWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Clubs to fetch.
+     */
+    orderBy?: ClubOrderByWithRelationInput | ClubOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Clubs.
+     */
+    cursor?: ClubWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Clubs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Clubs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Clubs.
+     */
+    distinct?: ClubScalarFieldEnum | ClubScalarFieldEnum[]
+  }
+
+  /**
+   * Club findMany
+   */
+  export type ClubFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+    /**
+     * Filter, which Clubs to fetch.
+     */
+    where?: ClubWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Clubs to fetch.
+     */
+    orderBy?: ClubOrderByWithRelationInput | ClubOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Clubs.
+     */
+    cursor?: ClubWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Clubs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Clubs.
+     */
+    skip?: number
+    distinct?: ClubScalarFieldEnum | ClubScalarFieldEnum[]
+  }
+
+  /**
+   * Club create
+   */
+  export type ClubCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Club.
+     */
+    data: XOR<ClubCreateInput, ClubUncheckedCreateInput>
+  }
+
+  /**
+   * Club createMany
+   */
+  export type ClubCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Clubs.
+     */
+    data: ClubCreateManyInput | ClubCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Club createManyAndReturn
+   */
+  export type ClubCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+    /**
+     * The data used to create many Clubs.
+     */
+    data: ClubCreateManyInput | ClubCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Club update
+   */
+  export type ClubUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Club.
+     */
+    data: XOR<ClubUpdateInput, ClubUncheckedUpdateInput>
+    /**
+     * Choose, which Club to update.
+     */
+    where: ClubWhereUniqueInput
+  }
+
+  /**
+   * Club updateMany
+   */
+  export type ClubUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Clubs.
+     */
+    data: XOR<ClubUpdateManyMutationInput, ClubUncheckedUpdateManyInput>
+    /**
+     * Filter which Clubs to update
+     */
+    where?: ClubWhereInput
+    /**
+     * Limit how many Clubs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Club updateManyAndReturn
+   */
+  export type ClubUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+    /**
+     * The data used to update Clubs.
+     */
+    data: XOR<ClubUpdateManyMutationInput, ClubUncheckedUpdateManyInput>
+    /**
+     * Filter which Clubs to update
+     */
+    where?: ClubWhereInput
+    /**
+     * Limit how many Clubs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Club upsert
+   */
+  export type ClubUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Club to update in case it exists.
+     */
+    where: ClubWhereUniqueInput
+    /**
+     * In case the Club found by the `where` argument doesn't exist, create a new Club with this data.
+     */
+    create: XOR<ClubCreateInput, ClubUncheckedCreateInput>
+    /**
+     * In case the Club was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ClubUpdateInput, ClubUncheckedUpdateInput>
+  }
+
+  /**
+   * Club delete
+   */
+  export type ClubDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+    /**
+     * Filter which Club to delete.
+     */
+    where: ClubWhereUniqueInput
+  }
+
+  /**
+   * Club deleteMany
+   */
+  export type ClubDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Clubs to delete
+     */
+    where?: ClubWhereInput
+    /**
+     * Limit how many Clubs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Club without action
+   */
+  export type ClubDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Club
+     */
+    select?: ClubSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Club
+     */
+    omit?: ClubOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model Player
    */
 
@@ -895,34 +2102,28 @@ export namespace Prisma {
 
   export type PlayerMinAggregateOutputType = {
     id: number | null
-    googleId: string | null
     first_name: string | null
     last_name: string | null
     email: string | null
     picture: string | null
-    role: $Enums.Role | null
     created_at: Date | null
   }
 
   export type PlayerMaxAggregateOutputType = {
     id: number | null
-    googleId: string | null
     first_name: string | null
     last_name: string | null
     email: string | null
     picture: string | null
-    role: $Enums.Role | null
     created_at: Date | null
   }
 
   export type PlayerCountAggregateOutputType = {
     id: number
-    googleId: number
     first_name: number
     last_name: number
     email: number
     picture: number
-    role: number
     created_at: number
     _all: number
   }
@@ -938,34 +2139,28 @@ export namespace Prisma {
 
   export type PlayerMinAggregateInputType = {
     id?: true
-    googleId?: true
     first_name?: true
     last_name?: true
     email?: true
     picture?: true
-    role?: true
     created_at?: true
   }
 
   export type PlayerMaxAggregateInputType = {
     id?: true
-    googleId?: true
     first_name?: true
     last_name?: true
     email?: true
     picture?: true
-    role?: true
     created_at?: true
   }
 
   export type PlayerCountAggregateInputType = {
     id?: true
-    googleId?: true
     first_name?: true
     last_name?: true
     email?: true
     picture?: true
-    role?: true
     created_at?: true
     _all?: true
   }
@@ -1058,12 +2253,10 @@ export namespace Prisma {
 
   export type PlayerGroupByOutputType = {
     id: number
-    googleId: string
-    first_name: string
-    last_name: string
+    first_name: string | null
+    last_name: string | null
     email: string
     picture: string | null
-    role: $Enums.Role
     created_at: Date
     _count: PlayerCountAggregateOutputType | null
     _avg: PlayerAvgAggregateOutputType | null
@@ -1088,61 +2281,51 @@ export namespace Prisma {
 
   export type PlayerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    googleId?: boolean
     first_name?: boolean
     last_name?: boolean
     email?: boolean
     picture?: boolean
-    role?: boolean
     created_at?: boolean
   }, ExtArgs["result"]["player"]>
 
   export type PlayerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    googleId?: boolean
     first_name?: boolean
     last_name?: boolean
     email?: boolean
     picture?: boolean
-    role?: boolean
     created_at?: boolean
   }, ExtArgs["result"]["player"]>
 
   export type PlayerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    googleId?: boolean
     first_name?: boolean
     last_name?: boolean
     email?: boolean
     picture?: boolean
-    role?: boolean
     created_at?: boolean
   }, ExtArgs["result"]["player"]>
 
   export type PlayerSelectScalar = {
     id?: boolean
-    googleId?: boolean
     first_name?: boolean
     last_name?: boolean
     email?: boolean
     picture?: boolean
-    role?: boolean
     created_at?: boolean
   }
 
-  export type PlayerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "googleId" | "first_name" | "last_name" | "email" | "picture" | "role" | "created_at", ExtArgs["result"]["player"]>
+  export type PlayerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "first_name" | "last_name" | "email" | "picture" | "created_at", ExtArgs["result"]["player"]>
 
   export type $PlayerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Player"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      googleId: string
-      first_name: string
-      last_name: string
+      first_name: string | null
+      last_name: string | null
       email: string
       picture: string | null
-      role: $Enums.Role
       created_at: Date
     }, ExtArgs["result"]["player"]>
     composites: {}
@@ -1568,12 +2751,10 @@ export namespace Prisma {
    */
   interface PlayerFieldRefs {
     readonly id: FieldRef<"Player", 'Int'>
-    readonly googleId: FieldRef<"Player", 'String'>
     readonly first_name: FieldRef<"Player", 'String'>
     readonly last_name: FieldRef<"Player", 'String'>
     readonly email: FieldRef<"Player", 'String'>
     readonly picture: FieldRef<"Player", 'String'>
-    readonly role: FieldRef<"Player", 'Role'>
     readonly created_at: FieldRef<"Player", 'DateTime'>
   }
     
@@ -1942,6 +3123,1052 @@ export namespace Prisma {
 
 
   /**
+   * Model OtpCode
+   */
+
+  export type AggregateOtpCode = {
+    _count: OtpCodeCountAggregateOutputType | null
+    _avg: OtpCodeAvgAggregateOutputType | null
+    _sum: OtpCodeSumAggregateOutputType | null
+    _min: OtpCodeMinAggregateOutputType | null
+    _max: OtpCodeMaxAggregateOutputType | null
+  }
+
+  export type OtpCodeAvgAggregateOutputType = {
+    id: number | null
+    attempts: number | null
+  }
+
+  export type OtpCodeSumAggregateOutputType = {
+    id: number | null
+    attempts: number | null
+  }
+
+  export type OtpCodeMinAggregateOutputType = {
+    id: number | null
+    email: string | null
+    code: string | null
+    attempts: number | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type OtpCodeMaxAggregateOutputType = {
+    id: number | null
+    email: string | null
+    code: string | null
+    attempts: number | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type OtpCodeCountAggregateOutputType = {
+    id: number
+    email: number
+    code: number
+    attempts: number
+    expiresAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type OtpCodeAvgAggregateInputType = {
+    id?: true
+    attempts?: true
+  }
+
+  export type OtpCodeSumAggregateInputType = {
+    id?: true
+    attempts?: true
+  }
+
+  export type OtpCodeMinAggregateInputType = {
+    id?: true
+    email?: true
+    code?: true
+    attempts?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type OtpCodeMaxAggregateInputType = {
+    id?: true
+    email?: true
+    code?: true
+    attempts?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type OtpCodeCountAggregateInputType = {
+    id?: true
+    email?: true
+    code?: true
+    attempts?: true
+    expiresAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type OtpCodeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OtpCode to aggregate.
+     */
+    where?: OtpCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OtpCodes to fetch.
+     */
+    orderBy?: OtpCodeOrderByWithRelationInput | OtpCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OtpCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OtpCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OtpCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OtpCodes
+    **/
+    _count?: true | OtpCodeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OtpCodeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OtpCodeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OtpCodeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OtpCodeMaxAggregateInputType
+  }
+
+  export type GetOtpCodeAggregateType<T extends OtpCodeAggregateArgs> = {
+        [P in keyof T & keyof AggregateOtpCode]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOtpCode[P]>
+      : GetScalarType<T[P], AggregateOtpCode[P]>
+  }
+
+
+
+
+  export type OtpCodeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OtpCodeWhereInput
+    orderBy?: OtpCodeOrderByWithAggregationInput | OtpCodeOrderByWithAggregationInput[]
+    by: OtpCodeScalarFieldEnum[] | OtpCodeScalarFieldEnum
+    having?: OtpCodeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OtpCodeCountAggregateInputType | true
+    _avg?: OtpCodeAvgAggregateInputType
+    _sum?: OtpCodeSumAggregateInputType
+    _min?: OtpCodeMinAggregateInputType
+    _max?: OtpCodeMaxAggregateInputType
+  }
+
+  export type OtpCodeGroupByOutputType = {
+    id: number
+    email: string
+    code: string
+    attempts: number
+    expiresAt: Date
+    createdAt: Date
+    _count: OtpCodeCountAggregateOutputType | null
+    _avg: OtpCodeAvgAggregateOutputType | null
+    _sum: OtpCodeSumAggregateOutputType | null
+    _min: OtpCodeMinAggregateOutputType | null
+    _max: OtpCodeMaxAggregateOutputType | null
+  }
+
+  type GetOtpCodeGroupByPayload<T extends OtpCodeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OtpCodeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OtpCodeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OtpCodeGroupByOutputType[P]>
+            : GetScalarType<T[P], OtpCodeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OtpCodeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    code?: boolean
+    attempts?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["otpCode"]>
+
+  export type OtpCodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    code?: boolean
+    attempts?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["otpCode"]>
+
+  export type OtpCodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    code?: boolean
+    attempts?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["otpCode"]>
+
+  export type OtpCodeSelectScalar = {
+    id?: boolean
+    email?: boolean
+    code?: boolean
+    attempts?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type OtpCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "code" | "attempts" | "expiresAt" | "createdAt", ExtArgs["result"]["otpCode"]>
+
+  export type $OtpCodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OtpCode"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      email: string
+      code: string
+      attempts: number
+      expiresAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["otpCode"]>
+    composites: {}
+  }
+
+  type OtpCodeGetPayload<S extends boolean | null | undefined | OtpCodeDefaultArgs> = $Result.GetResult<Prisma.$OtpCodePayload, S>
+
+  type OtpCodeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OtpCodeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OtpCodeCountAggregateInputType | true
+    }
+
+  export interface OtpCodeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OtpCode'], meta: { name: 'OtpCode' } }
+    /**
+     * Find zero or one OtpCode that matches the filter.
+     * @param {OtpCodeFindUniqueArgs} args - Arguments to find a OtpCode
+     * @example
+     * // Get one OtpCode
+     * const otpCode = await prisma.otpCode.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OtpCodeFindUniqueArgs>(args: SelectSubset<T, OtpCodeFindUniqueArgs<ExtArgs>>): Prisma__OtpCodeClient<$Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OtpCode that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OtpCodeFindUniqueOrThrowArgs} args - Arguments to find a OtpCode
+     * @example
+     * // Get one OtpCode
+     * const otpCode = await prisma.otpCode.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OtpCodeFindUniqueOrThrowArgs>(args: SelectSubset<T, OtpCodeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OtpCodeClient<$Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OtpCode that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpCodeFindFirstArgs} args - Arguments to find a OtpCode
+     * @example
+     * // Get one OtpCode
+     * const otpCode = await prisma.otpCode.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OtpCodeFindFirstArgs>(args?: SelectSubset<T, OtpCodeFindFirstArgs<ExtArgs>>): Prisma__OtpCodeClient<$Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OtpCode that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpCodeFindFirstOrThrowArgs} args - Arguments to find a OtpCode
+     * @example
+     * // Get one OtpCode
+     * const otpCode = await prisma.otpCode.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OtpCodeFindFirstOrThrowArgs>(args?: SelectSubset<T, OtpCodeFindFirstOrThrowArgs<ExtArgs>>): Prisma__OtpCodeClient<$Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OtpCodes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpCodeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OtpCodes
+     * const otpCodes = await prisma.otpCode.findMany()
+     * 
+     * // Get first 10 OtpCodes
+     * const otpCodes = await prisma.otpCode.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const otpCodeWithIdOnly = await prisma.otpCode.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OtpCodeFindManyArgs>(args?: SelectSubset<T, OtpCodeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OtpCode.
+     * @param {OtpCodeCreateArgs} args - Arguments to create a OtpCode.
+     * @example
+     * // Create one OtpCode
+     * const OtpCode = await prisma.otpCode.create({
+     *   data: {
+     *     // ... data to create a OtpCode
+     *   }
+     * })
+     * 
+     */
+    create<T extends OtpCodeCreateArgs>(args: SelectSubset<T, OtpCodeCreateArgs<ExtArgs>>): Prisma__OtpCodeClient<$Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OtpCodes.
+     * @param {OtpCodeCreateManyArgs} args - Arguments to create many OtpCodes.
+     * @example
+     * // Create many OtpCodes
+     * const otpCode = await prisma.otpCode.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OtpCodeCreateManyArgs>(args?: SelectSubset<T, OtpCodeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OtpCodes and returns the data saved in the database.
+     * @param {OtpCodeCreateManyAndReturnArgs} args - Arguments to create many OtpCodes.
+     * @example
+     * // Create many OtpCodes
+     * const otpCode = await prisma.otpCode.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OtpCodes and only return the `id`
+     * const otpCodeWithIdOnly = await prisma.otpCode.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OtpCodeCreateManyAndReturnArgs>(args?: SelectSubset<T, OtpCodeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OtpCode.
+     * @param {OtpCodeDeleteArgs} args - Arguments to delete one OtpCode.
+     * @example
+     * // Delete one OtpCode
+     * const OtpCode = await prisma.otpCode.delete({
+     *   where: {
+     *     // ... filter to delete one OtpCode
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OtpCodeDeleteArgs>(args: SelectSubset<T, OtpCodeDeleteArgs<ExtArgs>>): Prisma__OtpCodeClient<$Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OtpCode.
+     * @param {OtpCodeUpdateArgs} args - Arguments to update one OtpCode.
+     * @example
+     * // Update one OtpCode
+     * const otpCode = await prisma.otpCode.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OtpCodeUpdateArgs>(args: SelectSubset<T, OtpCodeUpdateArgs<ExtArgs>>): Prisma__OtpCodeClient<$Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OtpCodes.
+     * @param {OtpCodeDeleteManyArgs} args - Arguments to filter OtpCodes to delete.
+     * @example
+     * // Delete a few OtpCodes
+     * const { count } = await prisma.otpCode.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OtpCodeDeleteManyArgs>(args?: SelectSubset<T, OtpCodeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OtpCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpCodeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OtpCodes
+     * const otpCode = await prisma.otpCode.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OtpCodeUpdateManyArgs>(args: SelectSubset<T, OtpCodeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OtpCodes and returns the data updated in the database.
+     * @param {OtpCodeUpdateManyAndReturnArgs} args - Arguments to update many OtpCodes.
+     * @example
+     * // Update many OtpCodes
+     * const otpCode = await prisma.otpCode.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OtpCodes and only return the `id`
+     * const otpCodeWithIdOnly = await prisma.otpCode.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OtpCodeUpdateManyAndReturnArgs>(args: SelectSubset<T, OtpCodeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OtpCode.
+     * @param {OtpCodeUpsertArgs} args - Arguments to update or create a OtpCode.
+     * @example
+     * // Update or create a OtpCode
+     * const otpCode = await prisma.otpCode.upsert({
+     *   create: {
+     *     // ... data to create a OtpCode
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OtpCode we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OtpCodeUpsertArgs>(args: SelectSubset<T, OtpCodeUpsertArgs<ExtArgs>>): Prisma__OtpCodeClient<$Result.GetResult<Prisma.$OtpCodePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OtpCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpCodeCountArgs} args - Arguments to filter OtpCodes to count.
+     * @example
+     * // Count the number of OtpCodes
+     * const count = await prisma.otpCode.count({
+     *   where: {
+     *     // ... the filter for the OtpCodes we want to count
+     *   }
+     * })
+    **/
+    count<T extends OtpCodeCountArgs>(
+      args?: Subset<T, OtpCodeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OtpCodeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OtpCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpCodeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OtpCodeAggregateArgs>(args: Subset<T, OtpCodeAggregateArgs>): Prisma.PrismaPromise<GetOtpCodeAggregateType<T>>
+
+    /**
+     * Group by OtpCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OtpCodeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OtpCodeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OtpCodeGroupByArgs['orderBy'] }
+        : { orderBy?: OtpCodeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OtpCodeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOtpCodeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OtpCode model
+   */
+  readonly fields: OtpCodeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OtpCode.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OtpCodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OtpCode model
+   */
+  interface OtpCodeFieldRefs {
+    readonly id: FieldRef<"OtpCode", 'Int'>
+    readonly email: FieldRef<"OtpCode", 'String'>
+    readonly code: FieldRef<"OtpCode", 'String'>
+    readonly attempts: FieldRef<"OtpCode", 'Int'>
+    readonly expiresAt: FieldRef<"OtpCode", 'DateTime'>
+    readonly createdAt: FieldRef<"OtpCode", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OtpCode findUnique
+   */
+  export type OtpCodeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which OtpCode to fetch.
+     */
+    where: OtpCodeWhereUniqueInput
+  }
+
+  /**
+   * OtpCode findUniqueOrThrow
+   */
+  export type OtpCodeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which OtpCode to fetch.
+     */
+    where: OtpCodeWhereUniqueInput
+  }
+
+  /**
+   * OtpCode findFirst
+   */
+  export type OtpCodeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which OtpCode to fetch.
+     */
+    where?: OtpCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OtpCodes to fetch.
+     */
+    orderBy?: OtpCodeOrderByWithRelationInput | OtpCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OtpCodes.
+     */
+    cursor?: OtpCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OtpCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OtpCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OtpCodes.
+     */
+    distinct?: OtpCodeScalarFieldEnum | OtpCodeScalarFieldEnum[]
+  }
+
+  /**
+   * OtpCode findFirstOrThrow
+   */
+  export type OtpCodeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which OtpCode to fetch.
+     */
+    where?: OtpCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OtpCodes to fetch.
+     */
+    orderBy?: OtpCodeOrderByWithRelationInput | OtpCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OtpCodes.
+     */
+    cursor?: OtpCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OtpCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OtpCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OtpCodes.
+     */
+    distinct?: OtpCodeScalarFieldEnum | OtpCodeScalarFieldEnum[]
+  }
+
+  /**
+   * OtpCode findMany
+   */
+  export type OtpCodeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which OtpCodes to fetch.
+     */
+    where?: OtpCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OtpCodes to fetch.
+     */
+    orderBy?: OtpCodeOrderByWithRelationInput | OtpCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OtpCodes.
+     */
+    cursor?: OtpCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OtpCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OtpCodes.
+     */
+    skip?: number
+    distinct?: OtpCodeScalarFieldEnum | OtpCodeScalarFieldEnum[]
+  }
+
+  /**
+   * OtpCode create
+   */
+  export type OtpCodeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+    /**
+     * The data needed to create a OtpCode.
+     */
+    data: XOR<OtpCodeCreateInput, OtpCodeUncheckedCreateInput>
+  }
+
+  /**
+   * OtpCode createMany
+   */
+  export type OtpCodeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OtpCodes.
+     */
+    data: OtpCodeCreateManyInput | OtpCodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OtpCode createManyAndReturn
+   */
+  export type OtpCodeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+    /**
+     * The data used to create many OtpCodes.
+     */
+    data: OtpCodeCreateManyInput | OtpCodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OtpCode update
+   */
+  export type OtpCodeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+    /**
+     * The data needed to update a OtpCode.
+     */
+    data: XOR<OtpCodeUpdateInput, OtpCodeUncheckedUpdateInput>
+    /**
+     * Choose, which OtpCode to update.
+     */
+    where: OtpCodeWhereUniqueInput
+  }
+
+  /**
+   * OtpCode updateMany
+   */
+  export type OtpCodeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OtpCodes.
+     */
+    data: XOR<OtpCodeUpdateManyMutationInput, OtpCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which OtpCodes to update
+     */
+    where?: OtpCodeWhereInput
+    /**
+     * Limit how many OtpCodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OtpCode updateManyAndReturn
+   */
+  export type OtpCodeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+    /**
+     * The data used to update OtpCodes.
+     */
+    data: XOR<OtpCodeUpdateManyMutationInput, OtpCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which OtpCodes to update
+     */
+    where?: OtpCodeWhereInput
+    /**
+     * Limit how many OtpCodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OtpCode upsert
+   */
+  export type OtpCodeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+    /**
+     * The filter to search for the OtpCode to update in case it exists.
+     */
+    where: OtpCodeWhereUniqueInput
+    /**
+     * In case the OtpCode found by the `where` argument doesn't exist, create a new OtpCode with this data.
+     */
+    create: XOR<OtpCodeCreateInput, OtpCodeUncheckedCreateInput>
+    /**
+     * In case the OtpCode was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OtpCodeUpdateInput, OtpCodeUncheckedUpdateInput>
+  }
+
+  /**
+   * OtpCode delete
+   */
+  export type OtpCodeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+    /**
+     * Filter which OtpCode to delete.
+     */
+    where: OtpCodeWhereUniqueInput
+  }
+
+  /**
+   * OtpCode deleteMany
+   */
+  export type OtpCodeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OtpCodes to delete
+     */
+    where?: OtpCodeWhereInput
+    /**
+     * Limit how many OtpCodes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OtpCode without action
+   */
+  export type OtpCodeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OtpCode
+     */
+    select?: OtpCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OtpCode
+     */
+    omit?: OtpCodeOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -1955,18 +4182,40 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const ClubScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    email: 'email',
+    location: 'location',
+    status: 'status',
+    created_at: 'created_at'
+  };
+
+  export type ClubScalarFieldEnum = (typeof ClubScalarFieldEnum)[keyof typeof ClubScalarFieldEnum]
+
+
   export const PlayerScalarFieldEnum: {
     id: 'id',
-    googleId: 'googleId',
     first_name: 'first_name',
     last_name: 'last_name',
     email: 'email',
     picture: 'picture',
-    role: 'role',
     created_at: 'created_at'
   };
 
   export type PlayerScalarFieldEnum = (typeof PlayerScalarFieldEnum)[keyof typeof PlayerScalarFieldEnum]
+
+
+  export const OtpCodeScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    code: 'code',
+    attempts: 'attempts',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
+  };
+
+  export type OtpCodeScalarFieldEnum = (typeof OtpCodeScalarFieldEnum)[keyof typeof OtpCodeScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -2027,20 +4276,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Role'
-   */
-  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
-    
-
-
-  /**
-   * Reference to a field of type 'Role[]'
-   */
-  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -2071,53 +4306,104 @@ export namespace Prisma {
    */
 
 
+  export type ClubWhereInput = {
+    AND?: ClubWhereInput | ClubWhereInput[]
+    OR?: ClubWhereInput[]
+    NOT?: ClubWhereInput | ClubWhereInput[]
+    id?: IntFilter<"Club"> | number
+    name?: StringNullableFilter<"Club"> | string | null
+    email?: StringFilter<"Club"> | string
+    location?: StringNullableFilter<"Club"> | string | null
+    status?: StringFilter<"Club"> | string
+    created_at?: DateTimeFilter<"Club"> | Date | string
+  }
+
+  export type ClubOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    email?: SortOrder
+    location?: SortOrderInput | SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type ClubWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    email?: string
+    AND?: ClubWhereInput | ClubWhereInput[]
+    OR?: ClubWhereInput[]
+    NOT?: ClubWhereInput | ClubWhereInput[]
+    name?: StringNullableFilter<"Club"> | string | null
+    location?: StringNullableFilter<"Club"> | string | null
+    status?: StringFilter<"Club"> | string
+    created_at?: DateTimeFilter<"Club"> | Date | string
+  }, "id" | "email">
+
+  export type ClubOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrderInput | SortOrder
+    email?: SortOrder
+    location?: SortOrderInput | SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    _count?: ClubCountOrderByAggregateInput
+    _avg?: ClubAvgOrderByAggregateInput
+    _max?: ClubMaxOrderByAggregateInput
+    _min?: ClubMinOrderByAggregateInput
+    _sum?: ClubSumOrderByAggregateInput
+  }
+
+  export type ClubScalarWhereWithAggregatesInput = {
+    AND?: ClubScalarWhereWithAggregatesInput | ClubScalarWhereWithAggregatesInput[]
+    OR?: ClubScalarWhereWithAggregatesInput[]
+    NOT?: ClubScalarWhereWithAggregatesInput | ClubScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Club"> | number
+    name?: StringNullableWithAggregatesFilter<"Club"> | string | null
+    email?: StringWithAggregatesFilter<"Club"> | string
+    location?: StringNullableWithAggregatesFilter<"Club"> | string | null
+    status?: StringWithAggregatesFilter<"Club"> | string
+    created_at?: DateTimeWithAggregatesFilter<"Club"> | Date | string
+  }
+
   export type PlayerWhereInput = {
     AND?: PlayerWhereInput | PlayerWhereInput[]
     OR?: PlayerWhereInput[]
     NOT?: PlayerWhereInput | PlayerWhereInput[]
     id?: IntFilter<"Player"> | number
-    googleId?: StringFilter<"Player"> | string
-    first_name?: StringFilter<"Player"> | string
-    last_name?: StringFilter<"Player"> | string
+    first_name?: StringNullableFilter<"Player"> | string | null
+    last_name?: StringNullableFilter<"Player"> | string | null
     email?: StringFilter<"Player"> | string
     picture?: StringNullableFilter<"Player"> | string | null
-    role?: EnumRoleFilter<"Player"> | $Enums.Role
     created_at?: DateTimeFilter<"Player"> | Date | string
   }
 
   export type PlayerOrderByWithRelationInput = {
     id?: SortOrder
-    googleId?: SortOrder
-    first_name?: SortOrder
-    last_name?: SortOrder
+    first_name?: SortOrderInput | SortOrder
+    last_name?: SortOrderInput | SortOrder
     email?: SortOrder
     picture?: SortOrderInput | SortOrder
-    role?: SortOrder
     created_at?: SortOrder
   }
 
   export type PlayerWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    googleId?: string
     email?: string
     AND?: PlayerWhereInput | PlayerWhereInput[]
     OR?: PlayerWhereInput[]
     NOT?: PlayerWhereInput | PlayerWhereInput[]
-    first_name?: StringFilter<"Player"> | string
-    last_name?: StringFilter<"Player"> | string
+    first_name?: StringNullableFilter<"Player"> | string | null
+    last_name?: StringNullableFilter<"Player"> | string | null
     picture?: StringNullableFilter<"Player"> | string | null
-    role?: EnumRoleFilter<"Player"> | $Enums.Role
     created_at?: DateTimeFilter<"Player"> | Date | string
-  }, "id" | "googleId" | "email">
+  }, "id" | "email">
 
   export type PlayerOrderByWithAggregationInput = {
     id?: SortOrder
-    googleId?: SortOrder
-    first_name?: SortOrder
-    last_name?: SortOrder
+    first_name?: SortOrderInput | SortOrder
+    last_name?: SortOrderInput | SortOrder
     email?: SortOrder
     picture?: SortOrderInput | SortOrder
-    role?: SortOrder
     created_at?: SortOrder
     _count?: PlayerCountOrderByAggregateInput
     _avg?: PlayerAvgOrderByAggregateInput
@@ -2131,87 +4417,250 @@ export namespace Prisma {
     OR?: PlayerScalarWhereWithAggregatesInput[]
     NOT?: PlayerScalarWhereWithAggregatesInput | PlayerScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Player"> | number
-    googleId?: StringWithAggregatesFilter<"Player"> | string
-    first_name?: StringWithAggregatesFilter<"Player"> | string
-    last_name?: StringWithAggregatesFilter<"Player"> | string
+    first_name?: StringNullableWithAggregatesFilter<"Player"> | string | null
+    last_name?: StringNullableWithAggregatesFilter<"Player"> | string | null
     email?: StringWithAggregatesFilter<"Player"> | string
     picture?: StringNullableWithAggregatesFilter<"Player"> | string | null
-    role?: EnumRoleWithAggregatesFilter<"Player"> | $Enums.Role
     created_at?: DateTimeWithAggregatesFilter<"Player"> | Date | string
   }
 
+  export type OtpCodeWhereInput = {
+    AND?: OtpCodeWhereInput | OtpCodeWhereInput[]
+    OR?: OtpCodeWhereInput[]
+    NOT?: OtpCodeWhereInput | OtpCodeWhereInput[]
+    id?: IntFilter<"OtpCode"> | number
+    email?: StringFilter<"OtpCode"> | string
+    code?: StringFilter<"OtpCode"> | string
+    attempts?: IntFilter<"OtpCode"> | number
+    expiresAt?: DateTimeFilter<"OtpCode"> | Date | string
+    createdAt?: DateTimeFilter<"OtpCode"> | Date | string
+  }
+
+  export type OtpCodeOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    code?: SortOrder
+    attempts?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OtpCodeWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    email?: string
+    AND?: OtpCodeWhereInput | OtpCodeWhereInput[]
+    OR?: OtpCodeWhereInput[]
+    NOT?: OtpCodeWhereInput | OtpCodeWhereInput[]
+    code?: StringFilter<"OtpCode"> | string
+    attempts?: IntFilter<"OtpCode"> | number
+    expiresAt?: DateTimeFilter<"OtpCode"> | Date | string
+    createdAt?: DateTimeFilter<"OtpCode"> | Date | string
+  }, "id" | "email">
+
+  export type OtpCodeOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    code?: SortOrder
+    attempts?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: OtpCodeCountOrderByAggregateInput
+    _avg?: OtpCodeAvgOrderByAggregateInput
+    _max?: OtpCodeMaxOrderByAggregateInput
+    _min?: OtpCodeMinOrderByAggregateInput
+    _sum?: OtpCodeSumOrderByAggregateInput
+  }
+
+  export type OtpCodeScalarWhereWithAggregatesInput = {
+    AND?: OtpCodeScalarWhereWithAggregatesInput | OtpCodeScalarWhereWithAggregatesInput[]
+    OR?: OtpCodeScalarWhereWithAggregatesInput[]
+    NOT?: OtpCodeScalarWhereWithAggregatesInput | OtpCodeScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"OtpCode"> | number
+    email?: StringWithAggregatesFilter<"OtpCode"> | string
+    code?: StringWithAggregatesFilter<"OtpCode"> | string
+    attempts?: IntWithAggregatesFilter<"OtpCode"> | number
+    expiresAt?: DateTimeWithAggregatesFilter<"OtpCode"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"OtpCode"> | Date | string
+  }
+
+  export type ClubCreateInput = {
+    name?: string | null
+    email: string
+    location?: string | null
+    status?: string
+    created_at?: Date | string
+  }
+
+  export type ClubUncheckedCreateInput = {
+    id?: number
+    name?: string | null
+    email: string
+    location?: string | null
+    status?: string
+    created_at?: Date | string
+  }
+
+  export type ClubUpdateInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClubUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClubCreateManyInput = {
+    id?: number
+    name?: string | null
+    email: string
+    location?: string | null
+    status?: string
+    created_at?: Date | string
+  }
+
+  export type ClubUpdateManyMutationInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClubUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PlayerCreateInput = {
-    googleId: string
-    first_name: string
-    last_name: string
+    first_name?: string | null
+    last_name?: string | null
     email: string
     picture?: string | null
-    role?: $Enums.Role
     created_at?: Date | string
   }
 
   export type PlayerUncheckedCreateInput = {
     id?: number
-    googleId: string
-    first_name: string
-    last_name: string
+    first_name?: string | null
+    last_name?: string | null
     email: string
     picture?: string | null
-    role?: $Enums.Role
     created_at?: Date | string
   }
 
   export type PlayerUpdateInput = {
-    googleId?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     picture?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlayerUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    googleId?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     picture?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlayerCreateManyInput = {
     id?: number
-    googleId: string
-    first_name: string
-    last_name: string
+    first_name?: string | null
+    last_name?: string | null
     email: string
     picture?: string | null
-    role?: $Enums.Role
     created_at?: Date | string
   }
 
   export type PlayerUpdateManyMutationInput = {
-    googleId?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     picture?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlayerUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    googleId?: StringFieldUpdateOperationsInput | string
-    first_name?: StringFieldUpdateOperationsInput | string
-    last_name?: StringFieldUpdateOperationsInput | string
+    first_name?: NullableStringFieldUpdateOperationsInput | string | null
+    last_name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     picture?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OtpCodeCreateInput = {
+    email: string
+    code: string
+    attempts?: number
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type OtpCodeUncheckedCreateInput = {
+    id?: number
+    email: string
+    code: string
+    attempts?: number
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type OtpCodeUpdateInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OtpCodeUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OtpCodeCreateManyInput = {
+    id?: number
+    email: string
+    code: string
+    attempts?: number
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type OtpCodeUpdateManyMutationInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OtpCodeUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    attempts?: IntFieldUpdateOperationsInput | number
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -2223,21 +4672,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type StringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringFilter<$PrismaModel> | string
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -2255,11 +4689,19 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type EnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  export type StringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringFilter<$PrismaModel> | string
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -2278,44 +4720,38 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
-  export type PlayerCountOrderByAggregateInput = {
+  export type ClubCountOrderByAggregateInput = {
     id?: SortOrder
-    googleId?: SortOrder
-    first_name?: SortOrder
-    last_name?: SortOrder
+    name?: SortOrder
     email?: SortOrder
-    picture?: SortOrder
-    role?: SortOrder
+    location?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
   }
 
-  export type PlayerAvgOrderByAggregateInput = {
+  export type ClubAvgOrderByAggregateInput = {
     id?: SortOrder
   }
 
-  export type PlayerMaxOrderByAggregateInput = {
+  export type ClubMaxOrderByAggregateInput = {
     id?: SortOrder
-    googleId?: SortOrder
-    first_name?: SortOrder
-    last_name?: SortOrder
+    name?: SortOrder
     email?: SortOrder
-    picture?: SortOrder
-    role?: SortOrder
+    location?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
   }
 
-  export type PlayerMinOrderByAggregateInput = {
+  export type ClubMinOrderByAggregateInput = {
     id?: SortOrder
-    googleId?: SortOrder
-    first_name?: SortOrder
-    last_name?: SortOrder
+    name?: SortOrder
     email?: SortOrder
-    picture?: SortOrder
-    role?: SortOrder
+    location?: SortOrder
+    status?: SortOrder
     created_at?: SortOrder
   }
 
-  export type PlayerSumOrderByAggregateInput = {
+  export type ClubSumOrderByAggregateInput = {
     id?: SortOrder
   }
 
@@ -2333,24 +4769,6 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -2371,14 +4789,22 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -2395,16 +4821,84 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
+  export type PlayerCountOrderByAggregateInput = {
+    id?: SortOrder
+    first_name?: SortOrder
+    last_name?: SortOrder
+    email?: SortOrder
+    picture?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type PlayerAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type PlayerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    first_name?: SortOrder
+    last_name?: SortOrder
+    email?: SortOrder
+    picture?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type PlayerMinOrderByAggregateInput = {
+    id?: SortOrder
+    first_name?: SortOrder
+    last_name?: SortOrder
+    email?: SortOrder
+    picture?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type PlayerSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type OtpCodeCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    code?: SortOrder
+    attempts?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OtpCodeAvgOrderByAggregateInput = {
+    id?: SortOrder
+    attempts?: SortOrder
+  }
+
+  export type OtpCodeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    code?: SortOrder
+    attempts?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OtpCodeMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    code?: SortOrder
+    attempts?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OtpCodeSumOrderByAggregateInput = {
+    id?: SortOrder
+    attempts?: SortOrder
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
 
-  export type EnumRoleFieldUpdateOperationsInput = {
-    set?: $Enums.Role
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -2430,20 +4924,6 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedStringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringFilter<$PrismaModel> | string
-  }
-
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -2458,11 +4938,18 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
+  export type NestedStringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringFilter<$PrismaModel> | string
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -2503,23 +4990,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -2548,14 +5018,21 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {

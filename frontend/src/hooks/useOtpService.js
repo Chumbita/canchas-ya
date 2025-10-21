@@ -1,29 +1,20 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useAuthService } from "../hooks/useAuthService";
-import { useOTP } from "../hooks/useOTP";
-import { useTimer } from "../hooks/useTimer";
+import { useAuthService } from "./useAuthService";
+import { useTimer } from "./useTimer";
 import {
   startAuthTransition,
   clearAuthTransition,
 } from "../utils/authTransitions";
 
-export const useVerifyOtp = () => {
+export const useOtpService = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const email = location.state?.email || sessionStorage.getItem("otpEmail");
 
-  const { role, verifyOtp } = useAuth();
+  const { login, role, verifyOtp } = useAuth();
 
-  const {
-    otp,
-    setOtp,
-    otpCode,
-    isValid,
-    handleChange,
-    handleKeyDown,
-    inputsRef,
-  } = useOTP();
 
   const { loading, error, setError, requestOtpApi, verifyOtpApi } =
     useAuthService();
@@ -31,11 +22,26 @@ export const useVerifyOtp = () => {
   const { time: resendTimer, reset: resetResendTimer } = useTimer(60);
 
   const [attempts, setAttempts] = useState(0);
-  const email = location.state?.email || sessionStorage.getItem("otpEmail");
+  
 
   const clearError = () => setError(null);
 
-  const handleVerifyOtp = async () => {
+  const handleRequestOtp = async (email) => {
+    try {
+      const response = await requestOtpApi(email);
+      if (response && response.success) {
+        login({ email }, null, "club");
+        navigate("/verify-otp", {
+          state: { email },
+          replace: true,
+        });
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+
+  const handleVerifyOtp = async (isValid, otpCode) => {
     if (!isValid) return;
 
     try {
@@ -45,7 +51,7 @@ export const useVerifyOtp = () => {
       if (response && response.success) {
         const res = response.data;
         if (role === "player") {
-          verifyOtp(res.isNew ? false : true, res.status);
+          verifyOtp(res.user, res.token, res.isNew ? false : true);
           navigate(
             res.isNew || res.mustCompleteProfile
               ? "/player/create-account"
@@ -55,8 +61,8 @@ export const useVerifyOtp = () => {
         }
 
         if (role === "club") {
-          verifyOtp(res.isNew ? false : true, res.status);
-          navigate(res.isNew ? "/club/create-account" : "/club/dashboard", {
+          verifyOtp( res.user, res.token, res.isNew ? false : true, res.user.status);
+          navigate(res.isNew || res.mustCompleteProfile ? "/club/create-account" : "/club/dashboard", {
             replace: true,
           });
         }
@@ -66,7 +72,7 @@ export const useVerifyOtp = () => {
     }
   };
 
-  const handleResendOtp = async () => {
+  const handleResendOtp = async (resetResendTimer) => {
     try {
       await requestOtpApi(email);
       resetResendTimer(60);
@@ -81,25 +87,17 @@ export const useVerifyOtp = () => {
     ) {
       sessionStorage.removeItem("otpEmail");
       sessionStorage.removeItem("otpRequestTime");
-      navigate("/login/club", { replace: true });
-      navigate("/login/club", { replace: true });
+      navigate("/club/login", { replace: true });
       return;
     }
   }, [email, navigate]);
 
   return {
-    otp,
-    otpCode,
-    isValid,
-    loading,
     error,
-    resendTimer,
-    inputsRef,
-    handleChange,
-    handleKeyDown,
+    loading,
+    handleRequestOtp,
     handleVerifyOtp,
     handleResendOtp,
     clearError,
-    email,
   };
 };

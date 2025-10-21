@@ -5,17 +5,16 @@ import {
   clearAuthTransition,
 } from "../../utils/authTransitions";
 import { useAuth } from "../../context/AuthContext";
-import { useUserRegistration } from "../../hooks/useRegistration";
-import pageStyle from "./ClubRegister.module.css";
+import { usePlayerService } from "../../hooks/usePlayerService";
+import pageStyle from "./PlayerRegister.module.css";
 import textStyle from "../../styles/base/Text.module.css";
 import inputStyle from "../../styles/base/Inputs.module.css";
-import btnStyle from "../../styles/base/Button.module.css";
 import ProgressivePrimaryBtn from "../../components/common/ProgressivePrimaryBtn";
-import AvatarIcon from "../../assets/icons/avatar.png";
+import userProfile from "../../assets/images/user-profile.png";
 
 export default function PlayerRegister() {
-  const { user, token } = useAuth();
-  const { registerPlayerApi, loading, error } = useUserRegistration();
+  const { user, setUser, token } = useAuth();
+  const { loading, registerPlayerApi } = usePlayerService();
   const [playerDraft, setPlayerDraft] = useState({
     firstName: "",
     lastName: "",
@@ -39,8 +38,11 @@ export default function PlayerRegister() {
     };
 
     try {
-      await registerPlayerApi(registrationDraft, token);
-      navigate("/");
+      const res = await registerPlayerApi(registrationDraft, token);
+      if (res){ 
+        navigate("/");
+        setUser(res);
+      }
     } catch (error) {
       console.error("Error during registration:", error);
       clearAuthTransition();
@@ -56,7 +58,7 @@ export default function PlayerRegister() {
             <div className={pageStyle["avatar-container"]}>
               <div className={pageStyle["avatar-icon"]}>
                 <img 
-                  src={AvatarIcon} 
+                  src={userProfile} 
                   alt="Avatar" 
                   width="40" 
                   height="40"

@@ -1,3 +1,9 @@
+import SearchReservation from "../../components/common/SearchReservation";
+import pageStyle from "./Home.module.css";
+import textStyles from "../../styles/base/Text.module.css";
+import clockIcon from "../../assets/icons/clock-icon.svg";
+import cardIcon from "../../assets/icons/credit-card-icon.svg";
+import checkIcon from "../../assets/icons/check-icon.svg";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
@@ -9,119 +15,80 @@ import CheckIcon from "../../assets/icons/check-24-7.svg";
 import QuickSearchBar from "../../components/common/QuickSearchBar";
 
 export default function Home() {
-  const navigate = useNavigate();
-
-  const scrollToSearch = () => {
-    const searchSection = document.getElementById("search-section");
-    if (searchSection) {
-      searchSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleSearch = (searchData) => {
-    // Navegar a la página de resultados con los parámetros de búsqueda
-    const params = new URLSearchParams();
-    if (searchData.sport) params.set('sport', searchData.sport);
-    if (searchData.date) params.set('date', searchData.date);
-    if (searchData.time) params.set('time', searchData.time);
-    
-    navigate(`/search?${params.toString()}`);
-  };
-
   return (
-    <div className={styles.homeContainer}>
-      {/* Hero Section */}
-      <section className={styles.heroSection}>
-        <div className={styles.heroOverlay}>
-          <div className={styles.heroContent}>
-            <h1 className={`${TextStyles.textPrimary} ${styles.heroTitle}`}>
-              Sacar turno nunca
-              <br />
-              fue tan fácil
+    <div className={pageStyle["home-container"]}>
+      <section className={pageStyle["hero-section"]}>
+        <div className={pageStyle["hero-layout"]}>
+          <div className={pageStyle["hero-banner"]}>
+            <h1 className={pageStyle["hero-title"]}>
+              Reservá tu cancha en segundos
             </h1>
-            <p className={`${TextStyles.textSecondary} ${styles.heroSubtitle}`}>
-              Reservá tu cancha en segundos, y 
-              <br />
-              sin complicaciones
-            </p>
-            <button
-              className={`${ButtonStyles.btn} ${ButtonStyles.btnPrimary} ${styles.heroButton}`}
-              onClick={scrollToSearch}
+            <p
+              className={`${textStyles["text-secondary"]} ${textStyles["text-lg"]} ${textStyles["text-medium"]}`}
             >
-              Sacar un turno
-            </button>
+              La forma más simple y rápida de encontrar y reservar canchas
+              deportivas en La Rioja. Sin complicaciones, sin esperas.
+            </p>
+          </div>
+          <div className={pageStyle["hero-search"]}>
+            <SearchReservation />
+            <p
+              className={`${textStyles["text-primary"]} ${textStyles["text-sm"]} ${textStyles["text-medium"]}`}
+            >
+              Encontrá y reservá canchas disponibles en tu zona
+            </p>
           </div>
         </div>
       </section>
-
-      {/* Floating Block with Features and Search */}
-      <section className={styles.floatingBlock}>
-        {/* Features Section */}
-        <div className={styles.featuresSection}>
-          <div className={styles.featuresContainer}>
-            <div className={styles.featureCard}>
-              <div className={styles.featureIcon}>
-                <img
-                  src={ClockFeatureIcon}
-                  alt="Clock icon"
-                  width="24"
-                  height="24"
-                />
+      <section className={pageStyle["features-section"]}>
+        <div className={pageStyle["feature-layout"]}>
+          <div className={pageStyle["features-container"]}>
+            <div className={pageStyle["features-card"]}>
+              <div className={pageStyle["card-icon"]}>
+                <img src={clockIcon} width="30" height="30" />
               </div>
               <h3
-                className={`${TextStyles.textPrimary} ${styles.featureTitle}`}
+                className={`${textStyles["text-primary"]} ${textStyles["text-bold"]} ${textStyles["text-xl"]} `}
               >
                 Reservá en segundos
               </h3>
               <p
-                className={`${TextStyles.textSecondary} ${styles.featureDescription}`}
+                className={`${textStyles["text-secondary"]} ${textStyles["text-base"]}`}
               >
                 Encontrá tu cancha ideal sin complicaciones
               </p>
             </div>
-
-            <div className={styles.featureCard}>
-              <div className={styles.featureIcon}>
-                <img
-                  src={CreditCardIcon}
-                  alt="Credit card icon"
-                  width="24"
-                  height="24"
-                />
+            <div className={pageStyle["features-card"]}>
+              <div className={pageStyle["card-icon"]}>
+                <img src={cardIcon} width="30" height="30" />
               </div>
               <h3
-                className={`${TextStyles.textPrimary} ${styles.featureTitle}`}
+                className={`${textStyles["text-primary"]} ${textStyles["text-bold"]} ${textStyles["text-xl"]} `}
               >
                 Pagá como quieras
               </h3>
               <p
-                className={`${TextStyles.textSecondary} ${styles.featureDescription}`}
+                className={`${textStyles["text-secondary"]} ${textStyles["text-base"]}`}
               >
                 Pagá online con cualquier tarjeta
               </p>
             </div>
-
-            <div className={styles.featureCard}>
-              <div className={styles.featureIcon}>
-                <img src={CheckIcon} alt="Check icon" width="24" height="24" />
+            <div className={pageStyle["features-card"]}>
+              <div className={pageStyle["card-icon"]}>
+                <img src={checkIcon} width="30" height="30" />
               </div>
               <h3
-                className={`${TextStyles.textPrimary} ${styles.featureTitle}`}
+                className={`${textStyles["text-primary"]} ${textStyles["text-bold"]} ${textStyles["text-xl"]} `}
               >
                 Turnos 24/7
               </h3>
               <p
-                className={`${TextStyles.textSecondary} ${styles.featureDescription}`}
+                className={`${textStyles["text-secondary"]} ${textStyles["text-base"]}`}
               >
                 Sacá turno en cualquier momento, estés donde estés
               </p>
             </div>
           </div>
-        </div>
-
-        {/* Quick Search Section */}
-        <div id="search-section">
-          <QuickSearchBar onSearch={handleSearch} />
         </div>
       </section>
     </div>

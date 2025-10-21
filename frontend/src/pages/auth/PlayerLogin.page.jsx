@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useAuthService } from "../../hooks/useAuthService";
 import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
+import { usePlayerService } from "../../hooks/usePlayerService";
 import pageStyle from "./PlayerLogin.module.css";
 import btnStyle from "../../styles/base/Button.module.css";
 import textStyle from "../../styles/base/Text.module.css";
@@ -13,9 +15,11 @@ import ProgressivePrimaryBtn from "../../components/common/ProgressivePrimaryBtn
 export default function PlayerLogin() {
   const [email, setEmail] = useState("");
   const { login } = useAuth();
-  const { loading, error, requestOtpApi } = useAuthService();
+  const { loading, requestOtpApi } = useAuthService();
+  const { loginWithGoogleApi } = usePlayerService();
   const navigate = useNavigate();
 
+  // Manejador para login tradicional con email y OTP
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -31,6 +35,22 @@ export default function PlayerLogin() {
       console.error("Error during login:", error);
     }
   };
+
+  // Manejador para login con Google OAuth
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const response = await loginWithGoogleApi(tokenResponse.access_token);
+        if (response) {
+          login(response.player, response.token, "player");
+          navigate("/", { replace: true }); // Aplicar lógica para determinar si la redirección es a "/" o devolver al usuario en el proceso de reserva.
+        }
+      } catch (error) {
+        console.error("Error during Google login:", error);
+      }
+    },
+    onError: () => console.log("Login Failed"),
+  });
 
   return (
     <div className={pageStyle.content}>
@@ -80,6 +100,7 @@ export default function PlayerLogin() {
             <button
               type="button"
               className={`${btnStyle["btn"]} ${btnStyle["btn-secondary"]} ${pageStyle["login-form__google-button"]}`}
+              onClick={() => handleGoogleLogin()}
             >
               <img
                 src={googleIcon}

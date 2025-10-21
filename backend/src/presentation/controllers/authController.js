@@ -6,14 +6,14 @@ const loginWithGoogle = new LoginWithGoogle(playerRepository);
 
 export const googleAuthController = async (req, res) => {
   try {
-    const { idToken } = req.body;
+    const { accessToken } = req.body;
 
-    if (!idToken) {
-      return res.status(400).json({ error: "Falta idToken" });
+    if (!accessToken) {
+      return res.status(400).json({ error: "Falta accessToken" });
     }
 
     const { player, token, message, isNewPlayer } =
-      await loginWithGoogle.execute(idToken);
+      await loginWithGoogle.execute(accessToken);
 
     res.status(200).json({ player, token, message, isNewPlayer });
   } catch (error) {

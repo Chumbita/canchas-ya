@@ -45,6 +45,8 @@ export class VerifyOtp {
         user = await this.clubRepository.create({
           email,
         });
+      } else if (!user.name || !user.location) {
+        mustCompleteProfile = true;
       }
     }
 

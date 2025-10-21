@@ -1,7 +1,9 @@
 import { transporter } from "../../infraestructure/mailer.js";
 import fs from "fs/promises";
+import { completeRegistrationFormService } from "../../application/use_cases/ClubService.js";
 
 export const formRegisterController = async (req, res) => {
+  console.log("req.files:", req.files);
   try {
     const dataStr = req.body?.data ?? "{}";
     let payload;
@@ -46,13 +48,15 @@ export const formRegisterController = async (req, res) => {
       replyTo: legalRep.email,
       subject: `Nueva solicitud de registro - ${businessName || "Club"}`,
       html: `
-            <h3>Datos del representante</h3>
+            <h3>Datos de representante</h3>
             <p><strong>Nombre: </strong> ${legalRep.fullName || ""}</p>
             <p><strong>DNI:</strong> ${legalRep.dni || ""}</p>
             <p><strong>CUIL:</strong> ${legalRep.cuil || ""}</p>
             <p><strong>Email:</strong> ${legalRep.email}</p>
                 
             <h3>Datos del club</h3>
+            <p><strong>Nombre:</strong> ${clubInfo.name || ""}</p>
+            <p><strong>Dirección:</strong> ${clubInfo.location || ""}</p>
             <p><strong>CUIT:</strong> ${cuit}</p>
             <p><strong>Razon Social:</strong> ${businessName}</p>
 
@@ -67,7 +71,14 @@ export const formRegisterController = async (req, res) => {
       await fs.unlink(a.path).catch(() => {});
     }
 
-    return res.status(200).json({ message: "Registro enviado correctamente" });
+    // Se actualiza el club con nombre y location en la bd
+    const updatedClub = await completeRegistrationFormService(
+      legalRep.email,
+      clubInfo.name,
+      clubInfo.location
+    );
+
+    return res.status(200).json({ user: updatedClub, message: "Registro enviado correctamente" });
   } catch (err) {
     console.error("registerClubController error", err);
     return res
