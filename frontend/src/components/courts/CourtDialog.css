@@ -49,28 +49,8 @@
 .dialog-title {
   font-size: 20px;
   font-weight: 600;
-  color: #0056BD;
+  color: #0056bd;
   margin: 0;
-}
-
-.dialog-close {
-  padding: 4px;
-  background: transparent;
-  border: none;
-  color: rgb(255, 0, 0);
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s;
-}
-
-.dialog-close:hover {
-  color: #ff0000;
-  background: rgb(31, 7, 255);
-}
-
-.icon-small {
-  width: 16px;
-  height: 16px;
 }
 
 .dialog-form {
@@ -99,6 +79,8 @@
   color: #000000;
   font-size: 14px;
   transition: all 0.2s;
+  padding-left: 25px;
+  width: 100%;
 }
 
 .form-input:focus {
@@ -136,7 +118,7 @@
 
 .btn-submit {
   padding: 10px 20px;
-  background: #0056BD;
+  background: #0056bd;
   border: none;
   color: #fff;
   font-size: 14px;
@@ -148,4 +130,26 @@
 
 .btn-submit:hover {
   background: rgb(0, 81, 255);
+}
+.error-message {
+  color: #272727;
+  background-color: #f2a1001e;
+  border: 1px solid #f5c6cb;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.price-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 10px;
+  font-size: 1rem;
+  color: #555;
+  pointer-events: none;
 }

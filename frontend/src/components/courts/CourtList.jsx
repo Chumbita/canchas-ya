@@ -1,16 +1,24 @@
 import "./CourtList.css";
 import CourtCard from "./CourtCard";
-import { useState } from "react";
-import { AddCourtDialog } from "./AddCourtDialog";
+import { CourtDialog } from "./CourtDialog";
 
-export default function CourtList({ courts, onToggleStatus, onDelete }) {
-    const [dialogOpen, setDialogOpen] = useState(false);
-  if (courts.length === 0) return <p>No hay canchas registradassssssss.</p>;
+export default function CourtList({
+  courts,
+  onToggleStatus,
+  onAdd,
+  onEdit,
+  onDelete,
+  errorMessage,
+  addDialogOpen,
+  setAddDialogOpen,
+  editCourt,
+  setEditCourt,
+}) {
   return (
     <div className="court-list">
       <div className="court-header">
         <h2>Canchas</h2>
-        <button className="btn-add-court" onClick={() => setDialogOpen(true)}>
+        <button className="btn-add-court" onClick={() => setAddDialogOpen(true)}>
           Añadir cancha
         </button>
       </div>
@@ -22,20 +30,27 @@ export default function CourtList({ courts, onToggleStatus, onDelete }) {
               key={court.id}
               court={court}
               onToggleStatus={onToggleStatus}
+              onEdit={onEdit}
               onDelete={onDelete}
+              editCourt={editCourt}
+              setEditCourt={setEditCourt}
+              errorMessage={errorMessage}
             />
           ))
         ) : (
           <p className="no-courts">No hay canchas registradas.</p>
         )}
       </div>
-      <AddCourtDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        onAddCourt={(price) => {
+      <CourtDialog
+        open={addDialogOpen}
+        onOpenChange={setAddDialogOpen}
+        onSubmit={(price) => {
+          onAdd(price);
           console.log("Nueva cancha:", price);
         }}
-        sportName="Fulbo"
+        sportName="Futbol" // luego extraer del contexto
+        errorMessage={errorMessage}
+        mode="add"
       />
     </div>
   );

@@ -1,11 +1,19 @@
 import "./CourtPage.css";
 import { useEffect, useState } from "react";
 import CourtList from "../components/courts/CourtList";
-import { getCourts, putCourt, deleteCourt } from "../services/courtsService";
+import {
+  getCourts,
+  postCourt,
+  putCourt,
+  deleteCourt,
+} from "../services/courtsService";
 
 export default function CourtPage() {
   const [courts, setCourts] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [editCourt, setEditCourt] = useState(null);
 
   const idSportClub = 2;
 
@@ -25,15 +33,40 @@ export default function CourtPage() {
     }
   }
 
+  const handleAddCourt = async (pricePerHour) => {
+    try {
+      const newCourt = await postCourt(idSportClub, pricePerHour);
+      setCourts((prevCourts) => [...prevCourts, newCourt]);
+      setErrorMessage("");
+      setAddDialogOpen(false);
+    } catch (error) {
+      console.error("Error al añadir cancha: ", error.message);
+      setErrorMessage(error.message);
+    }
+  };
+
   const handleToggleStatus = async (courtId, nextState) => {
     try {
       const updateCourt = await putCourt(courtId, { isAvailable: nextState });
-      console.log(courtId, nextState); // Borrar luego
       setCourts((prev) =>
         prev.map((court) => (court.id === courtId ? updateCourt : court))
       );
     } catch (error) {
       console.error("Error al actualizar disponibilidad: ", error.message);
+    }
+  };
+
+  const handleEditCourt = async (courtId, price) => {
+    try {
+      const updateCourt = await putCourt(courtId, { pricePerHour: price });
+      setCourts((prev) =>
+        prev.map((court) => (court.id === courtId ? updateCourt : court))
+      );
+      setErrorMessage("");
+      setEditCourt(null);
+    } catch (error) {
+      console.error("Error al actualizar disponibilidad: ", error.message);
+      setErrorMessage(error.message);
     }
   };
 
@@ -55,7 +88,14 @@ export default function CourtPage() {
       <CourtList
         courts={courts}
         onToggleStatus={handleToggleStatus}
+        onAdd={handleAddCourt}
+        onEdit={handleEditCourt}
         onDelete={handleDeleteCourt}
+        errorMessage={errorMessage}
+        addDialogOpen={addDialogOpen}
+        setAddDialogOpen={setAddDialogOpen}
+        editCourt={editCourt}
+        setEditCourt={setEditCourt}
       />
     </div>
   );

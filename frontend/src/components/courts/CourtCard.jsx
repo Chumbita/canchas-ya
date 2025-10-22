@@ -2,9 +2,18 @@ import React from "react";
 import StatusToggle from "./StatusToggle";
 import { SquarePen, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
+import { CourtDialog } from "./CourtDialog";
 import "./CourtCard.css";
 
-export default function CourtCard({ court, onEdit, onDelete, onToggleStatus }) {
+export default function CourtCard({
+  court,
+  onEdit,
+  onDelete,
+  onToggleStatus,
+  editCourt,
+  setEditCourt,
+  errorMessage,
+}) {
   const { courtNumber, pricePerHour, isAvailable } = court;
 
   const handleToggle = (nextState) => {
@@ -61,7 +70,7 @@ export default function CourtCard({ court, onEdit, onDelete, onToggleStatus }) {
         </div>
 
         <div className="court-actions">
-          <button className="edit-btn" onClick={() => onEdit(court)}>
+          <button className="edit-btn" onClick={() => setEditCourt(court)}>
             <SquarePen strokeWidth={1.5} />
           </button>
           <button className="delete-btn" onClick={handleDelete}>
@@ -69,6 +78,18 @@ export default function CourtCard({ court, onEdit, onDelete, onToggleStatus }) {
           </button>
         </div>
       </div>
+      {editCourt?.id === court.id && (
+        <CourtDialog
+          open={editCourt}
+          onOpenChange={() => setEditCourt(null)}
+          onSubmit={(newPrice) => onEdit(court.id, newPrice)}
+          initialPrice={pricePerHour}
+          courtNumber={courtNumber}
+          sportName="Fútbol"
+          mode="edit"
+          errorMessage={errorMessage}
+        />
+      )}
     </div>
   );
 }

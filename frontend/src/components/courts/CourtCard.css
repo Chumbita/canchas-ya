@@ -2,7 +2,7 @@
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 16px;
+  padding: 14px;
   width: 450px;
   display: flex;
   flex-direction: column;
@@ -12,15 +12,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 16px;
 }
-.court-status.available {
-  color: #40A040;
+
+.court-status.available,
+.court-status.unavailable {
   font-weight: bold;
+  font-size: 16px;
+}
+
+.court-status.available {
+  color: #40a040;
 }
 
 .court-status.unavailable {
-  color: #D7433B;
-  font-weight: bold;
+  color: #d7433b;
 }
 
 .court-info {
@@ -28,37 +34,35 @@
   color: #555;
 }
 
-.court-row{
+.court-row {
   display: flex;
-  margin-top: 12px;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
- /*  flex-wrap: wrap; probar para responsive */
+  /*  flex-wrap: wrap; probar para responsive */
 }
 
 .court-actions {
   display: flex;
   justify-content: right;
+  align-items: center;
   gap: 15px;
-
 }
 
-.edit-btn{
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-size: 14px;
-  transition: color 0.2s;
-  color: #0056BD;
-}
+.edit-btn,
 .delete-btn {
   border: none;
   background: none;
   cursor: pointer;
-  font-size: 14px;
   transition: color 0.2s;
-  color: #D7433B;
+  color: #d7433b;
+  display: flex;
+}
+.delete-btn {
+  color: #d7433b;
+}
+.edit-btn {
+  color: #0056bd;
 }
 
 .edit-btn:hover {
@@ -83,5 +87,14 @@
 @media (max-width: 480px) {
   .my-swal-popup {
     font-size: 0.9rem;
+  }
+
+  .court-header,
+  .court-status.available,
+  .court-status.unavailable {
+    font-size: 14px;
+  }
+  .court-info {
+    font-size: 12px;
   }
 }

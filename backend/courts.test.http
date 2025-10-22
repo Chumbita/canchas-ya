@@ -3,8 +3,8 @@ POST http://localhost:3000/api/courts
 Content-Type: application/json
 
 {
-  "idSportClub": 2,
-  "pricePerHour": 2550
+  "idSportClub": 3,
+  "pricePerHour": 5000
 }
 
 ###

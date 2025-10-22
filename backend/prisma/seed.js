@@ -3,19 +3,19 @@ const prisma = new PrismaClient();
 
 async function main() {
   // 👇 Cambia este ID por el de tu club ya existente
-  const clubId = 6;
+  const clubId = 1;
 
   // 1. Crear deporte si no existe
   const sport = await prisma.sport.upsert({
-    where: { name: "Padel" },
+    where: { name: "Tenis" },
     update: {},
-    create: { name: "Padel" },
+    create: { name: "Tenis" },
   });
 
   console.log("Deporte:", sport);
 
-  // 2. Crear relación SportClub si no existe
-  const sportClub = await prisma.sportClub.upsert({
+  // 2. Crear relación SportByClub si no existe
+  const sportClub = await prisma.sportByClub.upsert({
     where: {
       clubId_sportId: {
         clubId: clubId,
@@ -30,7 +30,7 @@ async function main() {
   });
 
   console.log("Relación SportClub:", sportClub);
-/*
+  /*
   // 3. Crear 2 canchas de ejemplo
   const cancha1 = await prisma.court.create({
     data: {

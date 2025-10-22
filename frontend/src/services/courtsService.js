@@ -6,6 +6,23 @@ export async function getCourts(idSportClub) {
   return await res.json();
 }
 
+export async function postCourt(idSportClub, pricePerHour) {
+  const res = await fetch(`${API_URL}/courts/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ idSportClub, pricePerHour }),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Error al añadir cancha");
+  }
+  const data = await res.json();
+  return data.data;
+}
+
 export async function putCourt(id, updates) {
   const res = await fetch(`${API_URL}/courts/${id}`, {
     method: "PUT",
@@ -22,8 +39,9 @@ export async function putCourt(id, updates) {
   const data = await res.json();
   return data.data;
 }
+
 export async function deleteCourt(id) {
-  const res = await fetch(`${API_URL}/courts/${id}` , {
+  const res = await fetch(`${API_URL}/courts/${id}`, {
     method: "DELETE",
   });
 

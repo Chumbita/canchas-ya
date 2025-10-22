@@ -9,14 +9,14 @@ datasource db {
 }
 
 model Club {
-  id         Int            @id @default(autoincrement())
-  googleId   String?        @unique
-  name       String?        @db.VarChar
-  email      String         @unique
-  location   String?        @db.VarChar
-  status     String         @default("pending")
-  created_at DateTime       @default(now())
-  sportClubs SportClub[]    // relación inversa a SportClub
+  id         Int      @id @default(autoincrement())
+  name       String?  @db.VarChar
+  email      String   @unique
+  location   Json?
+  status     String   @default("pending")
+  created_at DateTime @default(now())
+  
+  sportClubs SportByClub[]    // relación inversa a SportClub
   schedules  ClubSchedule[] // relación inversa a ClubSchedule
 }
 
@@ -51,10 +51,10 @@ model OtpCode {
 model Sport {
   id        Int               @id @default(autoincrement())
   name      String            @unique
-  clubs     SportClub[]
+  clubs     SportByClub[]
 }
 
-model SportClub {
+model SportByClub {
   id        Int        @id @default(autoincrement())
   clubId    Int
   sportId   Int
@@ -74,7 +74,6 @@ model Court {
   pricePerHour    Float
   isAvailable     Boolean   @default(true)
 
-  sportClub   SportClub     @relation(fields: [idSportClub], references: [id])
-  @@unique([idSportClub, courtNumber])
+  sportClub   SportByClub @relation(fields: [idSportClub], references: [id])
   // reservations Reservation[] <- descomentar cuando se agregue la tabla
 }
