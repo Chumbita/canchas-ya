@@ -115,6 +115,7 @@ model Court {
   courtNumber         Int
   pricePerHour        Float
   isAvailable         Boolean               @default(true)
+  courtType           String?               @db.VarChar(50) // Tipo de cancha (Fútbol 5, Fútbol 11, etc.)
 
   sportsByClub        SportsByClub          @relation(fields: [idSportClub], references: [id])
   reservations        Reservation[]    

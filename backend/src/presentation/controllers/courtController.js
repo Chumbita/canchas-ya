@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export const getCourts = async (req, res) => {
   try {
-    const { sport, date, time, minPrice, maxPrice, ratings } = req.query;
+    const { sport, date, time, minPrice, maxPrice, ratings, courtType } = req.query;
 
     // Construir filtros
     let whereClause = {
@@ -28,6 +28,14 @@ export const getCourts = async (req, res) => {
       whereClause.pricePerHour = {};
       if (minPrice) whereClause.pricePerHour.gte = parseInt(minPrice);
       if (maxPrice) whereClause.pricePerHour.lte = parseInt(maxPrice);
+    }
+
+    // Filtrar por tipo de cancha
+    if (courtType) {
+      whereClause.courtType = {
+        contains: courtType,
+        mode: 'insensitive'
+      };
     }
 
     // Obtener canchas con información relacionada
@@ -66,14 +74,17 @@ export const getCourts = async (req, res) => {
 
       return {
         id: court.id,
-        name: club.name,
+        name: `${club.name} - ${court.courtType}`, // Hacer único cada cancha
         rating: Math.round(avgRating * 10) / 10,
         sports: sports,
         timeRange: "17:00pm - 00:00am", // Horario fijo por ahora
         amenities: ["Baños", "Vestuarios", "Asadores", "Kiosco"], // Amenities fijas por ahora
         price: court.pricePerHour,
         image: club.photos.length > 0 ? club.photos[0].url : 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=300&fit=crop',
-        location: club.location
+        location: club.location,
+        courtType: court.courtType, // Incluir tipo de cancha
+        clubName: club.name, // Nombre del club original
+        courtNumber: court.courtNumber // Número de cancha
       };
     });
 
@@ -160,12 +171,15 @@ export const getCourtById = async (req, res) => {
 
     const transformedCourt = {
       id: court.id,
-      name: club.name,
+      name: `${club.name} - ${court.courtType}`, // Hacer único cada cancha
       rating: Math.round(avgRating * 10) / 10,
       reviewCount: ratings.length,
       sports: sports,
       price: court.pricePerHour,
       image: club.photos.length > 0 ? club.photos[0].url : 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=600&fit=crop',
+      courtType: court.courtType, // Incluir tipo de cancha
+      clubName: club.name, // Nombre del club original
+      courtNumber: court.courtNumber, // Número de cancha
       images: club.photos.map(photo => photo.url),
       services: [
         { name: "Baños", icon: "🚻" },

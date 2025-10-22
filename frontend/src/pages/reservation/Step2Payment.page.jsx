@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./Step2Payment.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
-import QuickSearchBar from "../../components/common/QuickSearchBar";
 import ProgressSteps from "../../components/reservation/ProgressSteps";
 import ReservationSummary from "../../components/reservation/ReservationSummary";
 import { reservationService } from "../../services/reservationService";
@@ -66,8 +65,6 @@ export default function Step2Payment() {
 
   return (
     <div className={styles.paymentPage}>
-      <QuickSearchBar onSearch={handleSearch} showTitle={false} />
-      
       <div className={styles.mainContent}>
         <div className={styles.container}>
           {/* Breadcrumbs */}

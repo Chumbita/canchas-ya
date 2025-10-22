@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./SearchResults.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
-import QuickSearchBar from "../../components/common/QuickSearchBar";
+import SearchReservation from "../../components/common/SearchReservation";
 import SearchFilters from "../../components/search/SearchFilters";
 import CourtCard from "../../components/search/CourtCard";
 import { courtService } from "../../services/courtService";
 
-// Mock data como fallback
+// Mock data como fallback - COMENTADO PARA USAR SOLO DATOS REALES
+/*
 const mockCourts = [
   {
     id: 1,
@@ -80,6 +81,7 @@ const mockCourts = [
     image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=300&fit=crop"
   }
 ];
+*/
 
 export default function SearchResults() {
   const navigate = useNavigate();
@@ -93,52 +95,76 @@ export default function SearchResults() {
     ratings: []
   });
 
-  // Cargar canchas desde la API solo cuando cambian los parámetros de búsqueda
+  // Cargar todas las canchas al cargar la página (sin filtros)
   useEffect(() => {
-    const loadCourts = async () => {
+    const loadAllCourts = async () => {
       try {
+        console.log('🔄 Loading all courts...'); // DEBUG
         setLoading(true);
-        const sport = searchParams.get('sport');
-        const date = searchParams.get('date');
-        const time = searchParams.get('time');
         
-        const apiFilters = {
-          sport,
-          date,
-          time
-        };
-
-        const response = await courtService.getCourts(apiFilters);
+        // Cargar todas las canchas sin filtros
+        const response = await courtService.getCourts({});
+        console.log('📡 API Response received:', response); // DEBUG
+        
         if (response.success && response.data && response.data.length > 0) {
+          console.log('All courts found:', response.data.length); // DEBUG
           setCourts(response.data);
           setFilteredCourts(response.data);
         } else {
-          // Fallback a datos mock si la API falla
-          console.log('Using mock data as fallback');
-          setCourts(mockCourts);
-          setFilteredCourts(mockCourts);
+          console.log('No courts found from API');
         }
       } catch (error) {
         console.error('Error loading courts:', error);
-        // Fallback a datos mock
-        setCourts(mockCourts);
-        setFilteredCourts(mockCourts);
       } finally {
         setLoading(false);
       }
     };
 
-    loadCourts();
-  }, [searchParams]); // Solo recargar cuando cambien los parámetros de búsqueda, no los filtros
+    loadAllCourts();
+  }, []); // Solo cargar una vez al montar el componente
 
   const handleSearch = (searchData) => {
-    // Navegar con los parámetros de búsqueda
-    const params = new URLSearchParams();
-    if (searchData.sport) params.set('sport', searchData.sport);
-    if (searchData.date) params.set('date', searchData.date);
-    if (searchData.time) params.set('time', searchData.time);
+    // Actualizar los filtros con los nuevos datos de búsqueda
+    const newFilters = {
+      sport: searchData.sport,
+      date: searchData.date,
+      time: searchData.time
+    };
     
-    navigate(`/search?${params.toString()}`);
+    // Recargar las canchas con los nuevos filtros
+    loadCourtsWithFilters(newFilters);
+  };
+
+  const loadCourtsWithFilters = async (filters) => {
+    try {
+      setLoading(true);
+      
+      // Preparar filtros para la API
+      const apiFilters = {
+        sport: searchParams.get('sport'),
+        date: searchParams.get('date'),
+        time: searchParams.get('time'),
+        minPrice: filters.priceRange.min,
+        maxPrice: filters.priceRange.max,
+        ratings: filters.ratings,
+        courtType: filters.fieldSizes.length > 0 ? filters.fieldSizes[0] : null // Solo el primer tipo seleccionado
+      };
+      
+      const response = await courtService.getCourts(apiFilters);
+      console.log('API Response:', response);
+      
+      if (response.success && response.data && response.data.length > 0) {
+        console.log('Courts found:', response.data.length);
+        setCourts(response.data);
+        setFilteredCourts(response.data);
+      } else {
+        console.log('No courts found from API - Response:', response);
+      }
+    } catch (error) {
+      console.error('Error loading courts:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFilterChange = (newFilters) => {
@@ -183,21 +209,33 @@ export default function SearchResults() {
       );
     }
     
-    // Filtrar por tamaño de cancha (preparado para datos reales)
+    // Filtrar por tamaño de cancha
     if (filters.fieldSizes.length > 0) {
-      // Por ahora no filtramos por tamaño ya que no tenemos esa info en los datos mock
-      // En el futuro se puede implementar cuando tengamos datos reales de la API
+      filtered = filtered.filter(court => 
+        court.courtType && filters.fieldSizes.includes(court.courtType)
+      );
     }
     
     return filtered;
   };
 
+  console.log('Rendering SearchResults - courts:', courts.length, 'filteredCourts:', filteredCourts.length, 'loading:', loading); // DEBUG
+  
+  // DEBUG: Verificar que las canchas se estén cargando
+  if (courts.length === 0 && !loading) {
+    console.log('⚠️ No courts found - checking if API is working...');
+  }
+
   return (
-    <div className={styles.searchResultsPage}>
-      <QuickSearchBar onSearch={handleSearch} showTitle={false} />
+    <>
+      {/* Búsqueda rápida separada */}
+      <div className={styles.searchContainer}>
+        <SearchReservation onSearch={handleSearch} />
+      </div>
       
-      <div className={styles.mainContent}>
-        <div className={styles.container}>
+      <div className={styles.searchResultsPage}>
+        <div className={styles.mainContent}>
+          <div className={styles.container}>
           {/* Breadcrumbs */}
           <div className={styles.breadcrumbs}>
             <span className={`${TextStyles.textSecondary} ${styles.breadcrumbItem}`}>
@@ -239,6 +277,7 @@ export default function SearchResults() {
                 </div>
               ) : (
                 <div className={styles.resultsGrid}>
+                  
                   {filteredCourts.map((court) => (
                     <CourtCard key={court.id} court={court} />
                   ))}
@@ -246,8 +285,9 @@ export default function SearchResults() {
               )}
             </main>
           </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

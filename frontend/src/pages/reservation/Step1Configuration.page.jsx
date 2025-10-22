@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./Step1Configuration.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
-import QuickSearchBar from "../../components/common/QuickSearchBar";
 import ProgressSteps from "../../components/reservation/ProgressSteps";
 import ReservationSummary from "../../components/reservation/ReservationSummary";
 import { reservationService } from "../../services/reservationService";
+import { courtService } from "../../services/courtService";
 
 export default function Step1Configuration() {
   const { courtId } = useParams();
@@ -22,6 +22,16 @@ export default function Step1Configuration() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [availableDates, setAvailableDates] = useState([]);
   
+  // Estados para datos de la cancha
+  const [court, setCourt] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [availableCourtTypes, setAvailableCourtTypes] = useState([]);
+  const [availableCourtNumbers, setAvailableCourtNumbers] = useState([]);
+  
+  // Estados para navegación de fechas
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  
   // Horarios disponibles (mock data)
   const availableTimeSlots = [
     "18:00 - 19:00",
@@ -30,11 +40,57 @@ export default function Step1Configuration() {
     "21:00 - 22:00"
   ];
   
-  // Tamaños de cancha disponibles
-  const courtSizes = ["5x5", "8x8", "11x11"];
-  
-  // Números de cancha disponibles
-  const courtNumbers = [1, 2, 3, 4, 5, 6, 7];
+  // Cargar datos de la cancha
+  useEffect(() => {
+    const loadCourtData = async () => {
+      try {
+        setLoading(true);
+        const response = await courtService.getCourtById(courtId);
+        
+        if (response.success && response.data) {
+          setCourt(response.data);
+          
+          // Obtener todos los tipos de cancha disponibles para este club
+          const clubName = response.data.clubName;
+          const allCourtsResponse = await courtService.getCourts({});
+          
+          if (allCourtsResponse.success && allCourtsResponse.data) {
+            // Filtrar canchas del mismo club
+            const clubCourts = allCourtsResponse.data.filter(court => 
+              court.clubName === clubName
+            );
+            
+            // Extraer tipos únicos de cancha
+            const courtTypes = [...new Set(clubCourts.map(court => court.courtType))];
+            setAvailableCourtTypes(courtTypes);
+            
+            // Extraer números únicos de cancha
+            const courtNumbers = [...new Set(clubCourts.map(court => court.courtNumber))].sort((a, b) => a - b);
+            setAvailableCourtNumbers(courtNumbers);
+            
+            console.log('Available court types for', clubName, ':', courtTypes);
+            console.log('Available court numbers for', clubName, ':', courtNumbers);
+          }
+        }
+      } catch (error) {
+        console.error('Error loading court data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (courtId) {
+      loadCourtData();
+    }
+  }, [courtId]);
+
+  // Inicializar estado de flechas de navegación
+  useEffect(() => {
+    const dateGrid = document.querySelector(`.${styles.dateGrid}`);
+    if (dateGrid) {
+      handleDateScroll();
+    }
+  }, [availableDates]);
 
   // Generar fechas del mes actual
   useEffect(() => {
@@ -131,10 +187,50 @@ export default function Step1Configuration() {
     return basePrice * selectedDuration;
   };
 
+  // Funciones para navegación de fechas
+  const scrollDates = (direction) => {
+    const dateGrid = document.querySelector(`.${styles.dateGrid}`);
+    if (dateGrid) {
+      const scrollAmount = 200; // Cantidad de píxeles a desplazar
+      const newScrollLeft = direction === 'left' 
+        ? dateGrid.scrollLeft - scrollAmount 
+        : dateGrid.scrollLeft + scrollAmount;
+      
+      dateGrid.scrollTo({
+        left: newScrollLeft,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleDateScroll = () => {
+    const dateGrid = document.querySelector(`.${styles.dateGrid}`);
+    if (dateGrid) {
+      const { scrollLeft, scrollWidth, clientWidth } = dateGrid;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className={styles.configurationPage}>
+        <div className={styles.mainContent}>
+          <div className={styles.container}>
+            <div className={styles.loadingContainer}>
+              <div className={styles.loadingSpinner}></div>
+              <p className={`${TextStyles.textPrimary} ${styles.loadingText}`}>
+                Cargando datos de la cancha...
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.configurationPage}>
-      <QuickSearchBar onSearch={handleSearch} showTitle={false} />
-      
       <div className={styles.mainContent}>
         <div className={styles.container}>
           {/* Breadcrumbs */}
@@ -170,26 +266,45 @@ export default function Step1Configuration() {
           </div>
 
           <div className={styles.contentLayout}>
-            {/* Left Column - Configuration */}
-            <div className={styles.configurationColumn}>
+            {/* Configuration Card */}
+            <div className={styles.configurationCard}>
               
               {/* Date Selection */}
               <div className={styles.section}>
                 <h3 className={`${TextStyles.textPrimary} ${TextStyles.textMedium} ${styles.sectionTitle}`}>
                   {formatMonthYear(currentMonth)}
                 </h3>
-                <div className={styles.dateGrid}>
-                  {availableDates.map((dateInfo) => (
-                    <button
-                      key={dateInfo.day}
-                      className={`${styles.dateButton} ${selectedDate?.day === dateInfo.day ? styles.selected : ''} ${!dateInfo.available ? styles.unavailable : ''}`}
-                      onClick={() => dateInfo.available && setSelectedDate(dateInfo)}
-                      disabled={!dateInfo.available}
-                    >
-                      <span className={styles.dateNumber}>{dateInfo.day}</span>
-                      <span className={styles.dateDay}>{dateInfo.dayName.charAt(0).toUpperCase() + dateInfo.dayName.slice(1, 3)}</span>
-                    </button>
-                  ))}
+                <div className={styles.dateContainer}>
+                  <button 
+                    className={`${styles.dateNavButton} ${styles.left}`}
+                    onClick={() => scrollDates('left')}
+                    disabled={!canScrollLeft}
+                  >
+                    ‹
+                  </button>
+                  <div 
+                    className={styles.dateGrid}
+                    onScroll={handleDateScroll}
+                  >
+                    {availableDates.map((dateInfo) => (
+                      <button
+                        key={dateInfo.day}
+                        className={`${styles.dateButton} ${selectedDate?.day === dateInfo.day ? styles.selected : ''} ${!dateInfo.available ? styles.unavailable : ''}`}
+                        onClick={() => dateInfo.available && setSelectedDate(dateInfo)}
+                        disabled={!dateInfo.available}
+                      >
+                        <span className={styles.dateNumber}>{dateInfo.day}</span>
+                        <span className={styles.dateDay}>{dateInfo.dayName.charAt(0).toUpperCase() + dateInfo.dayName.slice(1, 3)}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <button 
+                    className={`${styles.dateNavButton} ${styles.right}`}
+                    onClick={() => scrollDates('right')}
+                    disabled={!canScrollRight}
+                  >
+                    ›
+                  </button>
                 </div>
               </div>
 
@@ -221,13 +336,13 @@ export default function Step1Configuration() {
                   Cancha
                 </h3>
                 <div className={styles.optionsGrid}>
-                  {courtSizes.map((size) => (
+                  {availableCourtTypes.map((courtType) => (
                     <button
-                      key={size}
-                      className={`${styles.optionButton} ${selectedCourtSize === size ? styles.selected : ''}`}
-                      onClick={() => setSelectedCourtSize(size)}
+                      key={courtType}
+                      className={`${styles.optionButton} ${selectedCourtSize === courtType ? styles.selected : ''}`}
+                      onClick={() => setSelectedCourtSize(courtType)}
                     >
-                      {size}
+                      {courtType}
                     </button>
                   ))}
                 </div>
@@ -239,7 +354,7 @@ export default function Step1Configuration() {
                   N°cancha
                 </h3>
                 <div className={styles.optionsGrid}>
-                  {courtNumbers.map((number) => (
+                  {availableCourtNumbers.map((number) => (
                     <button
                       key={number}
                       className={`${styles.optionButton} ${selectedCourtNumber === number ? styles.selected : ''}`}

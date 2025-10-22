@@ -37,11 +37,27 @@
 }
 
 .courtName {
-  font-size: 1.1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
   color: #1a1a1a;
   margin: 0;
   flex: 1;
   margin-right: 0.5rem;
+}
+
+.courtType {
+  margin: 0.5rem 0;
+}
+
+.courtTypeText {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-block;
 }
 
 .rating {
@@ -53,13 +69,13 @@
 
 .star {
   color: #ffc107;
-  font-size: 1rem;
+  font-size: 1.5rem; /* Estrella aún más grande */
 }
 
 .ratingValue {
-  font-size: 0.9rem;
+  font-size: 1rem; /* Tamaño de letra más grande */
   color: #1a1a1a;
-  font-weight: 600;
+  font-weight: bold; /* Negrita */
 }
 
 .sports {
@@ -117,7 +133,9 @@
   }
   
   .courtName {
-    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px; /* Tamaño ligeramente menor en móvil */
+    font-weight: bold;
   }
   
   .priceValue {

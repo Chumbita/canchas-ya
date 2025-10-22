@@ -4,15 +4,6 @@ import textStyles from "../../styles/base/Text.module.css";
 import clockIcon from "../../assets/icons/clock-icon.svg";
 import cardIcon from "../../assets/icons/credit-card-icon.svg";
 import checkIcon from "../../assets/icons/check-icon.svg";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import styles from "./Home.module.css";
-import TextStyles from "../../styles/base/Text.module.css";
-import ButtonStyles from "../../styles/base/Button.module.css";
-import ClockFeatureIcon from "../../assets/icons/clock-feature.svg";
-import CreditCardIcon from "../../assets/icons/credit-card.svg";
-import CheckIcon from "../../assets/icons/check-24-7.svg";
-import QuickSearchBar from "../../components/common/QuickSearchBar";
 
 export default function Home() {
   return (

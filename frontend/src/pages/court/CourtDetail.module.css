@@ -5,10 +5,25 @@
   background: white;
 }
 
+/* Contenedor separado para la búsqueda rápida */
+.searchContainer {
+  background: white;
+  padding: 1.5rem 0;
+  margin: 0 auto;
+  max-width: 1400px; /* Aumentar para coincidir con searchResultsPage */
+  padding-left: 5px;
+  padding-right: 5px;
+  position: relative;
+  z-index: 50; /* Z-index medio para el contenedor de búsqueda */
+  margin-bottom: 20px; /* Gap de 20px abajo */
+  border-bottom: 1px solid #e0e0e0; /* Línea separadora más cerca */
+}
+
 .mainContent {
   flex: 1;
   background: white;
-  padding: 2rem 0;
+  padding: 0.5rem 0; /* Reducir padding superior */
+  font-family: 'Inter', sans-serif; /* Aplicar fuente Inter */
 }
 
 .container {
@@ -34,8 +49,8 @@
 
 .contentLayout {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 3rem;
+  grid-template-columns: 4fr 1.5fr; /* Hacer la imagen más ancha */
+  gap: 20px; /* Gap de 20px entre imagen y sección derecha */
   margin-bottom: 3rem;
 }
 
@@ -46,7 +61,7 @@
 
 .imageContainer {
   width: 100%;
-  height: 400px;
+  height: 600px; /* Aumentar más el alto de la imagen */
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -111,6 +126,8 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  justify-content: space-between;
+  max-height: 600px; /* Misma altura que la imagen */
 }
 
 .courtHeader {
@@ -157,7 +174,7 @@
 }
 
 .star {
-  font-size: 1.2rem;
+  font-size: 1.5rem; /* Hacer las estrellas más grandes */
   color: #ddd;
 }
 
@@ -176,11 +193,12 @@
   gap: 1rem;
   padding: 1.5rem 0;
   border-top: 1px solid #e0e0e0;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .sectionTitle {
-  font-size: 1.1rem;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
   color: #1a1a1a;
   margin: 0;
 }
@@ -192,17 +210,23 @@
 }
 
 .sportButton {
+  position: relative;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1rem;
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  border-radius: 12px;
   background: white;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.9rem;
   color: #666;
+  min-height: 80px; /* Aumentar altura para las imágenes más grandes */
+  min-width: 120px; /* Aumentar ancho para las imágenes más grandes */
+  overflow: hidden;
+  font-family: 'Inter', sans-serif; /* Aplicar fuente Inter */
 }
 
 .sportButton:hover {
@@ -218,12 +242,25 @@
 }
 
 .sportIcon {
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 24px;
-  min-height: 24px;
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.sportImage {
+  position: absolute;
+  bottom: -25px;
+  right: -25px;
+  width: 110px; /* Hacer mucho más grande */
+  height: 110px; /* Hacer mucho más grande */
+  object-fit: cover;
+  border-radius: 50%;
+  z-index: 1;
 }
 
 .sportName {
@@ -235,8 +272,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  background: #f8f9fa;
+  background: white; /* Quitar fondo gris */
   border-radius: 8px;
+  margin-top: auto; /* Empujar hacia abajo */
+  font-family: 'Inter', sans-serif; /* Aplicar fuente Inter */
+  border-top: 1px solid #e0e0e0;
 }
 
 .price {
@@ -339,7 +379,7 @@
 }
 
 .ratingStar {
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: #ddd;
 }
 
@@ -444,7 +484,7 @@
   }
   
   .imageContainer {
-    height: 250px;
+    height: 350px; /* Aumentar más en móvil */
   }
   
   .courtName {
@@ -480,8 +520,16 @@
   }
   
   .servicesList {
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
+    gap: 0.75rem;
+    justify-items: center;
+  }
+  
+  .serviceItem {
+    padding: 0.4rem 0.8rem; /* Reducir padding en móvil */
+    font-size: 0.8rem; /* Reducir tamaño de fuente */
+    min-width: 120px; /* Ancho mínimo para el grid */
   }
   
   .ratingItem {

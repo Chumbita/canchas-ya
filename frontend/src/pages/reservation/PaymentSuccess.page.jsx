@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./PaymentSuccess.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
-import QuickSearchBar from "../../components/common/QuickSearchBar";
 import { reservationService } from "../../services/reservationService";
 
 export default function PaymentSuccess() {
@@ -69,7 +68,6 @@ export default function PaymentSuccess() {
   if (loading) {
     return (
       <div className={styles.successPage}>
-        <QuickSearchBar onSearch={handleSearch} showTitle={false} />
         <div className={styles.loadingContainer}>
           <div className={styles.loadingSpinner}></div>
           <p className={`${TextStyles.textPrimary} ${styles.loadingText}`}>
@@ -82,8 +80,6 @@ export default function PaymentSuccess() {
 
   return (
     <div className={styles.successPage}>
-      <QuickSearchBar onSearch={handleSearch} showTitle={false} />
-      
       <div className={styles.mainContent}>
         <div className={styles.container}>
           {/* Success Message */}

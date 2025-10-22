@@ -12,9 +12,37 @@
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 1rem;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 1rem;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #1976d2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingText {
+  font-size: 1.1rem;
+  color: #666;
 }
 
 .breadcrumbs {
@@ -34,7 +62,7 @@
 
 .titleSection {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .mainTitle {
@@ -51,8 +79,18 @@
 
 .contentLayout {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 3rem;
+  align-items: start;
+}
+
+.configurationCard {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .configurationColumn {
@@ -62,35 +100,100 @@
 }
 
 .section {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
 }
 
 .sectionTitle {
   font-size: 1.2rem;
-  color: #1a1a1a;
-  margin: 0 0 1.5rem 0;
+  color: #1976d2;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.dateContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .dateGrid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  display: flex;
   gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  width: 100%;
+  max-width: calc(10 * 80px + 6 * 0.5rem); /* 7 botones de 80px + 6 gaps de 0.5rem */
+}
+
+.dateGrid::-webkit-scrollbar {
+  display: none;
+}
+
+.dateNavButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.dateNavButton:hover {
+  background: #f8f9fa;
+  border-color: #007bff;
+}
+
+.dateNavButton.left {
+  left: -16px;
+}
+
+.dateNavButton.right {
+  right: -16px;
+}
+
+.dateNavButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .dateButton {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem 0.5rem;
+  justify-content: center;
+  padding: 0.75rem 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background: white;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-height: 80px;
+  min-width: 80px;
+  flex-shrink: 0;
+  min-height: 60px;
+  font-family: 'Inter', sans-serif;
 }
 
 .dateButton:hover:not(.unavailable) {
@@ -115,11 +218,13 @@
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
+  font-family: 'Inter', sans-serif;
 }
 
 .dateDay {
   font-size: 0.8rem;
   color: #666;
+  font-family: 'Inter', sans-serif;
 }
 
 .durationSelector {
@@ -177,6 +282,7 @@
   font-size: 1rem;
   font-weight: 500;
   text-align: center;
+  font-family: 'Inter', sans-serif;
 }
 
 .optionButton:hover {
@@ -223,7 +329,7 @@
   flex-direction: column;
 }
 
-/* Responsive Design */
+/* Responsive Design - Solo escritorio */
 @media (max-width: 1024px) {
   .contentLayout {
     grid-template-columns: 1fr;
@@ -232,42 +338,5 @@
   
   .summaryColumn {
     order: -1;
-  }
-}
-
-@media (max-width: 768px) {
-  .mainContent {
-    padding: 1rem 0;
-  }
-  
-  .container {
-    padding: 0 0.5rem;
-  }
-  
-  .mainTitle {
-    font-size: 2rem;
-  }
-  
-  .dateGrid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-  
-  .dateButton {
-    min-height: 60px;
-    padding: 0.75rem 0.25rem;
-  }
-  
-  .optionsGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .dateGrid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  
-  .optionsGrid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }

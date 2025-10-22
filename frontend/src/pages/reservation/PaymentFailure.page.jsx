@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./PaymentFailure.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
-import QuickSearchBar from "../../components/common/QuickSearchBar";
 
 export default function PaymentFailure() {
   const navigate = useNavigate();
@@ -35,8 +34,6 @@ export default function PaymentFailure() {
 
   return (
     <div className={styles.failurePage}>
-      <QuickSearchBar onSearch={handleSearch} showTitle={false} />
-      
       <div className={styles.mainContent}>
         <div className={styles.container}>
           {/* Failure Message */}

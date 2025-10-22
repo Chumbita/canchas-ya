@@ -5,7 +5,7 @@ import InputStyles from "../../styles/base/Inputs.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
 import SoccerBallIcon from "../../assets/icons/soccer-ball.svg";
 import CalendarIcon from "../../assets/icons/calendar.svg";
-import ClockIcon from "../../assets/icons/clock.svg";
+import ClockIcon from "../../assets/icons/clock-icon.svg";
 
 export default function QuickSearchBar({ onSearch, showTitle = true }) {
   const handleSearch = (e) => {

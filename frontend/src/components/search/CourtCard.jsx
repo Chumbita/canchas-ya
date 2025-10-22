@@ -13,7 +13,9 @@ export default function CourtCard({ court }) {
     timeRange,
     amenities,
     price,
-    image
+    image,
+    courtType,
+    clubName
   } = court;
 
   const handleCardClick = () => {
@@ -29,13 +31,21 @@ export default function CourtCard({ court }) {
       <div className={styles.cardContent}>
         <div className={styles.cardHeader}>
           <h3 className={`${TextStyles.textPrimary} ${TextStyles.textBold} ${styles.courtName}`}>
-            {name}
+            {clubName || name}
           </h3>
           <div className={styles.rating}>
             <span className={styles.star}>★</span>
             <span className={styles.ratingValue}>{rating}</span>
           </div>
         </div>
+
+        {courtType && (
+          <div className={styles.courtType}>
+            <span className={`${TextStyles.textSecondary} ${styles.courtTypeText}`}>
+              {courtType}
+            </span>
+          </div>
+        )}
 
         <div className={styles.sports}>
           <span className={`${TextStyles.textSecondary} ${styles.sportsText}`}>

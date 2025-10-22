@@ -2,7 +2,6 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./Step3Confirmation.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
-import QuickSearchBar from "../../components/common/QuickSearchBar";
 import ProgressSteps from "../../components/reservation/ProgressSteps";
 
 export default function Step3Confirmation() {
@@ -25,8 +24,6 @@ export default function Step3Confirmation() {
 
   return (
     <div className={styles.confirmationPage}>
-      <QuickSearchBar onSearch={handleSearch} showTitle={false} />
-      
       <div className={styles.mainContent}>
         <div className={styles.container}>
           {/* Breadcrumbs */}

@@ -12,7 +12,7 @@
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -75,10 +75,72 @@
 }
 
 .paymentMethods {
-  min-height: 200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.paymentMethod {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+
+.paymentMethod:hover {
+  border-color: #007bff;
+  background: #f8f9fa;
+}
+
+.paymentMethod.selected {
+  border-color: #007bff;
+  background: #f0f8ff;
+}
+
+.paymentMethodHeader {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.paymentMethod h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1a1a1a;
+  font-family: 'Inter', sans-serif;
+}
+
+.price {
+  font-size: 1.2rem;
+  color: #007bff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+  font-family: 'Inter', sans-serif;
+}
+
+.depositDetails {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.depositDetails p {
+  margin: 0.25rem 0;
+  font-size: 0.85rem;
+  color: #666;
 }
 
 .emptyState {
@@ -137,7 +199,69 @@
     font-size: 2rem;
   }
   
-  .section {
+  .paymentMethods {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .paymentMethod {
     padding: 1rem;
+  }
+  
+  .paymentMethodHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .paymentMethod h4 {
+    font-size: 1rem;
+  }
+  
+  .price {
+    font-size: 1.1rem;
+  }
+  
+  .description {
+    font-size: 0.85rem;
+  }
+  
+  .depositDetails {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
+  
+  .depositDetails p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.25rem;
+  }
+  
+  .mainTitle {
+    font-size: 1.5rem;
+  }
+  
+  .paymentMethod {
+    padding: 0.75rem;
+  }
+  
+  .paymentMethod h4 {
+    font-size: 0.9rem;
+  }
+  
+  .price {
+    font-size: 1rem;
+  }
+  
+  .description {
+    font-size: 0.8rem;
+  }
+  
+  .depositDetails p {
+    font-size: 0.75rem;
   }
 }

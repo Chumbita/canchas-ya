@@ -223,7 +223,7 @@ async function main() {
     ],
     'OSUNLaR': [
       'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&h=600&fit=crop', // Fútbol (imagen principal)
-      'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&h=600&fit=crop'  // Tenis
+      'https://images.unsplash.com/flagged/photo-1576972405668-2d020a01cbfa?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1174'  // Tenis
     ],
     'Le Club': [
       'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&h=600&fit=crop', // Fútbol (imagen principal)
@@ -339,27 +339,44 @@ async function main() {
 
   console.log('✅ Sports by Club created');
 
-  // Eliminar todas las canchas existentes y crear solo una por club
+  // Eliminar todas las reservas, restricciones y canchas existentes
+  await prisma.reservation.deleteMany({});
+  await prisma.reservationRestrictions.deleteMany({});
   await prisma.court.deleteMany({});
   
+  // Crear canchas para cada club con tipos específicos de fútbol
   const courts = [];
+  const courtTypes = {
+    'Arena Fútbol': ['Fútbol 5', 'Fútbol 6'],
+    'Club del Sur': ['Fútbol 7', 'Fútbol 9', 'Fútbol 4'],
+    'Chelcos FC': ['Fútbol 5', 'Fútbol 11', 'Fútbol 8', 'Fútbol 10'],
+    'Juan Canchas': ['Fútbol 10'],
+    'OSUNLaR': ['Fútbol 7', 'Fútbol 4'],
+    'Le Club': ['Fútbol 6', 'Fútbol 9'],
+    'Carlos Fútbol': ['Fútbol 5', 'Fútbol 11']
+  };
+
   for (const club of clubs) {
-    // Solo una cancha por club para evitar duplicados
     const sportsByClubData = await prisma.sportsByClub.findFirst({
       where: { clubId: club.id },
     });
 
-    if (sportsByClubData) {
-      courts.push(
-        prisma.court.create({
-          data: {
-            idSportClub: sportsByClubData.id,
-            courtNumber: 1,
-            pricePerHour: Math.floor(Math.random() * 20000) + 10000, // $10,000 - $30,000
-            isAvailable: true,
-          },
-        })
-      );
+    if (sportsByClubData && courtTypes[club.name]) {
+      const types = courtTypes[club.name] || ['Fútbol 5']; // Default si no se encuentra
+      
+      for (let i = 0; i < types.length; i++) {
+        courts.push(
+          prisma.court.create({
+            data: {
+              idSportClub: sportsByClubData.id,
+              courtNumber: i + 1,
+              pricePerHour: Math.floor(Math.random() * 20000) + 10000, // $10,000 - $30,000
+              isAvailable: true,
+              courtType: types[i], // Agregar tipo de cancha
+            },
+          })
+        );
+      }
     }
   }
   await Promise.all(courts);

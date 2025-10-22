@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./CourtDetail.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
-import QuickSearchBar from "../../components/common/QuickSearchBar";
+import SearchReservation from "../../components/common/SearchReservation";
 import { courtService } from "../../services/courtService";
 import { generateMapEmbedUrl, generateMapUrl } from "../../config/maps";
 
@@ -12,6 +12,13 @@ import PaddleIcon from "../../assets/icons/paddle-icon.png";
 import BasketballIcon from "../../assets/icons/basketball-icon.png";
 import VolleyballIcon from "../../assets/icons/volleyball-icon.svg";
 import TenisIcon from "../../assets/icons/tenis-icon.png";
+
+// Importar imágenes de deportes
+import FutbolImagen from "../../assets/icons/futbol-imagen.png";
+import BasquetImagen from "../../assets/icons/basquet-imagen.png";
+import TenisImagen from "../../assets/icons/tenis-imagen.png";
+import PaddleImagen from "../../assets/icons/paddle-imagen.png";
+import VoleiImagen from "../../assets/icons/volei-imagen.png";
 import BanosIcon from "../../assets/icons/baños-icon.png";
 import VestuariosIcon from "../../assets/icons/vestuarios-icon.png";
 import DuchasIcon from "../../assets/icons/duchas-icon.png";
@@ -22,16 +29,16 @@ import TorneosIcon from "../../assets/icons/torneos-icon.png";
 import FavoritosIcon from "../../assets/icons/favoritos-icon.svg";
 
 // Helper functions para mapear iconos
-const getSportIcon = (iconName) => {
-  const iconMap = {
-    '⚽': <img src={SoccerBallIcon} alt="Fútbol" width="24" height="24" style={{ objectFit: 'contain' }} />,
-    '🏓': <img src={PaddleIcon} alt="Pádel" width="24" height="24" style={{ objectFit: 'contain' }} />,
-    '🏀': <img src={BasketballIcon} alt="Básquet" width="24" height="24" style={{ objectFit: 'contain' }} />,
-    '🏐': <img src={VolleyballIcon} alt="Voleibol" width="24" height="24" style={{ objectFit: 'contain' }} />,
-    '🎾': <img src={TenisIcon} alt="Tenis" width="24" height="24" style={{ objectFit: 'contain' }} />
+const getSportIcon = (sportName) => {
+  const imageMap = {
+    'Fútbol': <img src={FutbolImagen} alt="Fútbol" className={styles.sportImage} />,
+    'Básquet': <img src={BasquetImagen} alt="Básquet" className={styles.sportImage} />,
+    'Tenis': <img src={TenisImagen} alt="Tenis" className={styles.sportImage} />,
+    'Paddle': <img src={PaddleImagen} alt="Paddle" className={styles.sportImage} />,
+    'Voleibol': <img src={VoleiImagen} alt="Voleibol" className={styles.sportImage} />
   };
   
-  return iconMap[iconName] || <img src={SoccerBallIcon} alt="Deporte" width="24" height="24" style={{ objectFit: 'contain' }} />;
+  return imageMap[sportName] || <img src={FutbolImagen} alt="Deporte" className={styles.sportImage} />;
 };
 
 const getServiceIcon = (iconName) => {
@@ -147,7 +154,7 @@ export default function CourtDetail() {
   if (loading) {
     return (
       <div className={styles.courtDetailPage}>
-        <QuickSearchBar onSearch={handleSearch} showTitle={false} />
+        <SearchReservation />
         <div className={styles.loadingContainer}>
           <p className={`${TextStyles.textSecondary} ${styles.loadingText}`}>
             Cargando detalles de la cancha...
@@ -158,10 +165,14 @@ export default function CourtDetail() {
   }
 
   return (
-    <div className={styles.courtDetailPage}>
-      <QuickSearchBar onSearch={handleSearch} showTitle={false} />
+    <>
+      {/* Búsqueda rápida separada */}
+      <div className={styles.searchContainer}>
+        <SearchReservation onSearch={handleSearch} />
+      </div>
       
-      <div className={styles.mainContent}>
+      <div className={styles.courtDetailPage}>
+        <div className={styles.mainContent}>
         <div className={styles.container}>
           {/* Breadcrumbs */}
           <div className={styles.breadcrumbs}>
@@ -255,7 +266,7 @@ export default function CourtDetail() {
                       className={`${styles.sportButton} ${selectedSport === sport.name ? styles.active : ''}`}
                       onClick={() => setSelectedSport(sport.name)}
                     >
-                      <span className={styles.sportIcon}>{getSportIcon(sport.icon)}</span>
+                      <span className={styles.sportIcon}>{getSportIcon(sport.name)}</span>
                       <span className={styles.sportName}>{sport.name}</span>
                     </button>
                   ))}
@@ -390,7 +401,8 @@ export default function CourtDetail() {
             </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

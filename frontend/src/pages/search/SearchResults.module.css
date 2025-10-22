@@ -1,20 +1,36 @@
+/* Contenedor separado para la búsqueda rápida */
+.searchContainer {
+  background: white;
+  padding: 1.5rem 0;
+  margin: 0 auto;
+  max-width: 1400px; /* Aumentar para coincidir con searchResultsPage */
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom: 1px solid #e0e0e0; /* Línea separadora */
+  position: relative;
+  z-index: 50; /* Z-index medio para el contenedor de búsqueda */
+}
+
 .searchResultsPage {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  margin: 0 auto; /* Centrar el contenido */
+  max-width: 1400px; /* Aumentar el ancho máximo */
+  padding: 0 5px; /* Reducir márgenes laterales */
 }
 
 .mainContent {
   flex: 1;
   background: white;
-  padding: 2rem 0;
+  padding: 0.5rem 0; /* Reducir padding superior */
   min-height: calc(100vh - 200px);
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1600px; /* Aumentar el ancho del contenedor interno */
   margin: 0 auto;
-  padding: 0 0.5rem;
+  padding: 0; /* Eliminar padding lateral del contenedor */
 }
 
 .breadcrumbs {
@@ -34,7 +50,7 @@
 
 .contentLayout {
   display: flex;
-  gap: 1.5rem;
+  gap: 20px; /* Gap entre filtros y resultados */
   align-items: flex-start;
   min-height: 100vh;
 }
@@ -50,8 +66,7 @@
 .resultsArea {
   background: white;
   border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
   flex: 1;
 }
 
@@ -82,14 +97,14 @@
 .resultsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
+  gap: 38px 30px; /* horizontal 38px, vertical 30px */
   transition: opacity 0.2s ease;
 }
 
 @media (max-width: 1024px) {
   .contentLayout {
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 38px 30px; /* horizontal 38px, vertical 30px */
   }
   
   .sidebar {
@@ -99,6 +114,7 @@
   
   .resultsGrid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 38px 30px; /* horizontal 38px, vertical 30px */
   }
 }
 
@@ -108,7 +124,7 @@
   }
   
   .container {
-    padding: 0 0.5rem;
+    padding: 0; /* Eliminar padding lateral en móvil también */
   }
   
   .contentLayout {
@@ -139,7 +155,7 @@
   
   .resultsGrid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.2rem;
+    gap: 38px 30px; /* horizontal 38px, vertical 30px */
   }
 }
 
