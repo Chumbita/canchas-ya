@@ -6,9 +6,9 @@ import ClubLogin from "../pages/auth/ClubLogin.page";
 import ClubRegister from "../pages/auth/ClubRegister.page";
 import VerifyOtp from "../pages/auth/VerifyOtp.page";
 import RegistrationSuccess from "../pages/club/RegistrationSuccess.page";
+import CourtPage from "../pages/CourtPage.jsx";
 import Dashboard from "../pages/club/Dashboard.page";
 import Status from "../pages/club/Status.page.jsx";
-
 import PlayerLogin from "../pages/auth/PlayerLogin.page";
 import PlayerRegister from "../pages/auth/PlayerRegister.page.jsx";
 
@@ -27,6 +27,7 @@ export default function AppRouter() {
           <Route element={<MainLayout />}> 
             <Route path="/" element={<Home />}/>
             <Route path="/club/status" element={<Status />} />
+            <Route path="/court-page" element={<CourtPage />} />
             <Route element={<PrivateClubGuard requiredStatus={"active"}/>} >
               <Route path="/club/dashboard/*" element={<Dashboard />} />
             </Route>
@@ -36,13 +37,16 @@ export default function AppRouter() {
           </Route>
         </Route>
         <Route element={<HeaderOnlyLayout />}>
-          <Route path="/club/login" element={<ClubLogin />}/>
+          <Route path="/club/login" element={<ClubLogin />} />
           <Route element={<OtpGuard />}>
             <Route path="/verify-otp" element={<VerifyOtp />} />
           </Route>
           <Route element={<RegisterGuard />}>
             <Route path="/club/create-account" element={<ClubRegister />} />
-            <Route path="/club/create-account/success" element={<RegistrationSuccess />} />
+            <Route
+              path="/club/create-account/success"
+              element={<RegistrationSuccess />}
+            />
             <Route path="/player/create-account" element={<PlayerRegister />} />
           </Route>
           <Route path="/player/login" element={<PlayerLogin />} />

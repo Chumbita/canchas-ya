@@ -1,0 +1,31 @@
+### 🟢 Crear cancha
+POST http://localhost:3000/api/courts
+Content-Type: application/json
+
+{
+  "idSportClub": 3,
+  "pricePerHour": 5000
+}
+
+###
+
+### 🔵 Obtener todas las canchas de un SportClub
+GET http://localhost:3000/api/courts/2
+Content-Type: application/json
+
+###
+
+### 🟡 Editar cancha (ejemplo: cambiar precio y disponibilidad)
+PUT http://localhost:3000/api/courts/13
+Content-Type: application/json
+
+{
+  "pricePerHour": 1500,
+  "isAvailable": false
+}
+
+###
+
+### 🔴 Eliminar cancha
+DELETE http://localhost:3000/api/courts/13
+Content-Type: application/json

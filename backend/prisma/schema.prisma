@@ -14,7 +14,7 @@ model Club {
   googleId            String?              @unique
   name                String?              @db.VarChar
   email               String               @unique
-  location            String?              @db.VarChar
+  location            Json?              
   status              String               @default("pending")
   created_at          DateTime             @default(now())
 

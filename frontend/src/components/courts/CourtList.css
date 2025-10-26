@@ -1,0 +1,41 @@
+.court-list {
+  padding: 20px;
+}
+
+.court-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.court-header h2 {
+  margin: 0;
+}
+
+.btn-add-court {
+  background-color: #0056BD;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-add-court:hover {
+  background-color: #105fbf;
+}
+
+.court-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.no-courts {
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
