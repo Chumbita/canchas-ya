@@ -15,7 +15,7 @@ export default function CourtPage() {
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [editCourt, setEditCourt] = useState(null);
 
-  const idSportClub = 2;
+  const idSportClub = 1; // id del deporte
 
   useEffect(() => {
     loadCourts();

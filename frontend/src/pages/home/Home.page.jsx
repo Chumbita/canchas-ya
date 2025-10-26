@@ -1,186 +1,86 @@
-import React from "react";
-import styles from "./Home.module.css";
-import ButtonStyles from "../../styles/base/Button.module.css";
-import InputStyles from "../../styles/base/Inputs.module.css";
-import TextStyles from "../../styles/base/Text.module.css";
-import SoccerBallIcon from "../../assets/icons/soccer-ball.svg";
-import CalendarIcon from "../../assets/icons/calendar.svg";
-import ClockIcon from "../../assets/icons/clock.svg";
-import ClockFeatureIcon from "../../assets/icons/clock-feature.svg";
-import CreditCardIcon from "../../assets/icons/credit-card.svg";
-import CheckIcon from "../../assets/icons/check-24-7.svg";
+import SearchReservation from "../../components/common/SearchReservation";
+import pageStyle from "./Home.module.css";
+import textStyles from "../../styles/base/Text.module.css";
+import clockIcon from "../../assets/icons/clock-icon.svg";
+import cardIcon from "../../assets/icons/credit-card-icon.svg";
+import checkIcon from "../../assets/icons/check-icon.svg";
 
 export default function Home() {
-  const scrollToSearch = () => {
-    const searchSection = document.getElementById("search-section");
-    if (searchSection) {
-      searchSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
-    <div className={styles.homeContainer}>
-      {/* Hero Section */}
-      <section className={styles.heroSection}>
-        <div className={styles.heroOverlay}>
-          <div className={styles.heroContent}>
-            <h1 className={`${TextStyles.textPrimary} ${styles.heroTitle}`}>
-              Sacar turno nunca
-              <br />
-              fue tan fácil
+    <div className={pageStyle["home-container"]}>
+      <section className={pageStyle["hero-section"]}>
+        <div className={pageStyle["hero-layout"]}>
+          <div className={pageStyle["hero-banner"]}>
+            <h1 className={pageStyle["hero-title"]}>
+              Reservá tu cancha en segundos
             </h1>
-            <p className={`${TextStyles.textSecondary} ${styles.heroSubtitle}`}>
-              Reservá tu cancha en segundos, y 
-              <br />
-              sin complicaciones
-            </p>
-            <button
-              className={`${ButtonStyles.btn} ${ButtonStyles.btnPrimary} ${styles.heroButton}`}
-              onClick={scrollToSearch}
+            <p
+              className={`${textStyles["text-secondary"]} ${textStyles["text-lg"]} ${textStyles["text-medium"]}`}
             >
-              Sacar un turno
-            </button>
+              La forma más simple y rápida de encontrar y reservar canchas
+              deportivas en La Rioja. Sin complicaciones, sin esperas.
+            </p>
+          </div>
+          <div className={pageStyle["hero-search"]}>
+            <SearchReservation />
+            <p
+              className={`${textStyles["text-primary"]} ${textStyles["text-sm"]} ${textStyles["text-medium"]}`}
+            >
+              Encontrá y reservá canchas disponibles en tu zona
+            </p>
           </div>
         </div>
       </section>
-
-      {/* Floating Block with Features and Search */}
-      <section className={styles.floatingBlock}>
-        {/* Features Section */}
-        <div className={styles.featuresSection}>
-          <div className={styles.featuresContainer}>
-            <div className={styles.featureCard}>
-              <div className={styles.featureIcon}>
-                <img
-                  src={ClockFeatureIcon}
-                  alt="Clock icon"
-                  width="24"
-                  height="24"
-                />
+      <section className={pageStyle["features-section"]}>
+        <div className={pageStyle["feature-layout"]}>
+          <div className={pageStyle["features-container"]}>
+            <div className={pageStyle["features-card"]}>
+              <div className={pageStyle["card-icon"]}>
+                <img src={clockIcon} width="30" height="30" />
               </div>
               <h3
-                className={`${TextStyles.textPrimary} ${styles.featureTitle}`}
+                className={`${textStyles["text-primary"]} ${textStyles["text-bold"]} ${textStyles["text-xl"]} `}
               >
                 Reservá en segundos
               </h3>
               <p
-                className={`${TextStyles.textSecondary} ${styles.featureDescription}`}
+                className={`${textStyles["text-secondary"]} ${textStyles["text-base"]}`}
               >
                 Encontrá tu cancha ideal sin complicaciones
               </p>
             </div>
-
-            <div className={styles.featureCard}>
-              <div className={styles.featureIcon}>
-                <img
-                  src={CreditCardIcon}
-                  alt="Credit card icon"
-                  width="24"
-                  height="24"
-                />
+            <div className={pageStyle["features-card"]}>
+              <div className={pageStyle["card-icon"]}>
+                <img src={cardIcon} width="30" height="30" />
               </div>
               <h3
-                className={`${TextStyles.textPrimary} ${styles.featureTitle}`}
+                className={`${textStyles["text-primary"]} ${textStyles["text-bold"]} ${textStyles["text-xl"]} `}
               >
                 Pagá como quieras
               </h3>
               <p
-                className={`${TextStyles.textSecondary} ${styles.featureDescription}`}
+                className={`${textStyles["text-secondary"]} ${textStyles["text-base"]}`}
               >
                 Pagá online con cualquier tarjeta
               </p>
             </div>
-
-            <div className={styles.featureCard}>
-              <div className={styles.featureIcon}>
-                <img src={CheckIcon} alt="Check icon" width="24" height="24" />
+            <div className={pageStyle["features-card"]}>
+              <div className={pageStyle["card-icon"]}>
+                <img src={checkIcon} width="30" height="30" />
               </div>
               <h3
-                className={`${TextStyles.textPrimary} ${styles.featureTitle}`}
+                className={`${textStyles["text-primary"]} ${textStyles["text-bold"]} ${textStyles["text-xl"]} `}
               >
                 Turnos 24/7
               </h3>
               <p
-                className={`${TextStyles.textSecondary} ${styles.featureDescription}`}
+                className={`${textStyles["text-secondary"]} ${textStyles["text-base"]}`}
               >
                 Sacá turno en cualquier momento, estés donde estés
               </p>
             </div>
           </div>
         </div>
-
-        {/* Quick Search Section */}
-        <section id="search-section" className={styles.searchSection}>
-          <div className={styles.searchContainer}>
-            <h2 className={`${TextStyles.textPrimary} ${styles.searchTitle}`}>
-              Búsqueda rápida
-            </h2>
-            <div className={styles.searchForm}>
-              <div className={styles.searchField}>
-                <div className={styles.searchFieldIcon}>
-                  <img
-                    src={SoccerBallIcon}
-                    alt="Soccer ball icon"
-                    width="20"
-                    height="20"
-                  />
-                </div>
-                <select
-                  className={`${InputStyles.input} ${styles.searchSelect}`}
-                >
-                  <option value="">Deporte</option>
-                  <option value="futbol">Fútbol</option>
-                  <option value="basket">Básquet</option>
-                  <option value="tenis">Tenis</option>
-                  <option value="paddle">Paddle</option>
-                </select>
-              </div>
-
-              <div className={styles.searchField}>
-                <div className={styles.searchFieldIcon}>
-                  <img
-                    src={CalendarIcon}
-                    alt="Calendar icon"
-                    width="20"
-                    height="20"
-                  />
-                </div>
-                <select
-                  className={`${InputStyles.input} ${styles.searchSelect}`}
-                >
-                  <option value="">Hoy 09/08</option>
-                  <option value="tomorrow">Mañana 10/08</option>
-                  <option value="day-after">Pasado mañana 11/08</option>
-                </select>
-              </div>
-
-              <div className={styles.searchField}>
-                <div className={styles.searchFieldIcon}>
-                  <img
-                    src={ClockIcon}
-                    alt="Clock icon"
-                    width="20"
-                    height="20"
-                  />
-                </div>
-                <select
-                  className={`${InputStyles.input} ${styles.searchSelect}`}
-                >
-                  <option value="">18:00 hs</option>
-                  <option value="19:00">19:00 hs</option>
-                  <option value="20:00">20:00 hs</option>
-                  <option value="21:00">21:00 hs</option>
-                </select>
-              </div>
-
-              <button
-                className={`${ButtonStyles.btn} ${ButtonStyles.btnPrimary} ${styles.searchButton}`}
-              >
-                Buscar
-              </button>
-            </div>
-          </div>
-        </section>
       </section>
     </div>
   );

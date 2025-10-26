@@ -7,15 +7,15 @@ async function main() {
 
   // 1. Crear deporte si no existe
   const sport = await prisma.sport.upsert({
-    where: { name: "Tenis" },
+    where: { name: "Futbol" },
     update: {},
-    create: { name: "Tenis" },
+    create: { name: "Futbol" },
   });
 
   console.log("Deporte:", sport);
 
-  // 2. Crear relación SportByClub si no existe
-  const sportClub = await prisma.sportByClub.upsert({
+  // 2. Crear relación SportsByClub si no existe
+  const sportClub = await prisma.sportsByClub.upsert({
     where: {
       clubId_sportId: {
         clubId: clubId,

@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-export const useOTP = (length = 4) => {
+export const useOtpInput = (length = 4) => {
   const [otp, setOtp] = useState(Array(length).fill(""));
   const inputsRef = useRef([]);
 

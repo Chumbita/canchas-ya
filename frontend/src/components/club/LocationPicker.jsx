@@ -7,8 +7,10 @@ export default function LocationPicker({ onLocationSelect }) {
   function LocationMarker() {
     useMapEvent({
       click(e) {
+        let payload = `[${e.latlng.lat}, ${e.latlng.lng}]`;
         setPosition(e.latlng);
         onLocationSelect(e.latlng);
+        console.log(payload);
       },
     });
     return position ? <Marker position={position}></Marker> : null;

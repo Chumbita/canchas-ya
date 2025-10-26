@@ -30,9 +30,9 @@ export const courtRepository = {
     return court;
   },
 
-  async getCourtsBySportClub(sporClubId) {
+  async getCourtsBySportClub(sportClubId) {
     return await prisma.court.findMany({
-      where: { idSportClub: sporClubId },
+      where: { idSportClub: sportClubId },
     });
   },
 
