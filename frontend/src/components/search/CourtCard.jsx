@@ -1,10 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./CourtCard.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
 
 export default function CourtCard({ court }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     id,
     name,
@@ -19,7 +20,18 @@ export default function CourtCard({ court }) {
   } = court;
 
   const handleCardClick = () => {
-    navigate(`/court/${id}`);
+    const params = new URLSearchParams(location.search);
+
+    // If no sport specified, preselect "Fútbol" if available; otherwise first available sport
+    if (!params.get("sport") && Array.isArray(sports) && sports.length > 0) {
+      const normalize = (s) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+      const hasFutbol = sports.some((s) => normalize(s).includes("futbol"));
+      const selectedSport = hasFutbol ? sports.find((s) => normalize(s).includes("futbol")) : sports[0];
+      params.set("sport", selectedSport);
+    }
+
+    const suffix = params.toString() ? `?${params.toString()}` : "";
+    navigate(`/court/${id}${suffix}`);
   };
 
   return (

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useMemo } from "react";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./CourtDetail.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
 import SearchReservation from "../../components/common/SearchReservation";
@@ -54,6 +54,21 @@ const getServiceIcon = (iconName) => {
   return iconMap[iconName] || <img src={KioscoIcon} alt="Servicio" width="28" height="28" style={{ objectFit: 'contain' }} />;
 };
 
+// Normalizaciones para datos de API
+const normalizeServices = (court) => {
+  if (court && Array.isArray(court.services)) return court.services;
+  if (court && Array.isArray(court.amenities)) {
+    return court.amenities.map((name) => ({ name, icon: "🏪" }));
+  }
+  return [];
+};
+
+const deriveRatings = (court) => {
+  if (court && court.ratings) return court.ratings;
+  const avg = court && typeof court.rating === 'number' ? court.rating : 4.5;
+  return { courts: avg, bathrooms: avg, service: avg, security: avg, lighting: avg };
+};
+
 // Mock data para detalles de cancha
 const mockCourtDetails = {
   id: 1,
@@ -93,11 +108,18 @@ const mockCourtDetails = {
 export default function CourtDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [court, setCourt] = useState(mockCourtDetails);
   const [loading, setLoading] = useState(true);
   const [selectedSport, setSelectedSport] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [images, setImages] = useState([]);
+
+  // Memoize initial date once to keep hooks order stable across renders
+  const initialDateFromQuery = useMemo(() => {
+    const d = searchParams.get('date');
+    return d ? new Date(d) : undefined;
+  }, [searchParams]);
 
   useEffect(() => {
     const loadCourtDetails = async () => {
@@ -126,6 +148,14 @@ export default function CourtDetail() {
     loadCourtDetails();
   }, [id]);
 
+  // Preseleccionar deporte desde query si existe en la cancha
+  useEffect(() => {
+    const sportFromQuery = searchParams.get('sport');
+    if (!sportFromQuery || !court || !court.sports) return;
+    const exists = court.sports.some((s) => (s.name || s) === sportFromQuery);
+    if (exists) setSelectedSport(sportFromQuery);
+  }, [searchParams, court]);
+
   const handleSearch = (searchData) => {
     const params = new URLSearchParams();
     if (searchData.sport) params.set('sport', searchData.sport);
@@ -136,7 +166,9 @@ export default function CourtDetail() {
   };
 
   const handleReservation = () => {
-    navigate(`/reservation/${id}/configuration`);
+    const params = searchParams.toString();
+    const suffix = params ? `?${params}` : "";
+    navigate(`/reservation/${id}/configuration${suffix}`);
   };
 
   const handleBackToResults = () => {
@@ -154,7 +186,12 @@ export default function CourtDetail() {
   if (loading) {
     return (
       <div className={styles.courtDetailPage}>
-        <SearchReservation />
+        <SearchReservation
+          onSearch={handleSearch}
+          initialSport={searchParams.get('sport') || undefined}
+          initialDate={initialDateFromQuery}
+          initialTime={searchParams.get('time') || undefined}
+        />
         <div className={styles.loadingContainer}>
           <p className={`${TextStyles.textSecondary} ${styles.loadingText}`}>
             Cargando detalles de la cancha...
@@ -168,7 +205,12 @@ export default function CourtDetail() {
     <>
       {/* Búsqueda rápida separada */}
       <div className={styles.searchContainer}>
-        <SearchReservation onSearch={handleSearch} />
+        <SearchReservation
+          onSearch={handleSearch}
+          initialSport={searchParams.get('sport') || undefined}
+          initialDate={initialDateFromQuery}
+          initialTime={searchParams.get('time') || undefined}
+        />
       </div>
       
       <div className={styles.courtDetailPage}>
@@ -260,16 +302,19 @@ export default function CourtDetail() {
                   Deportes
                 </h3>
                 <div className={styles.sportsList}>
-                  {court.sports.map((sport) => (
-                    <button
-                      key={sport.name}
-                      className={`${styles.sportButton} ${selectedSport === sport.name ? styles.active : ''}`}
-                      onClick={() => setSelectedSport(sport.name)}
-                    >
-                      <span className={styles.sportIcon}>{getSportIcon(sport.name)}</span>
-                      <span className={styles.sportName}>{sport.name}</span>
-                    </button>
-                  ))}
+                  {Array.isArray(court.sports) && court.sports.map((s) => {
+                    const sportName = typeof s === 'string' ? s : s.name;
+                    return (
+                      <button
+                        key={sportName}
+                        className={`${styles.sportButton} ${selectedSport === sportName ? styles.active : ''}`}
+                        onClick={() => setSelectedSport(sportName)}
+                      >
+                        <span className={styles.sportIcon}>{getSportIcon(sportName)}</span>
+                        <span className={styles.sportName}>{sportName}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -296,7 +341,7 @@ export default function CourtDetail() {
               Servicios
             </h3>
             <div className={styles.servicesList}>
-              {court.services.map((service, index) => (
+              {normalizeServices(court).map((service, index) => (
                 <div key={index} className={styles.serviceItem}>
                   <span className={styles.serviceIcon}>{getServiceIcon(service.icon)}</span>
                   <span className={styles.serviceName}>{service.name}</span>
@@ -312,61 +357,65 @@ export default function CourtDetail() {
                 Calificaciones
               </h3>
               <div className={styles.ratingsList}>
+                {(() => { const r = deriveRatings(court); return (
+                <>
                 <div className={styles.ratingItem}>
                   <span className={styles.ratingLabel}>Canchas</span>
                   <div className={styles.ratingStars}>
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`${styles.ratingStar} ${i < Math.floor(court.ratings.courts) ? styles.filled : ''}`}>
+                      <span key={i} className={`${styles.ratingStar} ${i < Math.floor(r.courts) ? styles.filled : ''}`}>
                         ★
                       </span>
                     ))}
-                    <span className={styles.ratingValue}>{court.ratings.courts}</span>
+                    <span className={styles.ratingValue}>{r.courts}</span>
                   </div>
                 </div>
                 <div className={styles.ratingItem}>
                   <span className={styles.ratingLabel}>Baños y vestuarios</span>
                   <div className={styles.ratingStars}>
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`${styles.ratingStar} ${i < Math.floor(court.ratings.bathrooms) ? styles.filled : ''}`}>
+                      <span key={i} className={`${styles.ratingStar} ${i < Math.floor(r.bathrooms) ? styles.filled : ''}`}>
                         ★
                       </span>
                     ))}
-                    <span className={styles.ratingValue}>{court.ratings.bathrooms}</span>
+                    <span className={styles.ratingValue}>{r.bathrooms}</span>
                   </div>
                 </div>
                 <div className={styles.ratingItem}>
                   <span className={styles.ratingLabel}>Atención al cliente</span>
                   <div className={styles.ratingStars}>
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`${styles.ratingStar} ${i < Math.floor(court.ratings.service) ? styles.filled : ''}`}>
+                      <span key={i} className={`${styles.ratingStar} ${i < Math.floor(r.service) ? styles.filled : ''}`}>
                         ★
                       </span>
                     ))}
-                    <span className={styles.ratingValue}>{court.ratings.service}</span>
+                    <span className={styles.ratingValue}>{r.service}</span>
                   </div>
                 </div>
                 <div className={styles.ratingItem}>
                   <span className={styles.ratingLabel}>Seguridad</span>
                   <div className={styles.ratingStars}>
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`${styles.ratingStar} ${i < Math.floor(court.ratings.security) ? styles.filled : ''}`}>
+                      <span key={i} className={`${styles.ratingStar} ${i < Math.floor(r.security) ? styles.filled : ''}`}>
                         ★
                       </span>
                     ))}
-                    <span className={styles.ratingValue}>{court.ratings.security}</span>
+                    <span className={styles.ratingValue}>{r.security}</span>
                   </div>
                 </div>
                 <div className={styles.ratingItem}>
                   <span className={styles.ratingLabel}>Iluminación</span>
                   <div className={styles.ratingStars}>
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`${styles.ratingStar} ${i < Math.floor(court.ratings.lighting) ? styles.filled : ''}`}>
+                      <span key={i} className={`${styles.ratingStar} ${i < Math.floor(r.lighting) ? styles.filled : ''}`}>
                         ★
                       </span>
                     ))}
-                    <span className={styles.ratingValue}>{court.ratings.lighting}</span>
+                    <span className={styles.ratingValue}>{r.lighting}</span>
                   </div>
                 </div>
+                </>
+                ); })()}
               </div>
             </div>
 
@@ -375,8 +424,10 @@ export default function CourtDetail() {
                 Ubicación
               </h3>
               <div className={styles.mapContainer}>
+                {(() => { const locationAddress = typeof court.location === 'string' ? court.location : (court.location?.address || ''); return (
+                <>
                 <iframe
-                  src={generateMapEmbedUrl(court.location.address)}
+                  src={generateMapEmbedUrl(locationAddress)}
                   width="100%"
                   height="300"
                   style={{ border: 0 }}
@@ -387,9 +438,9 @@ export default function CourtDetail() {
                 ></iframe>
                 <div className={styles.mapAddress}>
                   <span className={styles.mapIcon}>📍</span>
-                  <span className={styles.mapText}>{court.location.address}</span>
+                  <span className={styles.mapText}>{locationAddress}</span>
                   <a 
-                    href={generateMapUrl(court.location.address)}
+                    href={generateMapUrl(locationAddress)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.mapLink}
@@ -397,6 +448,17 @@ export default function CourtDetail() {
                     Ver en Google Maps
                   </a>
                 </div>
+                </>
+                ); })()}
+              </div>
+              {/* Responsive: búsqueda rápida debajo del mapa */}
+              <div className={styles.searchContainerMobile}>
+                <SearchReservation
+                  onSearch={handleSearch}
+                  initialSport={searchParams.get('sport') || undefined}
+                  initialDate={initialDateFromQuery}
+                  initialTime={searchParams.get('time') || undefined}
+                />
               </div>
             </div>
           </div>

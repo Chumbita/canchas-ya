@@ -61,6 +61,10 @@
   gap: 2rem;
 }
 
+.policySection {
+  /* Esta clase se usará para la política de cancelación */
+}
+
 .section {
   background: white;
   border-radius: 8px;
@@ -180,9 +184,19 @@
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
+  /* Mostrar primero los métodos de pago y luego el resumen */
+  .paymentColumn {
+    order: 1;
+  }
+
   .summaryColumn {
-    order: -1;
+    order: 2;
+  }
+
+  /* Mover la política de cancelación debajo del resumen en responsive */
+  .policySection {
+    order: 3;
   }
 }
 

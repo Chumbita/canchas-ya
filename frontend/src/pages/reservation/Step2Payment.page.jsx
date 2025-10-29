@@ -4,7 +4,7 @@ import styles from "./Step2Payment.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
 import ProgressSteps from "../../components/reservation/ProgressSteps";
 import ReservationSummary from "../../components/reservation/ReservationSummary";
-import { reservationService } from "../../services/reservationService";
+import { paymentService } from "../../services/paymentService";
 
 export default function Step2Payment() {
   const { courtId } = useParams();
@@ -42,15 +42,18 @@ export default function Step2Payment() {
       setError(null);
       
       try {
-        // Crear preferencia de pago en Mercado Pago
-        const response = await reservationService.createPaymentPreference(
-          reservationData.reservationId,
-          'Jugador' // TODO: Obtener nombre del usuario autenticado
-        );
-        
-        if (response.success) {
-          // Redirigir a Mercado Pago
-          window.location.href = response.data.initPoint;
+        const amount = selectedPaymentMethod === 'deposit' 
+          ? reservationData.depositAmount 
+          : reservationData.totalAmount;
+        const response = await paymentService.createPreference({
+          title: `Reserva de ${reservationData.sport || 'Cancha'}`,
+          description: `Club ${reservationData.courtName || ''}`.trim(),
+          amount,
+          reservationId: reservationData.reservationId,
+        });
+
+        if (response?.success && response?.data?.init_point) {
+          window.location.href = response.data.init_point;
         } else {
           setError('No se pudo crear la preferencia de pago. Intente nuevamente.');
         }
@@ -143,7 +146,7 @@ export default function Step2Payment() {
                           </span>
                         </div>
                         <p className={`${TextStyles.textSecondary} ${styles.description}`}>
-                          Pagá el 30% ahora y el resto al llegar al club
+                          Pagá el 50% ahora y el resto al llegar al club
                         </p>
                         <div className={styles.depositInfo}>
                           <p className={`${TextStyles.textSecondary} ${styles.depositText}`}>
@@ -165,7 +168,7 @@ export default function Step2Payment() {
               </div>
 
               {/* Cancellation Policy */}
-              <div className={styles.section}>
+              <div className={`${styles.section} ${styles.policySection}`}>
                 <h3 className={`${TextStyles.textPrimary} ${TextStyles.textMedium} ${styles.sectionTitle}`}>
                   Política de cancelación
                 </h3>

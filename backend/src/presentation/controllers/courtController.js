@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export const getCourts = async (req, res) => {
   try {
-    const { sport, date, time, minPrice, maxPrice, ratings, courtType } = req.query;
+    const { sport, minPrice, maxPrice, ratings, courtType, club } = req.query;
 
     // Construir filtros
     let whereClause = {
@@ -22,6 +22,18 @@ export const getCourts = async (req, res) => {
         }
       };
     }
+
+    // Filtrar por club
+    if (club) {
+      whereClause.sportsByClub = {
+        ...(whereClause.sportsByClub || {}),
+        club: {
+          name: { contains: club, mode: 'insensitive' },
+        },
+      };
+    }
+
+    // Ubicación eliminada según solicitud
 
     // Filtrar por precio
     if (minPrice || maxPrice) {

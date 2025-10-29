@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./SearchResults.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
@@ -95,7 +95,7 @@ export default function SearchResults() {
     ratings: []
   });
 
-  // Cargar todas las canchas al cargar la página (sin filtros)
+  // Cargar todas las canchas al cargar la página (y aplicar filtros iniciales por query)
   useEffect(() => {
     const loadAllCourts = async () => {
       try {
@@ -109,7 +109,23 @@ export default function SearchResults() {
         if (response.success && response.data && response.data.length > 0) {
           console.log('All courts found:', response.data.length); // DEBUG
           setCourts(response.data);
+          // Aplicar filtros localmente en lugar de hacer otra petición al backend
           setFilteredCourts(response.data);
+          
+          // Si hay filtros por query string, aplicarlos localmente
+          const hasQueryFilters = searchParams.get('sport') || searchParams.get('date') || searchParams.get('time');
+          if (hasQueryFilters) {
+            const localFilters = {
+              sport: searchParams.get('sport'),
+              date: searchParams.get('date'),
+              time: searchParams.get('time'),
+              priceRange: { min: 0, max: 30000 },
+              ratings: [],
+              fieldSizes: []
+            };
+            const filtered = applyFilters(response.data, localFilters);
+            setFilteredCourts(filtered);
+          }
         } else {
           console.log('No courts found from API');
         }
@@ -121,6 +137,7 @@ export default function SearchResults() {
     };
 
     loadAllCourts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Solo cargar una vez al montar el componente
 
   const handleSearch = (searchData) => {
@@ -141,9 +158,9 @@ export default function SearchResults() {
       
       // Preparar filtros para la API
       const apiFilters = {
-        sport: searchParams.get('sport'),
-        date: searchParams.get('date'),
-        time: searchParams.get('time'),
+        sport: filters.sport ?? searchParams.get('sport'),
+        date: filters.date ?? searchParams.get('date'),
+        time: filters.time ?? searchParams.get('time'),
         minPrice: filters.priceRange.min,
         maxPrice: filters.priceRange.max,
         ratings: filters.ratings,
@@ -178,6 +195,30 @@ export default function SearchResults() {
   // Función separada para aplicar filtros
   const applyFilters = (courtsList, filters) => {
     let filtered = [...courtsList];
+    
+    // Filtrar por deporte
+    if (filters.sports && filters.sports.length > 0) {
+      filtered = filtered.filter(court => {
+        const courtSports = (court.sports || []).map(s => s.toLowerCase());
+        return filters.sports.some(sel => courtSports.includes(sel.toLowerCase()));
+      });
+    } else if (filters.sport) {
+      filtered = filtered.filter(court => 
+        court.sports && court.sports.some(sport => 
+          sport.toLowerCase().includes(filters.sport.toLowerCase())
+        )
+      );
+    }
+    
+    // Filtrar por fecha (por ahora no aplicamos filtro de fecha ya que no tenemos datos de disponibilidad)
+    // if (filters.date) {
+    //   // Implementar filtro de fecha cuando tengamos datos de disponibilidad
+    // }
+    
+    // Filtrar por hora (por ahora no aplicamos filtro de hora ya que no tenemos datos de disponibilidad)
+    // if (filters.time) {
+    //   // Implementar filtro de hora cuando tengamos datos de disponibilidad
+    // }
     
     // Filtrar por precio
     if (filters.priceRange.min > 0 || filters.priceRange.max < 50000) {
@@ -215,6 +256,14 @@ export default function SearchResults() {
         court.courtType && filters.fieldSizes.includes(court.courtType)
       );
     }
+
+    // Filtrar por club
+    if (filters.club && filters.club.trim().length > 0) {
+      const needle = filters.club.toLowerCase();
+      filtered = filtered.filter(c => (c.clubName || c.name || '').toLowerCase().includes(needle));
+    }
+
+    // Eliminado ubicación/fecha/hora del filtrado según solicitud
     
     return filtered;
   };
@@ -230,7 +279,15 @@ export default function SearchResults() {
     <>
       {/* Búsqueda rápida separada */}
       <div className={styles.searchContainer}>
-        <SearchReservation onSearch={handleSearch} />
+        <SearchReservation
+          onSearch={handleSearch}
+          initialSport={searchParams.get('sport') || undefined}
+          initialDate={useMemo(() => {
+            const d = searchParams.get('date');
+            return d ? new Date(d) : undefined;
+          }, [searchParams])}
+          initialTime={searchParams.get('time') || undefined}
+        />
       </div>
       
       <div className={styles.searchResultsPage}>
@@ -251,6 +308,18 @@ export default function SearchResults() {
             {/* Sidebar with Filters */}
             <aside className={styles.sidebar}>
               <SearchFilters onFilterChange={handleFilterChange} />
+              {/* Búsqueda rápida solo para responsive (debajo de filtros) */}
+              <div className={styles.searchContainerMobile}>
+                <SearchReservation
+                  onSearch={handleSearch}
+                  initialSport={searchParams.get('sport') || undefined}
+                  initialDate={useMemo(() => {
+                    const d = searchParams.get('date');
+                    return d ? new Date(d) : undefined;
+                  }, [searchParams])}
+                  initialTime={searchParams.get('time') || undefined}
+                />
+              </div>
             </aside>
 
             {/* Main Results Area */}

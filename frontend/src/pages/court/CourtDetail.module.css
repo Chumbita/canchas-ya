@@ -19,6 +19,12 @@
   border-bottom: 1px solid #e0e0e0; /* Línea separadora más cerca */
 }
 
+/* Contenedor de búsqueda para responsive (debajo del mapa) */
+.searchContainerMobile {
+  display: none;
+}
+
+
 .mainContent {
   flex: 1;
   background: white;
@@ -468,6 +474,16 @@
   .ratingItem {
     gap: 1rem;
   }
+
+  /* Ocultar la búsqueda superior y mostrar la de abajo del mapa */
+  .searchContainer {
+    display: none;
+  }
+  .searchContainerMobile {
+    display: block;
+    margin-top: 1rem;
+    padding: 0 0.75rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -482,7 +498,7 @@
   .contentLayout {
     gap: 1.5rem;
   }
-  
+
   .imageContainer {
     height: 350px; /* Aumentar más en móvil */
   }
@@ -497,9 +513,7 @@
     align-items: stretch;
   }
   
-  .sportsList {
-    flex-direction: column;
-  }
+  
   
   .sportButton {
     justify-content: center;

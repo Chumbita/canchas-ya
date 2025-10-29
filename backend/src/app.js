@@ -7,6 +7,7 @@ import authEmailRoutes from "./presentation/routes/authEmailRoutes.js";
 import authClubRoutes from "./presentation/routes/authClubRoutes.js";
 import courtRoutes from "./presentation/routes/courtRoutes.js";
 import reservationRoutes from "./presentation/routes/reservationRoutes.js";
+import paymentRoutes from "./presentation/routes/paymentRoutes.js";
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ app.use("/api/auth/club", authClubRoutes);
 app.use("/api/protected", protectedRoutes);
 app.use("/api/courts", courtRoutes);
 app.use("/api/reservations", reservationRoutes);
-app.use("/api/payments", reservationRoutes);
+app.use("/api/payments", paymentRoutes);
 app.use("/uploads", express.static("uploads"));
 
 const PORT = process.env.PORT || 3000;

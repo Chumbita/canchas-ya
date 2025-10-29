@@ -6,7 +6,9 @@ export default function SearchFilters({ onFilterChange }) {
   const [filters, setFilters] = useState({
     fieldSizes: [],
     priceRange: { min: 0, max: 30000 },
-    ratings: []
+    ratings: [],
+    sports: [],
+    club: ""
   });
 
   const fieldSizes = [
@@ -21,6 +23,7 @@ export default function SearchFilters({ onFilterChange }) {
     { value: 2, label: "2 estrellas" },
     { value: 1, label: "1 estrella" }
   ];
+  const sportsOptions = ["Fútbol", "Básquet", "Tenis", "Paddle", "Voleibol"];
 
   const handleFieldSizeChange = (size) => {
     const newSizes = filters.fieldSizes.includes(size)
@@ -55,11 +58,28 @@ export default function SearchFilters({ onFilterChange }) {
     onFilterChange(newFilters);
   };
 
+  const handleSportToggle = (sport) => {
+    const newSports = filters.sports.includes(sport)
+      ? filters.sports.filter(s => s !== sport)
+      : [...filters.sports, sport];
+    const newFilters = { ...filters, sports: newSports };
+    setFilters(newFilters);
+    onFilterChange(newFilters);
+  };
+
+  const handleTextChange = (key, value) => {
+    const newFilters = { ...filters, [key]: value };
+    setFilters(newFilters);
+    onFilterChange(newFilters);
+  };
+
   const clearAllFilters = () => {
     const clearedFilters = {
       fieldSizes: [],
       priceRange: { min: 0, max: 30000 },
-      ratings: []
+      ratings: [],
+      sports: [],
+      club: ""
     };
     setFilters(clearedFilters);
     onFilterChange(clearedFilters);
@@ -162,6 +182,40 @@ export default function SearchFilters({ onFilterChange }) {
             </label>
           ))}
         </div>
+      </div>
+
+      {/* Deporte */}
+      <div className={styles.filterSection}>
+        <h4 className={`${TextStyles.textPrimary} ${TextStyles.textMedium} ${styles.filterSectionTitle}`}>
+          Deporte
+        </h4>
+        <div className={styles.checkboxGroup}>
+          {sportsOptions.map((sport) => (
+            <label key={sport} className={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                checked={filters.sports.includes(sport)}
+                onChange={() => handleSportToggle(sport)}
+                className={styles.checkbox}
+              />
+              <span className={styles.checkboxText}>{sport}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Club */}
+      <div className={styles.filterSection}>
+        <h4 className={`${TextStyles.textPrimary} ${TextStyles.textMedium} ${styles.filterSectionTitle}`}>
+          Club
+        </h4>
+        <input
+          type="text"
+          placeholder="Club"
+          value={filters.club}
+          onChange={(e) => handleTextChange('club', e.target.value)}
+          className={styles.input}
+        />
       </div>
     </div>
   );

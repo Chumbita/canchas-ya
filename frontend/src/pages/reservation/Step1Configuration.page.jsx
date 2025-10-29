@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./Step1Configuration.module.css";
 import TextStyles from "../../styles/base/Text.module.css";
 import ProgressSteps from "../../components/reservation/ProgressSteps";
@@ -10,6 +10,7 @@ import { courtService } from "../../services/courtService";
 export default function Step1Configuration() {
   const { courtId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   
   // Estados para la configuración
   const [selectedDate, setSelectedDate] = useState(null);
@@ -63,6 +64,11 @@ export default function Step1Configuration() {
             // Extraer tipos únicos de cancha
             const courtTypes = [...new Set(clubCourts.map(court => court.courtType))];
             setAvailableCourtTypes(courtTypes);
+            // Preseleccionar tipo de cancha (deporte) si viene por query
+            const sportFromQuery = searchParams.get('sport');
+            if (sportFromQuery && courtTypes.includes(sportFromQuery)) {
+              setSelectedCourtSize(sportFromQuery);
+            }
             
             // Extraer números únicos de cancha
             const courtNumbers = [...new Set(clubCourts.map(court => court.courtNumber))].sort((a, b) => a - b);
@@ -115,6 +121,29 @@ export default function Step1Configuration() {
     setAvailableDates(dates);
   }, [currentMonth]);
 
+  // Preseleccionar fecha y horario desde query params cuando haya fechas disponibles
+  useEffect(() => {
+    if (!availableDates || availableDates.length === 0) return;
+    const dateParam = searchParams.get('date'); // YYYY-MM-DD
+    const timeParam = searchParams.get('time'); // HH:MM
+    if (dateParam) {
+      const target = availableDates.find(d => {
+        const iso = d.date.toISOString().split('T')[0];
+        return iso === dateParam;
+      });
+      if (target) setSelectedDate(target);
+    }
+    if (timeParam) {
+      const hour = timeParam.split(':')[0];
+      const start = `${hour.padStart(2, '0')}:00`;
+      const endHour = String((parseInt(hour, 10) + 1) % 24).padStart(2, '0');
+      const candidate = `${start} - ${endHour}:00`;
+      if (availableTimeSlots.includes(candidate)) {
+        setSelectedTimeSlot(candidate);
+      }
+    }
+  }, [availableDates]);
+
   const handleSearch = (searchData) => {
     const params = new URLSearchParams();
     if (searchData.sport) params.set('sport', searchData.sport);
@@ -143,7 +172,7 @@ export default function Step1Configuration() {
           startTime: startTime.toISOString(),
           endTime: endTime.toISOString(),
           totalAmount: getTotalPrice(),
-          depositAmount: getTotalPrice() * 0.3, // 30% de seña
+          depositAmount: getTotalPrice() * 0.5, // 50% de seña
           paymentMethod: 'full', // TODO: Permitir selección
           playerEmail: 'player@example.com', // TODO: Obtener del contexto
           playerPhone: '+5491234567890' // TODO: Obtener del contexto

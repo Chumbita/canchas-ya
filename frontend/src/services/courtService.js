@@ -7,14 +7,14 @@ export const courtService = {
       const queryParams = new URLSearchParams();
       
       if (filters.sport) queryParams.append('sport', filters.sport);
-      if (filters.date) queryParams.append('date', filters.date);
-      if (filters.time) queryParams.append('time', filters.time);
       if (filters.minPrice) queryParams.append('minPrice', filters.minPrice);
       if (filters.maxPrice) queryParams.append('maxPrice', filters.maxPrice);
       if (filters.ratings && filters.ratings.length > 0) {
         queryParams.append('ratings', filters.ratings.join(','));
       }
       if (filters.courtType) queryParams.append('courtType', filters.courtType);
+      if (filters.club) queryParams.append('club', filters.club);
+      // ubicación/fecha/hora eliminados del request
 
       const timestamp = new Date().getTime();
       const url = `${API_BASE_URL}/courts?${queryParams.toString()}&t=${timestamp}`;

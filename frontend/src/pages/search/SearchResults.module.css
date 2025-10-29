@@ -101,7 +101,25 @@
   transition: opacity 0.2s ease;
 }
 
+/* Búsqueda rápida para responsive (dentro del sidebar) */
+.searchContainerMobile {
+  display: none; /* Oculto en desktop */
+}
+
 @media (max-width: 1024px) {
+  /* Ocultar búsqueda rápida superior en responsive */
+  .searchContainer {
+    display: none;
+  }
+  
+  /* Mostrar búsqueda rápida dentro del sidebar en responsive */
+  .searchContainerMobile {
+    display: block;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0f0f0;
+  }
+  
   .contentLayout {
     flex-direction: column;
     gap: 38px 30px; /* horizontal 38px, vertical 30px */

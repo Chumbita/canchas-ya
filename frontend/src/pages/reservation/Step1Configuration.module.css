@@ -79,7 +79,7 @@
 
 .contentLayout {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 3fr 1fr; /* Configuración 3/4, Resumen 1/4 */
   gap: 3rem;
   align-items: start;
 }
@@ -335,8 +335,13 @@
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
+  /* Mostrar primero la configuración y luego el resumen */
+  .configurationCard {
+    order: 1;
+  }
+
   .summaryColumn {
-    order: -1;
+    order: 2;
   }
 }
