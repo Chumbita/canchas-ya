@@ -44,15 +44,20 @@ export default function HeaderPrimary() {
     logout();
     navigate("/");
   };
-  
+
   return (
     <div className={pageStyle.header}>
       <div className={pageStyle.content}>
         <h1
-          className={`${textStyle["text-primary"]} ${textStyle["text-lg"]} ${textStyle["text-bold"]}`}
+          className={`${textStyle["text-primary"]} ${textStyle["text-lg"]} ${
+            textStyle["text-bold"]
+          } ${
+            role === "club" && user?.status === "active" ? pageStyle.hidden : ""
+          }`}
         >
           CanchasYa
         </h1>
+
         {/* Si el usuario ya está logueado, mostrar avatar y menú */}
         {user ? (
           <div className={pageStyle["header-user"]}>

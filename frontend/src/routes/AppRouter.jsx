@@ -11,6 +11,7 @@ import Dashboard from "../pages/club/Dashboard.page";
 import Status from "../pages/club/Status.page.jsx";
 import PlayerLogin from "../pages/auth/PlayerLogin.page";
 import PlayerRegister from "../pages/auth/PlayerRegister.page.jsx";
+import ClubLayout from "../components/layout/ClubLayout.jsx";
 
 //GUARDS
 import { OtpGuard } from "../guards/OtpGuard";
@@ -27,9 +28,12 @@ export default function AppRouter() {
           <Route element={<MainLayout />}> 
             <Route path="/" element={<Home />}/>
             <Route path="/club/status" element={<Status />} />
-            <Route path="/court-page" element={<CourtPage />} />
+
             <Route element={<PrivateClubGuard requiredStatus={"active"}/>} >
+            <Route element={<ClubLayout />}>
               <Route path="/club/dashboard/*" element={<Dashboard />} />
+              <Route path="/court-page" element={<CourtPage />} />
+            </Route>
             </Route>
             <Route element={<PrivatePlayerGuard />} >
               {/* <Route path="/player/dashboard/*" element={<Dashboard />} />  */}
