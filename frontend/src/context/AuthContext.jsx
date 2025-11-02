@@ -3,12 +3,17 @@ import { createContext, useState, useContext, useEffect } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({
-    user: null,
-    token: null,
-    role: null, // "club" | "player"
-    clubStatus: null, // "active" | "pending" | "rejected"
-    step: "idle" //| "otp" | "registered"
+  const [auth, setAuth] = useState(() => {
+    const stored = localStorage.getItem("auth");
+    return stored
+      ? JSON.parse(stored)
+      : {
+          user: null,
+          token: null,
+          role: null, // "club" | "player"
+          clubStatus: null, // "active" | "pending" | "rejected"
+          step: "idle", // "otp" | "registered"
+        };
   });
 
   useEffect(() => {

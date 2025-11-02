@@ -1,0 +1,17 @@
+.layout {
+  display: flex;
+  padding-left: 240px; /* ancho del sidebar */
+}
+
+.mainContent {
+  flex: 1;
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    padding-left: 0;
+    flex-direction: column; 
+  }
+
+}
