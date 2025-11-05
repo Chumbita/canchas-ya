@@ -3,15 +3,11 @@ import Select from "react-select";
 import "./Select.css";
 
 const sportOptions = [
-  { value: "futbol4", label: "Fútbol 4" },
-  { value: "futbol5", label: "Fútbol 5" },
-  { value: "futbol6", label: "Fútbol 6" },
-  { value: "futbol8", label: "Fútbol 8" },
-  { value: "futbol11", label: "Fútbol 11" },
-  { value: "padel", label: "Pádel" },
-  { value: "tenis", label: "Tenis" },
-  { value: "basket", label: "Básquet 3x3" },
-  { value: "basket", label: "Básquet 5x5" },
+  { value: "Fútbol", label: "Fútbol" },
+  { value: "Básquet", label: "Básquet" },
+  { value: "Tenis", label: "Tenis" },
+  { value: "Paddle", label: "Paddle" },
+  { value: "Voleibol", label: "Voleibol" },
 ];
 
 export default function SelectSport({ onChange, value }) {
